@@ -18,10 +18,13 @@ interface GithubActivityClientProps {
 export default function GithubActivityClient({ calendarData }: GithubActivityClientProps) {
   const [weeksToShow, setWeeksToShow] = useState((window.innerWidth * 0.4) / 16);
   const [displayData, setDisplayData] = useState<CalendarData[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      const newWeeksToShow = Math.floor((window.innerWidth * 0.4 - 32) / 16);
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      const newWeeksToShow = Math.floor((window.innerWidth * (mobile ? 0.8 : 0.4) - 32) / 16);
       setWeeksToShow(Math.max(newWeeksToShow, 1));
     };
 
@@ -65,12 +68,12 @@ export default function GithubActivityClient({ calendarData }: GithubActivityCli
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-      <div className="flex gap-1 relative">
+      <div className={`flex gap-1 relative ${isMobile ? "flex-col" : ""}`}>
         {weeks.map((week, weekIndex) => (
-          <div key={weekIndex} className="flex flex-col gap-1">
+          <div key={weekIndex} className={`flex ${isMobile ? "flex-row" : "flex-col"} gap-1`}>
             {week.map((day, dayIndex) => (
               <Tippy key={`${weekIndex}-${dayIndex}`} content={`${day.count} contributions on ${day.date}`}>
-                <div className="w-[16px] h-[16px] rounded-sm" style={{ backgroundColor: getColor(day.level) }} />
+                <div className={`${isMobile ? "w-[12px] h-[12px]" : "w-[16px] h-[16px]"} rounded-sm`} style={{ backgroundColor: getColor(day.level) }} />
               </Tippy>
             ))}
           </div>

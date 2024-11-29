@@ -1,5 +1,4 @@
 import GHActivityForceNoSSR from "./gh-no-ssr";
-import GithubActivityClient from "./gh-activity-heatmap";
 
 interface ContributionDay {
   contributionCount: number;
