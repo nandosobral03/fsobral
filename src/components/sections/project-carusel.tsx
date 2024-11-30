@@ -71,7 +71,7 @@ export default function ProjectCarousel() {
       <motion.div
         drag="x"
         dragConstraints={{
-          left: -(projects.length * 600 + (projects.length - 1) * 16 - (typeof window !== "undefined" ? window.innerWidth : 0)) - 60,
+          left: -(projects.length * (typeof window !== "undefined" && window.innerWidth < 768 ? 300 : 600) + (projects.length - 1) * 16 - (typeof window !== "undefined" ? window.innerWidth : 0)) - 60,
           right: 0,
         }}
         className="flex gap-4 cursor-grab active:cursor-grabbing"

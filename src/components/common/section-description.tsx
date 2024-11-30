@@ -1,3 +1,3 @@
 export default function SectionDescription({ children }: { children: React.ReactNode }) {
-  return <p className="text-base md:text-2xl font-light">{children}</p>;
+  return <p className="text-base md:text-2xl font-light text-pretty">{children}</p>;
 }

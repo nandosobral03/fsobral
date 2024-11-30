@@ -4,6 +4,8 @@ import Divider from "@/components/common/divider";
 import LargeTitle from "@/components/common/large-title";
 import TechStack from "@/components/sections/tech-stack";
 import Projects from "@/components/sections/projects";
+import Blog from "@/components/sections/blog";
+import ContactMe from "@/components/sections/contact-me";
 
 export default function Home() {
   return (
@@ -17,7 +19,10 @@ export default function Home() {
       </div>
       <Divider />
       <Projects />
-
+      <Divider />
+      <Blog />
+      <Divider />
+      <ContactMe />
       <Divider />
     </>
   );

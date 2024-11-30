@@ -10,7 +10,7 @@ export default function Projects() {
   return (
     <div className="w-full flex flex-col items-stretch p-6 ">
       <section className="w-full flex items-stretch">
-        <div className="w-1/2 flex flex-col gap-4">
+        <div className="w-1/2 flex flex-col gap-4 pr-6">
           <SectionTitle>Projects</SectionTitle>
           <SectionDescription>
             I enjoy working on various projects, either because I want to build something I want to use, I want learn something by building with it or simply because an idea popped into my head and I had to make it a reality. I like to
