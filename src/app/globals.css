@@ -8,13 +8,14 @@
 :root {
   --background: #d5d0c3;
   --foreground: #171717;
-  --accent: #ff0000;
+  --accent: #348a9d;
+
+  --max-width-article: 36rem;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  accent-color: var(--accent);
   font-family: "Roboto", sans-serif;
 }
 
@@ -45,4 +46,22 @@ body {
 
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+body {
+  background-color: var(--background);
+}
+
+ol > li::marker {
+  font-weight: bold;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }

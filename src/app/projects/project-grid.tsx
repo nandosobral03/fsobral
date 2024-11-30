@@ -1,7 +1,7 @@
 "use client";
 
 import ProjectCard from "@/components/sections/project-card";
-import { Project } from "@/server/projects";
+import { Project } from "@/app/projects/projects";
 
 export function ProjectGrid({ projects }: { projects: Project[] }) {
   return (

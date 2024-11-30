@@ -1,6 +1,6 @@
 import NotFound from "@/components/sections/NotFound";
 import ProjectDetails from "@/app/projects/project-details";
-import { projects } from "@/server/projects";
+import { projects } from "@/app/projects/projects";
 
 export default async function ProjectPage({ params }: { params: { name: string } }) {
   // Replace URL-encoded spaces with regular spaces before comparing

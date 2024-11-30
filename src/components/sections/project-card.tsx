@@ -27,7 +27,7 @@ export default function ProjectCard({ title, image, children, year }: ProjectCar
           </Link>
         </h3>
 
-        <div className="h-full overflow-hidden text-sm md:text-base">{children}</div>
+        <div className="h-full overflow-hidden text-sm md:text-lg">{children}</div>
       </div>
     </div>
   );

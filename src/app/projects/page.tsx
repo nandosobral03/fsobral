@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
-      <LargeTitle>PROJECTS</LargeTitle>
+      <LargeTitle alt="AORNUM">PROJECTS</LargeTitle>
       <Divider />
       <ProjectsInfo />
       <Divider />

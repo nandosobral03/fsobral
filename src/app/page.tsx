@@ -10,7 +10,7 @@ import ContactMe from "@/components/sections/contact-me";
 export default function Home() {
   return (
     <>
-      <LargeTitle>FERNANDO SOBRAL</LargeTitle>
+      <LargeTitle alt="ABOUT ME">FERNANDO SOBRAL</LargeTitle>
       <Divider />
       <div className="w-full flex items-stretch">
         <AboutMe />

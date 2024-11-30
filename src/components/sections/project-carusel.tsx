@@ -1,6 +1,6 @@
 "use client";
 
-import { projects } from "@/server/projects";
+import { projects } from "@/app/projects/projects";
 import ProjectCard from "./project-card";
 import { motion } from "motion/react";
 import { useRef } from "react";

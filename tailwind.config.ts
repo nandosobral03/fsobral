@@ -14,6 +14,18 @@ export default {
         sans: ["Outfit", "sans-serif"],
         condensed: ["Roboto Condensed", "sans-serif"],
       },
+      minWidth: {
+        article: "var(--max-width-article)",
+      },
+      maxWidth: {
+        article: "var(--max-width-article)",
+      },
+      width: {
+        article: "var(--max-width-article)",
+      },
+      listStyleType: {
+        "lower-alpha": "lower-alpha",
+      },
     },
   },
   plugins: [],

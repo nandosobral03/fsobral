@@ -1,6 +1,6 @@
 import SectionDescription from "@/components/common/section-description";
 import SectionTitle from "@/components/common/section-title";
-import { projects, type Project } from "@/server/projects";
+import { projects, type Project } from "@/app/projects/projects";
 import { ProjectGrid } from "./project-grid";
 
 export default function ProjectsInfo({ year, preface }: { year: number; preface: React.ReactNode }) {

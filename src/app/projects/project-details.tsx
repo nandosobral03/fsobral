@@ -2,7 +2,7 @@
 
 import { Fragment, useState } from "react";
 import Divider from "@/components/common/divider";
-import { Project } from "@/server/projects";
+import { Project } from "@/app/projects/projects";
 import Image from "next/image";
 import Link from "next/link";
 import ImageModal from "@/components/ImageModal";
