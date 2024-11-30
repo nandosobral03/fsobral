@@ -43,8 +43,8 @@ export default function Nav() {
               <Link href="/" className={`px-4 py-2 transition-colors duration-200 hover:scale-105 ${pathname === "/" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}>
                 ABOUT ME
               </Link>
-              <Link href="/proyects" className={`px-4 py-2 transition-colors duration-200 hover:scale-105 ${pathname === "/proyects" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}>
-                PROYECTS
+              <Link href="/projects" className={`px-4 py-2 transition-colors duration-200 hover:scale-105 ${pathname === "/projects" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}>
+                PROJECTS
               </Link>
               <Link href="/blog" className={`px-4 py-2 transition-colors duration-200 hover:scale-105 ${pathname === "/blog" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}>
                 BLOG

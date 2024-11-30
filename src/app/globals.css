@@ -8,11 +8,13 @@
 :root {
   --background: #d5d0c3;
   --foreground: #171717;
+  --accent: #ff0000;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
+  accent-color: var(--accent);
   font-family: "Roboto", sans-serif;
 }
 
