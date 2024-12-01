@@ -7,7 +7,7 @@ export default function Footer() {
   const { footnotes } = useFootnotes();
 
   return (
-    <footer className="flex flex-col items-center justify-center gap-4" id="all-footnotes">
+    <footer className="flex flex-col items-center justify-center gap-4 mb-8" id="all-footnotes">
       <div className="text-sm w-full items-start flex flex-col gap-2">
         {footnotes.map(({ content }, index) => (
           <div key={index} className="footnote-item flex gap-2" id={`footnote-${index}`}>

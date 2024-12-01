@@ -13,8 +13,8 @@ export default function ArticleLayout({
   return (
     <FootnoteProvider>
       <ExpandedImageProvider>
+        {children}
         <article className="flex flex-col items-center justify-start gap-4 w-fit px-4 md:w-article px-0 mx-auto">
-          {children}
           <Divider className="my-4" />
           <Footer />
         </article>

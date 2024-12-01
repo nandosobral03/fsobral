@@ -11,7 +11,7 @@ export default function LargeTitle({ children, alt }: { children: React.ReactNod
   const altWords = alt?.split(" ") || words;
 
   return (
-    <div className="flex flex-col items-end gap-4 my-8 overflow-x-auto">
+    <div className="flex flex-col items-end gap-4 my-16 overflow-x-auto">
       {words.map((word, wordIndex) => {
         const altWord = altWords[wordIndex] || word;
         const lengthDiff = altWord.length - word.length;

@@ -16,7 +16,7 @@ export default function LessonsFromRedoingProjects() {
         <SectionTitle>Introduction</SectionTitle>
         <Paragraph>
           Over the past few years, I've found myself unintentionally recreating the same project time and time again. Funnily enough, I've done this with multiple projects but this post will focus on just one of them. I've coded this
-          project from scratch at least four times—though I believe the number is actually higher.The thing is that the first iterations were done before I even knew about version control, meaning they are probably in a zipped folder
+          project from scratch at least four times—though I believe the number is actually higher. The thing is that the first iterations were done before I even knew about version control, meaning they are probably in a zipped folder
           somewhere on an old hard drive or on the unsearchable mess that is my Google Drive.
         </Paragraph>
         <Paragraph>

@@ -9,6 +9,7 @@ export type Post = {
   date: string;
   components: React.ReactNode;
   subtitle?: string;
+  coverImage?: string;
 };
 
 export const posts: Post[] = [
@@ -19,6 +20,7 @@ export const posts: Post[] = [
     slug: "lessons-from-redoing-projects",
     date: "July 31, 2024",
     components: <LessonsFromRedoingProjects />,
+    coverImage: "/blog/covers/lessons-from-redoing-projects.png",
   },
   {
     title: "The Graveyard of Dead Projects",
@@ -26,6 +28,7 @@ export const posts: Post[] = [
     slug: "graveyard-of-dead-projects",
     date: "August 04, 2024",
     components: <GraveyardOfDeadProjects />,
+    coverImage: "/blog/covers/graveyard-of-dead-projects.png",
   },
   {
     title: "Inngest: A better way to handle background jobs in serverless",
@@ -34,5 +37,6 @@ export const posts: Post[] = [
     slug: "inngest",
     date: "November 30, 2024",
     components: <Inngest />,
+    coverImage: "/blog/covers/inngest.png",
   },
-];
+].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
