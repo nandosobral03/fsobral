@@ -8,7 +8,7 @@ interface CodeblockProps {
 
 const Codeblock = ({ children, language = "typescript" }: CodeblockProps) => {
   return (
-    <div className="my-2 overflow-x-auto rounded-lg">
+    <div className="my-2 overflow-x-auto rounded-lg max-w-[calc(100vw-2rem)]">
       <SyntaxHighlighter
         language={language}
         style={nord}
@@ -17,6 +17,7 @@ const Codeblock = ({ children, language = "typescript" }: CodeblockProps) => {
           padding: "1rem",
           fontSize: "0.875rem",
           borderRadius: "0.5rem",
+          overflowX: "auto",
         }}
         wrapLines={true}
         wrapLongLines={true}

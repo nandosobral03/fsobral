@@ -11,16 +11,14 @@ export default function ArticleLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex flex-col items-center justify-start gap-4 w-full">
-      <FootnoteProvider>
-        <ExpandedImageProvider>
-          <article className="flex flex-col items-center justify-start gap-4 w-article">
-            {children}
-            <Divider className="my-4" />
-            <Footer />
-          </article>
-        </ExpandedImageProvider>
-      </FootnoteProvider>
-    </main>
+    <FootnoteProvider>
+      <ExpandedImageProvider>
+        <article className="flex flex-col items-center justify-start gap-4 w-fit px-4 md:w-article px-0 mx-auto">
+          {children}
+          <Divider className="my-4" />
+          <Footer />
+        </article>
+      </ExpandedImageProvider>
+    </FootnoteProvider>
   );
 }
