@@ -46,15 +46,17 @@ export default function GithubActivityClient({ calendarData }: GithubActivityCli
       case 0:
         return "#bfbbb0";
       case 1:
-        return "#aca7a0";
+        return "#8a8580";
       case 2:
-        return "#9a968f";
-      case 3:
-        return "#89857f";
-      case 4:
         return "#76736d";
-      default:
-        return "#bfbbb0";
+      case 3:
+        return "#615f5a";
+      case 4:
+        return "#4d4b47";
+      case 5:
+        return "#2d2b27";
+      case 6:
+        return "#1a1917";
     }
   };
 

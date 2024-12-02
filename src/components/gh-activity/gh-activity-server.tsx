@@ -70,7 +70,7 @@ async function fetchGithubData(): Promise<CalendarData[]> {
 
   contributions.weeks.forEach((week) => {
     week.contributionDays.forEach((day) => {
-      const level = day.contributionCount === 0 ? 0 : day.contributionCount <= 2 ? 1 : day.contributionCount <= 5 ? 2 : day.contributionCount <= 10 ? 3 : 4;
+      const level = day.contributionCount === 0 ? 0 : day.contributionCount === 1 ? 1 : day.contributionCount <= 3 ? 2 : day.contributionCount <= 6 ? 3 : day.contributionCount <= 9 ? 4 : day.contributionCount <= 15 ? 5 : 6;
 
       formattedData.push({
         date: day.date,
