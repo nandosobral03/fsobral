@@ -1,6 +1,6 @@
 import Divider from "@/components/common/divider";
 import LargeTitle from "@/components/common/large-title";
-import { posts, type Post } from "./posts";
+import { posts } from "./posts";
 import { BlogPost } from "./components/blog-post";
 
 export default function Home() {
