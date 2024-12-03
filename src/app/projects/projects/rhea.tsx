@@ -101,5 +101,3 @@ export const rhea: Project = {
     },
   ],
 };
-
-console.log("Rhea component is rendered");

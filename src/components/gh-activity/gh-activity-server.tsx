@@ -38,7 +38,7 @@ async function fetchGithubData(): Promise<CalendarData[]> {
   const response = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
