@@ -1,4 +1,4 @@
-import { BlogPost } from "@/app/blog/page";
+import { BlogPost } from "@/app/blog/components/blog-post";
 import { posts } from "@/app/blog/posts";
 import SectionDescription from "@/components/common/section-description";
 import SectionTitle from "@/components/common/section-title";
