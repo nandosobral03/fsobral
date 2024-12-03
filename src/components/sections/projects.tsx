@@ -3,9 +3,7 @@ import SectionTitle from "@/components/common/section-title";
 import { Suspense } from "react";
 import Spinner from "../common/spinner";
 import GithubActivityServer from "../gh-activity/gh-activity-server";
-import dynamic from "next/dist/shared/lib/dynamic";
 import ProjectCarouselNoSSR from "./project-carusel-wrapper";
-
 export default function Projects() {
   return (
     <div className="w-full flex flex-col items-stretch p-6 ">
