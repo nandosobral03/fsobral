@@ -1,4 +1,3 @@
-import { Header, Subtitle, Title } from "@/app/blog/components/blog-header";
 import { ImageCarousel, ImageWithAlt, List, ListTitle, Paragraph, Quote, Section, SectionTitle, Sidenote } from "@/app/blog/components/blog-section";
 
 import HoverableLink from "@/app/blog/components/hoverable-link";

@@ -20,7 +20,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, children }) => {
 
   const goToImage = (index: number) => {
     setDirection(index > currentIndex ? 1 : -1);
-    setCurrentIndex((prevIndex) => {
+    setCurrentIndex(() => {
       if (index < 0) return images.length - 1;
       if (index >= images.length) return 0;
       return index;

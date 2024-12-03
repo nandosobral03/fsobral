@@ -90,7 +90,7 @@ export default async function GithubActivityServer() {
 
   try {
     calendarData = await fetchGithubData();
-  } catch (err) {
+  } catch {
     error = "Failed to fetch GitHub data";
   }
 

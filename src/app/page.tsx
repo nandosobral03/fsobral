@@ -1,4 +1,3 @@
-import React, { Suspense } from "react";
 import AboutMe from "@/components/sections/about-me";
 import Divider from "@/components/common/divider";
 import LargeTitle from "@/components/common/large-title";
