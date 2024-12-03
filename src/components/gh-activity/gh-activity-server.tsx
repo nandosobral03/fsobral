@@ -94,7 +94,7 @@ export default async function GithubActivityServer() {
     error = "Failed to fetch GitHub data";
   }
 
-  if (error) return <div>{error}</div>;
+  if (error) return null;
   if (calendarData.length === 0) return <div>No data available</div>;
 
   return <GHActivityForceNoSSR calendarData={calendarData} />;
