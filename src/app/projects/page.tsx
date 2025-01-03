@@ -12,6 +12,16 @@ export default function Home() {
       <ProjectsInfo />
       <Divider />
       <ProjectsByYear
+        year={2025}
+        preface={
+          <>
+            Not sure what the motto is for 2025 but it already feels like a good year, my plan is to keep building stuff I like, I think I have most of the low and mid hanging fruits out of the way and now I can focus on tougher problems or
+            simply things I come up with and want to build.
+          </>
+        }
+      />
+      <Divider />
+      <ProjectsByYear
         year={2024}
         preface={
           <>
