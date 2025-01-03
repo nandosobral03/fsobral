@@ -12,7 +12,9 @@ import { polemosRoyale } from "./polemos-royale";
 import { reactBonsai } from "./react-bonsai";
 import { mushare } from "./mushare";
 import { fourCombinator } from "./4combinator";
-type ProjectNames = "eos" | "rhea" | "polemos" | "minos" | "chimera" | "spring'83" | "nochan" | "deadair" | "momentum" | "today in" | "polemos royale" | "react bonsai" | "mushare" | "4combinator";
+import { timeslot } from "./timeslot";
+
+type ProjectNames = "eos" | "rhea" | "polemos" | "minos" | "chimera" | "spring'83" | "nochan" | "deadair" | "momentum" | "today in" | "polemos royale" | "react bonsai" | "mushare" | "4combinator" | "timeslot";
 
 export type Project = {
   name: ProjectNames;
@@ -33,4 +35,4 @@ export type Project = {
   }[];
 };
 
-export const projects: Project[] = [eos, rhea, polemos, minos, chimera, spring83, nochan, deadair, momentum, todayin, polemosRoyale, reactBonsai, mushare, fourCombinator].reverse();
+export const projects: Project[] = [eos, rhea, polemos, minos, chimera, spring83, nochan, deadair, momentum, todayin, polemosRoyale, reactBonsai, mushare, fourCombinator, timeslot].reverse();
