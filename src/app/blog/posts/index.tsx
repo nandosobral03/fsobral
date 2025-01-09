@@ -27,7 +27,7 @@ export const posts: Post[] = [
     title: "The Graveyard of Dead Projects",
     description: "A collection of projects that I've abandoned and the reasons why, so they are not forgotten",
     slug: "graveyard-of-dead-projects",
-    date: "August 04, 2024",
+    date: "January 09, 2025",
     components: <GraveyardOfDeadProjects />,
     coverImage: "/blog/covers/graveyard-of-dead-projects.png",
   },
