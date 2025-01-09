@@ -13,6 +13,7 @@ import HoverableLink from "@/app/blog/components/hoverable-link";
 import { Section, Paragraph, SectionTitle } from "@/app/blog/components/blog-section";
 import SortDirection from "@/app/blog/components/sort-direction";
 import Divider from "@/components/common/divider";
+import TopologicalGoalsThing from "./topological-goals-thing";
 
 const projects: {
   title: string;
@@ -48,6 +49,11 @@ const projects: {
     title: "Daedalus",
     date: dayjs("May 20, 2023"),
     component: <Daedalus />,
+  },
+  {
+    title: "Topological Goals Thing",
+    date: dayjs("January 09, 2025"),
+    component: <TopologicalGoalsThing />,
   },
 ];
 
