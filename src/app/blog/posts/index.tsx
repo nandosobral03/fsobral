@@ -2,6 +2,7 @@ import GraveyardOfDeadProjects from "./graveyard-of-dead-projects/graveyard-of-d
 import Inngest from "./inngest/inngest";
 import LessonsFromRedoingProjects from "./lessons-from-redoing-projects/lessons-from-redoing-projects";
 import PeaksOfYoreAndTheDifficultyBoulder from "./peaks-of-yore-and-the-difficulty-boulder/peaks-of-yore-and-the-difficulty-boulder";
+import TheEndlessMediaEpidemic from "./the-end-less-media-epidemic/the-end-less-media-epidemic";
 
 export type Post = {
   title: string;
@@ -47,5 +48,13 @@ export const posts: Post[] = [
     date: "December 02, 2024",
     components: <PeaksOfYoreAndTheDifficultyBoulder />,
     coverImage: "/blog/covers/peaks-of-yore-and-the-difficulty-boulder.png",
+  },
+  {
+    title: "The Endless Media Epidemic",
+    description: "A look at how we've become so complacent with our media consumption and how it's affecting us",
+    slug: "the-endless-media-epidemic",
+    date: "February 20, 2025",
+    components: <TheEndlessMediaEpidemic />,
+    coverImage: "/blog/covers/the-endless-media-epidemic.png",
   },
 ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
