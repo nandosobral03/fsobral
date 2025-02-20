@@ -1,4 +1,4 @@
-import { ImageWithAlt, List, ListTitle, Paragraph, Quote, Section, SectionTitle, Sidenote } from "@/app/blog/components/blog-section";
+import { ImageWithAlt, Paragraph, Quote, Section, SectionTitle } from "@/app/blog/components/blog-section";
 
 import TLDR from "@/app/blog/components/TLDR";
 
