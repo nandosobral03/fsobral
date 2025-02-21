@@ -14,7 +14,7 @@ export default function TheEndlessMediaEpidemic() {
           in the sofa cushions, cycling through empty rituals: watching game show reruns without comprehension, memorizing newspaper death notices, reopening the same book to page 22 each morning.
         </Paragraph>
         <Paragraph>
-          This continues, day after day, time moving yet the husband remains petrified through his own inaction. The story's tension crystallizes when Sandy reads aloud from _Mysteries of the Past_ - a library book about Neolithic bog
+          This continues, day after day, time moving yet the husband remains petrified through his own inaction. The story's tension crystallizes when Sandy reads aloud from <i>Mysteries of the Past</i> - a library book about Neolithic bog
           bodies. One photograph transfixes her: a man preserved for two millennia in Dutch peat, leather cap intact, face peaceful despite the noose around his neck. Carver lingers on this juxtaposition: while Sandy scrambles to salvage
           their rotting food, her husband becomes more inert than the ancient corpse. The narrative concludes without resolution - the broken fridge unplugged, thawed meat cooked in desperate batches, the husband's bare feet leaving water
           trails as he returns to his couch. Time continues passing through spoiled groceries and unread pages, the husband in stasis, watching the TV. The refrigerator's persistent drip becomes a metronome for their decay.
