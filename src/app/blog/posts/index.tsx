@@ -3,6 +3,7 @@ import Inngest from "./inngest/inngest";
 import LessonsFromRedoingProjects from "./lessons-from-redoing-projects/lessons-from-redoing-projects";
 import PeaksOfYoreAndTheDifficultyBoulder from "./peaks-of-yore-and-the-difficulty-boulder/peaks-of-yore-and-the-difficulty-boulder";
 import TheEndlessMediaEpidemic from "./the-end-less-media-epidemic/the-end-less-media-epidemic";
+import I3dPrintedMyGithubContributionHistory from "./i-3d-printed-my-github-contribution-history/i-3d-printed-my-github-contribution-history";
 
 export type Post = {
   title: string;
@@ -56,5 +57,13 @@ export const posts: Post[] = [
     date: "February 20, 2025",
     components: <TheEndlessMediaEpidemic />,
     coverImage: "/blog/covers/the-endless-media-epidemic.png",
+  },
+  {
+    title: "I 3D printed my Github contribution history",
+    description: "A memento of a year's worth of coding efforts, both during and outside of work.",
+    slug: "i-3d-printed-my-github-contribution-history",
+    date: "March 13, 2025",
+    components: <I3dPrintedMyGithubContributionHistory />,
+    coverImage: "/blog/covers/i-3d-printed-my-github-contribution-history.png",
   },
 ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
