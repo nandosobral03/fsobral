@@ -12,10 +12,6 @@ export const spring83: Project = {
       url: "https://github.com/nandosobral03/spring83-keygen/",
       name: "Key Generator",
     },
-    {
-      url: "http://spring83-server.aornum.xyz",
-      name: "Live Server",
-    },
   ],
   year: 2023,
   preview: {

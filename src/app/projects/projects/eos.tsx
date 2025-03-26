@@ -8,10 +8,7 @@ export const eos: Project = {
       url: "https://github.com/nandosobral03/eos/",
       name: "Github",
     },
-    {
-      url: "http://eos.aornum.xyz",
-      name: "Live",
-    },
+
   ],
   year: 2023,
   preview: {

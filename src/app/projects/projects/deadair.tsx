@@ -1,5 +1,5 @@
-import { Project } from ".";
 import Link from "next/link";
+import { Project } from ".";
 
 export const deadair: Project = {
   name: "deadair",
@@ -7,10 +7,6 @@ export const deadair: Project = {
     {
       url: "https://github.com/nandosobral03/deadair/",
       name: "Github",
-    },
-    {
-      url: "http://deadair.aornum.xyz/",
-      name: "Live",
     },
   ],
   year: 2023,

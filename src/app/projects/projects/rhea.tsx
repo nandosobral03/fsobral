@@ -1,5 +1,5 @@
-import { Project } from ".";
 import Link from "next/link";
+import { Project } from ".";
 
 export const rhea: Project = {
   name: "rhea",
@@ -8,10 +8,7 @@ export const rhea: Project = {
       url: "https://github.com/nandosobral03/rhea",
       name: "Github",
     },
-    {
-      url: "http://rhea.aornum.xyz/",
-      name: "Live",
-    },
+
   ],
   year: 2023,
   preview: {

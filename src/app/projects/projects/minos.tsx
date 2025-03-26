@@ -1,5 +1,5 @@
-import { Project } from ".";
 import Link from "next/link";
+import { Project } from ".";
 
 export const minos: Project = {
   name: "minos",
@@ -7,10 +7,6 @@ export const minos: Project = {
     {
       url: "https://github.com/nandosobral03/minos/",
       name: "Github",
-    },
-    {
-      url: "http://minos.aornum.xyz/visualizer",
-      name: "Live",
     },
   ],
   year: 2023,

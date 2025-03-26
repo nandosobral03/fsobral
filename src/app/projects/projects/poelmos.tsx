@@ -8,10 +8,6 @@ export const polemos: Project = {
       url: "https://github.com/nandosobral03/polemos",
       name: "Github",
     },
-    {
-      url: "http://polemos.aornum.xyz/",
-      name: "Live",
-    },
   ],
   year: 2023,
   preview: {
