@@ -71,7 +71,7 @@ export const posts: Post[] = [
     title: "Tailwind v4: Releasing a major update in the age of AI",
     description: "A look at the new features in Tailwind CSS v4, that devolves into a discussion on the unique challenges of releasing big changes in the age of AI assisted coding.",
     slug: "tailwind-v4",
-    date: "March 28, 2025",
+    date: "March 27, 2025",
     components: <TailwindV4 />,
     coverImage: "/blog/covers/tailwind-v4.png",
   },
