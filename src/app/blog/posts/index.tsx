@@ -4,6 +4,7 @@ import LessonsFromRedoingProjects from "./lessons-from-redoing-projects/lessons-
 import PeaksOfYoreAndTheDifficultyBoulder from "./peaks-of-yore-and-the-difficulty-boulder/peaks-of-yore-and-the-difficulty-boulder";
 import TheEndlessMediaEpidemic from "./the-end-less-media-epidemic/the-end-less-media-epidemic";
 import I3dPrintedMyGithubContributionHistory from "./i-3d-printed-my-github-contribution-history/i-3d-printed-my-github-contribution-history";
+import TailwindV4 from "./tailwind-v4/tailwind-v4";
 
 export type Post = {
   title: string;
@@ -65,5 +66,13 @@ export const posts: Post[] = [
     date: "March 13, 2025",
     components: <I3dPrintedMyGithubContributionHistory />,
     coverImage: "/blog/covers/i-3d-printed-my-github-contribution-history.png",
+  },
+  {
+    title: "Tailwind v4: Releasing a major update in the age of AI",
+    description: "A look at the new features in Tailwind CSS v4, that devolves into a discussion on the unique challenges of releasing big changes in the age of AI assisted coding.",
+    slug: "tailwind-v4",
+    date: "March 28, 2025",
+    components: <TailwindV4 />,
+    coverImage: "/blog/covers/tailwind-v4.png",
   },
 ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
