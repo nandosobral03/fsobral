@@ -5,6 +5,7 @@ import PeaksOfYoreAndTheDifficultyBoulder from "./peaks-of-yore-and-the-difficul
 import TheEndlessMediaEpidemic from "./the-end-less-media-epidemic/the-end-less-media-epidemic";
 import I3dPrintedMyGithubContributionHistory from "./i-3d-printed-my-github-contribution-history/i-3d-printed-my-github-contribution-history";
 import TailwindV4 from "./tailwind-v4/tailwind-v4";
+import SayingGoodbyeToMyFirstDomain from "./saying-goodbye-to-my-first-domain/saying-goodbye-to-my-first-domain";
 
 export type Post = {
   title: string;
@@ -74,5 +75,13 @@ export const posts: Post[] = [
     date: "March 27, 2025",
     components: <TailwindV4 />,
     coverImage: "/blog/covers/tailwind-v4.png",
+  },
+  {
+    title: "Saying goodbye to my first domain",
+    description: "Moving away from aornum.xyz and the lessons I've learned from it.",
+    slug: "saying-goodbye-to-my-first-domain",
+    date: "May 01, 2025",
+    components: <SayingGoodbyeToMyFirstDomain />,
+    coverImage: "/blog/covers/saying-goodbye-to-my-first-domain.png",
   },
 ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
