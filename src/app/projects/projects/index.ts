@@ -14,8 +14,28 @@ import { mushare } from "./mushare";
 import { fourCombinator } from "./4combinator";
 import { timeslot } from "./timeslot";
 import { superhumanBenchmark } from "./superhuman-benchmark";
+import { mimicrai } from "./mimicrai";
 
-type ProjectNames = "eos" | "rhea" | "polemos" | "minos" | "chimera" | "spring'83" | "nochan" | "deadair" | "momentum" | "today in" | "polemos royale" | "react bonsai" | "mushare" | "4combinator" | "timeslot" | "superhuman benchmark";
+import React from "react";
+
+type ProjectNames =
+  | "eos"
+  | "rhea"
+  | "polemos"
+  | "minos"
+  | "chimera"
+  | "spring'83"
+  | "nochan"
+  | "deadair"
+  | "momentum"
+  | "today in"
+  | "polemos royale"
+  | "react bonsai"
+  | "mushare"
+  | "4combinator"
+  | "timeslot"
+  | "superhuman benchmark"
+  | "mimicrai";
 
 export type Project = {
   name: ProjectNames;
@@ -36,4 +56,4 @@ export type Project = {
   }[];
 };
 
-export const projects: Project[] = [eos, rhea, polemos, minos, chimera, spring83, nochan, deadair, momentum, todayin, polemosRoyale, reactBonsai, mushare, fourCombinator, timeslot, superhumanBenchmark].reverse();
+export const projects: Project[] = [eos, rhea, polemos, minos, chimera, spring83, nochan, deadair, momentum, todayin, polemosRoyale, reactBonsai, mushare, fourCombinator, timeslot, superhumanBenchmark, mimicrai].reverse();

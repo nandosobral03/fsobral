@@ -15,7 +15,7 @@ export default function ProjectCard({ title, image, children, year }: ProjectCar
     <div className="shrink-0 w-[300px] md:w-[600px] md:aspect-square aspect-[2/3] flex flex-col border-[3px] border-foreground overflow-hidden transition-all duration-300 hover:bg-foreground hover:text-background group select-none">
       <Link href={`/projects/${title}`}>
         <div className="w-full h-fit aspect-video relative">
-          <Image src={image} alt={title} layout="fill" objectFit="cover" />
+          <Image src={image} alt={title} fill objectFit="cover" />
         </div>
       </Link>
       <div className="w-full flex flex-col p-4 overflow-hidden">

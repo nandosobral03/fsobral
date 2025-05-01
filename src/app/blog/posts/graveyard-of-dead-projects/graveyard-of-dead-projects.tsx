@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment, useState, type JSX } from "react";
 
 import Betterreads from "./betterreads";
 import Bookthing from "./bookthing";
