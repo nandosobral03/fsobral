@@ -17,6 +17,7 @@ import { superhumanBenchmark } from "./superhuman-benchmark";
 import { mimicrai } from "./mimicrai";
 
 import React from "react";
+import { rabbithole } from "./rabbithole";
 
 type ProjectNames =
   | "eos"
@@ -35,7 +36,8 @@ type ProjectNames =
   | "4combinator"
   | "timeslot"
   | "superhuman benchmark"
-  | "mimicrai";
+  | "mimicrai"
+  | "rabbithole";
 
 export type Project = {
   name: ProjectNames;
@@ -56,4 +58,4 @@ export type Project = {
   }[];
 };
 
-export const projects: Project[] = [eos, rhea, polemos, minos, chimera, spring83, nochan, deadair, momentum, todayin, polemosRoyale, reactBonsai, mushare, fourCombinator, timeslot, superhumanBenchmark, mimicrai].reverse();
+export const projects: Project[] = [eos, rhea, polemos, minos, chimera, spring83, nochan, deadair, momentum, todayin, polemosRoyale, reactBonsai, mushare, fourCombinator, timeslot, superhumanBenchmark, mimicrai, rabbithole].reverse();
