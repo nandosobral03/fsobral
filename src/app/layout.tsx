@@ -32,9 +32,9 @@ export default function RootLayout({
         <Nav />
         <main className="flex-1">
           {children}
-        </main>
-          <SpeedInsights />
+        <SpeedInsights />
         <Analytics />
+        </main>
       </body>
     </html>
   );
