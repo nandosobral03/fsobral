@@ -6,7 +6,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Fernando Sobral",
-  description: "My personal website and portfolio",
+  description: "my own space in the internet",
   icons: {
     icon: "/favicon.svg",
   },
