@@ -1,5 +1,6 @@
 import TLDR from "@/app/blog/components/TLDR";
 import { ImageCarousel, ImageWithAlt, List, Paragraph, Quote, Section, SectionTitle, Sidenote } from "../../components/blog-section";
+import FishingGame from "./game";
 
 export default function AutomatingFishingForFunAndNoProfit() {
   return (
@@ -72,11 +73,13 @@ export default function AutomatingFishingForFunAndNoProfit() {
           <span>Selecting different types of bait will modify your odds of catching different quality fish.</span>
           <span>The different fishing spots have different pools of fish, so you have to go to the ones that have the fish you want.</span>
         </List>
+        <Paragraph>Here's a minimalistic recreation of the fishing loop</Paragraph>
+        <FishingGame />
+
         <Paragraph>Save a few extra details here and there, and I was ready to start coding.</Paragraph>
       </Section>
       <Section>
         <SectionTitle>Automating fishing</SectionTitle>
-        {/* Here I want to insert a interactive game similar to the fishing minigame */}
         <Paragraph>I decided to start with the fishing loop itself, since that would be the core of the script and the easiest to iterate over.</Paragraph>
         <Paragraph>
           So first thing I did was to create a script that would cast a new line at max distance, then when the prompt for having a successful catch came up, it would hold the left mouse button down, reeling in the fish.
