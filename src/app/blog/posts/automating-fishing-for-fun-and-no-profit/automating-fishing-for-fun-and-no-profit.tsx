@@ -1,5 +1,5 @@
 import TLDR from "@/app/blog/components/TLDR";
-import { ImageCarousel, ImageWithAlt, List, Paragraph, Quote, Section, SectionTitle, Sidenote } from "../../components/blog-section";
+import { ImageCarousel, ImageWithAlt, List, Paragraph, Quote, Section, SectionTitle, SectionSubtitle, Sidenote } from "../../components/blog-section";
 import FishingGame from "./game";
 
 export default function AutomatingFishingForFunAndNoProfit() {
@@ -122,6 +122,7 @@ export default function AutomatingFishingForFunAndNoProfit() {
       </Section>
       <Section>
         <SectionTitle>Automating the whole game</SectionTitle>
+        <SectionSubtitle>Navigation and Store Integration</SectionSubtitle>
         <Paragraph>
           With the fishing loop done, the next logical step was to automate the process of selling fish and buying bait, the only problem with that is that I would also need to automate the process of getting to the store (a physically
           different location than the fishing spots) and then getting back to the same spot to guarantee the script would be able to keep fishing. If the position was off, over the iterations it would eventually be in a completely different
@@ -145,6 +146,7 @@ export default function AutomatingFishingForFunAndNoProfit() {
           ]}
         />
         <Paragraph>With this done I felt confident that it was just a matter of time before I could have the script running continuously, so I went to sleep.</Paragraph>
+        <SectionSubtitle>Optimization and Fishing Buddies</SectionSubtitle>
         <Paragraph>
           To my surprise, when I woke up the next day, the script was still running which was good, but when I checked the progress I found that progress on the journal was much slower than I expected. So I started looking for possible
           optimizations. That could help me finish the journal faster.
@@ -158,11 +160,12 @@ export default function AutomatingFishingForFunAndNoProfit() {
           they had caught anything, this meant that on the time that before I got 2 fish, now I was getting 4.
         </Paragraph>
         <Paragraph>
-          More idleing attempts, more fish, and the script was making good progress on the journal. I had already reached max level and bought all upgrades in about 50 or so hours of idleing. I decided to make changes to the script so I
-          could target the elements I needed to catch. As I said before each of the 79 items has a random chance of dropping in one of the 6 qualities, each type of bait modifies the odds of getting these qualities, up until now I was
-          switching between baits as they ran out, but now I specifically wanted to target <span className="font-bold">Alpha</span> quality fish. So I added the option for picking which bait would use, and instead of switching to the next
-          one it would instead initiate the buy/sell process when the current bait runs out.
+          More idling attempts, more fish, and the script was making good progress on the journal. I had already reached max level and bought all upgrades in about 50 or so hours of idling. I decided to make changes to the script so I could
+          target the elements I needed to catch. As I said before each of the 79 items has a random chance of dropping in one of the 6 qualities, each type of bait modifies the odds of getting these qualities, up until now I was switching
+          between baits as they ran out, but now I specifically wanted to target <span className="font-bold">Alpha</span> quality fish. So I added the option for picking which bait would use, and instead of switching to the next one it
+          would instead initiate the buy/sell process when the current bait runs out.
         </Paragraph>
+        <SectionSubtitle>Targeting Specific Fish and CLI Improvements</SectionSubtitle>
         <Paragraph>Around this time I also decided to polish a bit the CLI, with the different options for bait, fishing locations so that I could switch between modes once I was done looking for specific fish.</Paragraph>
         <ImageWithAlt src="/blog/posts/automating-fishing-for-fun-and-no-profit/cli.png" alt="CLI">
           <Paragraph>CLI with different options for bait, fishing locations and more</Paragraph>
@@ -172,12 +175,55 @@ export default function AutomatingFishingForFunAndNoProfit() {
         </ImageWithAlt>
       </Section>
       <Section>
-        <SectionTitle>The end</SectionTitle>
+        <SectionTitle>By the Numbers</SectionTitle>
+        <Paragraph>Before diving into the final results, here's what the automation accomplished:</Paragraph>
+        <List type="disc">
+          <span>
+            <b>474 unique items</b> collected (79 creatures × 6 rarities)
+          </span>
+          <span>
+            <b>TODO: Add total hours</b> of automated gameplay
+          </span>
+          <span>
+            <b>0.5%</b> of players have this achievement according to Steam
+          </span>
+          <span>
+            <b>4x efficiency</b> gained from fishing buddies optimization
+          </span>
+          <span>
+            <b>TODO: Add total fish caught</b>
+          </span>
+          <span>
+            <b>TODO: Add estimated time saved vs manual play</b>
+          </span>
+        </List>
+      </Section>
+      <Section>
+        <SectionTitle>Victory</SectionTitle>
         <Paragraph>With that done, it was just a matter of time before I could complete the journal, I left the script running at night during a couple of days and eventually I woke up to a completed journal.</Paragraph>
+        <Paragraph>TODO: Add screenshots of completed journal and final achievements</Paragraph>
+        <Paragraph>TODO: Add before/after comparison images</Paragraph>
         <Paragraph>
           This was quite the different project from what I usually tackle but it was really fun, tedious at times to get the right set of inputs but overall it was a great experience, I'm glad to have done it, and there is some sense of
-          acomplishment in knowing I 100% completed the game without the use of mods, even though I wouldn't call it completely legitimate because I used a script to do it. I still took the time to create and refine the script.
+          accomplishment in knowing I 100% completed the game without the use of mods, even though I wouldn't call it completely legitimate because I used a script to do it. I still took the time to create and refine the script.
         </Paragraph>
+      </Section>
+      <Section>
+        <SectionTitle>What I Learned</SectionTitle>
+        <Paragraph>This was a fun project that scratched the automation itch I've had for a while, I'm glad I was able to complete it and I might do more of these in the future.</Paragraph>
+        <List type="disc">
+          <span>
+            <b>Incremental improvement</b> - Starting with basic fishing and gradually adding features was more effective than trying to automate everything at once
+          </span>
+          <span>
+            <b>Defining self-contained flows</b> - Breaking down the problem into smaller, manageable parts and testing each part in isolation
+          </span>
+          <span>
+            <b>Understanding the problem domain</b> - It's easy to get lost in the details of the problem, but it's important to understand the overall goal and the constraints
+          </span>
+        </List>
+        <Paragraph>TODO: Add paragraph about the technical challenges and how they were overcome</Paragraph>
+        <Paragraph>TODO: Add reflection on whether automation was worth the effort vs manual play</Paragraph>
       </Section>
     </>
   );
