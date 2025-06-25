@@ -103,7 +103,6 @@ export const posts: Post[] = [
     slug: "automating-fishing-for-fun-and-no-profit",
     date: "June 22, 2025",
     components: <AutomatingFishingForFunAndNoProfit />,
-    coverImage: "/blog/covers/the-endless-media-epidemic.png",
-    hidden: true,
+    coverImage: "/blog/covers/automating-fishing-for-fun-and-no-profit.jpeg",
   },
 ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
