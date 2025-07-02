@@ -18,7 +18,7 @@ export default function AutomatingFishingForFunAndNoProfit() {
       <TLDR>
         I decided to write a script that played a fishing game for me because I
         can, now I'm probably one of the few persons in the world to have
-        completed it in it's entirety without the use of mods
+        completed it in its entirety without the use of mods
       </TLDR>
       <Section>
         <SectionTitle>Introduction</SectionTitle>
@@ -35,9 +35,10 @@ export default function AutomatingFishingForFunAndNoProfit() {
           about a guy who decided to automate a few different Minecraft farms
           and essentially destroyed that server's economy. I really liked the
           idea. I'd seen it done a couple of times before, but this time I
-          thought it would be a fun project. So, I went to my Steam library and
-          started scrolling through my games to see if I could find anything
-          that would be fun to automate.
+          thought it would be a fun project. This got me thinking about trying
+          automation myself, so I went to my Steam library and started scrolling
+          through my games to see if I could find anything that would be fun to
+          automate.
         </Paragraph>
 
         <Paragraph>
@@ -57,7 +58,7 @@ export default function AutomatingFishingForFunAndNoProfit() {
           >
             Webfishing
           </a>
-          . Webfishing you might have guessed is a game about fishing, it
+          . Webfishing is, as you might have guessed, a game about fishing, it
           describes itself as:
         </Paragraph>
 
@@ -92,11 +93,13 @@ export default function AutomatingFishingForFunAndNoProfit() {
 
         <Paragraph>
           Each of these has a different probability of dropping depending on the
-          type of bait used. My objective with the game was to complete the
-          fishing journal, for which I would have to catch all 79 different
-          catches in each of the rarities, so a total of 474 unique items, each
-          of them having a random chance that was determined by the rarity and
-          quality of the catch.
+          type of bait used. Different baits significantly modify your chances
+          of catching higher quality fish, with premium baits offering much
+          better odds for rare Alpha quality catches. My objective with the game
+          was to complete the fishing journal, for which I would have to catch
+          all 79 different catches in each of the rarities, so a total of 474
+          unique items, each of them having a random chance that was determined
+          by the rarity and quality of the catch.
         </Paragraph>
       </Section>
       <Section>
@@ -104,16 +107,15 @@ export default function AutomatingFishingForFunAndNoProfit() {
         <Paragraph>
           After playing for a bit I found that the game would be the perfect
           target for automation. The actions were simple enough, the objective
-          was clear, from the Steam Achivements statistics I could see that 0.5%
-          of players had actually completed the journal, and considering that
+          was clear. From the Steam Achievements statistics I could see that
+          0.5% of players had actually completed the journal. Considering that
           there are mods that allow you to catch any fish you want, the number
           of players that had actually completed the journal "legitimately" was
           probably extremely low.
         </Paragraph>
         <Paragraph>
-          So I decided to write a script that would play the game for me,
-          sounded simple enough. The main gameplay loop of the game is the
-          following:
+          So I chose to write a script that would play the game for me, sounded
+          simple enough. The main gameplay loop of the game is the following:
         </Paragraph>
         <List type="disc">
           <span>Select the type of bait</span>
@@ -149,15 +151,15 @@ export default function AutomatingFishingForFunAndNoProfit() {
         <FishingGame />
 
         <Paragraph>
-          Save a few extra details here and there, and I was ready to start
+          With just a few additional details to work out, I was ready to start
           coding.
         </Paragraph>
       </Section>
       <Section>
         <SectionTitle>Automating webfishing</SectionTitle>
         <Paragraph>
-          I decided to start with the fishing loop itself, since that would be
-          the core of the script and the easiest to iterate over.
+          My first step was to tackle the fishing loop itself, since that would
+          be the core of the script and the easiest to iterate over.
         </Paragraph>
         <Paragraph>
           So first thing I did was to create a script that would cast a new line
@@ -166,21 +168,21 @@ export default function AutomatingFishingForFunAndNoProfit() {
           fish.
         </Paragraph>
         <Paragraph>
-          I had to figure out when to mash the left click versus when to hold it
-          down, at first I thought maybe I could get away with constantly
-          mashing since each click would add a bit to the reeling progress, but
-          I quickly realized that the game would not register as many clicks as
-          I was clicking, meaning that it would only slightly move and
-          eventually fail to reel in the fish.
+          I had to figure out when to rapidly click the mouse button versus when
+          to hold it down. At first I thought maybe I could get away with
+          constantly mashing since each click would add a bit to the reeling
+          progress, but I quickly realized that the game would not register as
+          many clicks as I was clicking, meaning that it would only slightly
+          move and eventually fail to reel in the fish.
         </Paragraph>
         <Paragraph>
-          Next idea was to hold until I saw the prompt for mashing, at that
-          point click for a couple of cycles, then release the mouse button and
-          wait for the next prompt. This worked okay for a bit but it had 2
-          issues, for higher quality fishes it sometimes needed more clicks that
+          My next approach was to hold until I saw the prompt for mashing. At
+          that point click for a couple of cycles, then release the mouse button
+          and wait for the next prompt. This worked okay for a bit but it had 2
+          issues. For higher quality fish it sometimes needed more clicks than
           the ones I programmed it to mash for, meaning it would get stuck
-          holding when it had to mash and lose enough time to fail the catch,
-          and for lower quality fishes it would mash way too much for no reason,
+          holding when it had to mash and lose enough time to fail the catch.
+          For lower quality fish it would mash way too much for no reason,
           eventually also leading to not reeling enough to catch the fish. For a
           human player this is quite easy since they can see the number of
           clicks required to mash, and count while they do so, but if I wanted
@@ -195,27 +197,29 @@ export default function AutomatingFishingForFunAndNoProfit() {
           <Paragraph>How it looks like when you catch a fish</Paragraph>
         </ImageWithAlt>
         <Paragraph>
-          Here I tried a bunch of different solutions, from using teseract to
-          read the number, to trying opencv. Problem was I'd have to run this
-          check after finishing every mash interal which could be many during a
-          single catch, and parsing the image to get the number would take too
-          much time causing the reeling to fail.
+          Here I tried a bunch of different solutions, from using Tesseract to
+          read the number, to trying opencv. The problem was I'd have to run
+          this check after finishing every mash interval which could be many
+          during a single catch. Parsing the image to get the number would take
+          too much time, causing the reeling to fail. Speed was critical because
+          the fishing mechanic has a tight time window - any delay in processing
+          would result in a failed catch.
         </Paragraph>
         <Paragraph>
           So in the end after a couple of hours of trying different solutions I
-          found that there was a much easier way to do it, the game has a
+          found that there was a much easier way to do it. The game has a
           setting that allows you to switch the mashing mechanism to also work
           while holding the button down, so I just had to click once and then
           hold the button down.
         </Paragraph>
         <Paragraph>
           This worked great, I could just click once and then hold the button
-          down, and the game would do the rest.
+          down and the game would do the rest.
         </Paragraph>
         <Paragraph>
           After the fish has been caught next thing is to skip all the text
           prompts for having caught the fish, which are either 1 or 2 depending
-          on if you were lucky enought to also catch a treasure, and then the
+          on if you were lucky enough to also catch a treasure, and then the
           script could loop back and start fishing once again.
         </Paragraph>
         <ImageWithAlt
@@ -225,12 +229,12 @@ export default function AutomatingFishingForFunAndNoProfit() {
           <Paragraph>Fishing loop</Paragraph>
         </ImageWithAlt>
         <Paragraph>
-          With that out of the way, it was a matter of changing the bait after
-          it had ran out, the game gives you a series of different baits you can
-          have stocked at the same time, so my initial solution was to have it
-          switch between them once it ran out, this worked okay and the script
-          could keep running for a couple of hours without intervention, I
-          almost thought of leaving it like that, but seeing how little of a
+          With that out of the way, the next challenge was changing the bait
+          after it had run out. The game gives you a series of different baits
+          you can have stocked at the same time, so my initial solution was to
+          have it switch between them once it ran out. This worked okay and the
+          script could keep running for a couple of hours without intervention.
+          I almost thought of leaving it like that, but seeing how little of a
           dent it was making in the journal completion, it was clear I had to
           improve it and make it fully autonomous.
         </Paragraph>
@@ -245,7 +249,7 @@ export default function AutomatingFishingForFunAndNoProfit() {
         <SectionSubtitle>Navigation and Store Integration</SectionSubtitle>
         <Paragraph>
           With the fishing loop done, the next logical step was to automate the
-          process of selling fish and buying bait, the only problem with that is
+          process of selling fish and buying bait. The only problem with that is
           that I would also need to automate the process of getting to the store
           (a physically different location than the fishing spots) and then
           getting back to the same spot to guarantee the script would be able to
@@ -254,11 +258,11 @@ export default function AutomatingFishingForFunAndNoProfit() {
           fail.
         </Paragraph>
         <Paragraph>
-          Luckily the game as a "Return to Spawn" button that could teleport me
-          to a set location, with this I only had to write logic to move from
+          Luckily the game has a "Return to Spawn" button that could teleport me
+          to a set location. With this I only had to write logic to move from
           the spawn to the store, and from the spawn to a fishing spot without
           having to worry about slight deviations as they would be fixed by the
-          teleport. In the process of trial and error I found that the camera
+          teleport. In the process of trial and error, I found that the camera
           did not reset to the default position when teleported, so I had to
           write logic to move the camera to a known position so the inputs which
           are camera relative would be correct.
@@ -288,22 +292,21 @@ export default function AutomatingFishingForFunAndNoProfit() {
           ]}
         />
         <Paragraph>
-          With this done I felt confident that it was just a matter of time
-          before I could have the script running continuously, so I went to
-          sleep.
+          With this done I felt confident that the script would soon be running
+          continuously, so I went to sleep.
         </Paragraph>
         <SectionSubtitle>Optimization and Fishing Buddies</SectionSubtitle>
         <Paragraph>
           To my surprise, when I woke up the next day, the script was still
           running which was good, but when I checked the progress I found that
           progress on the journal was much slower than I expected. So I started
-          looking for possible optimizations. That could help me finish the
+          looking for possible optimizations that could help me finish the
           journal faster.
         </Paragraph>
         <Paragraph>
-          I rememberd the game had a "Fishing Buddy" feature which are basically
-          2 buckets one of freshwater and one of saltwater, and you could set
-          them to automatically catch fish for you.
+          I remembered the game had a "Fishing Buddy" feature which are
+          basically 2 buckets one of freshwater and one of saltwater, and you
+          could set them to automatically catch fish for you.
         </Paragraph>
         <ImageWithAlt
           src="/blog/posts/automating-fishing-for-fun-and-no-profit/buddies.webp"
@@ -312,31 +315,31 @@ export default function AutomatingFishingForFunAndNoProfit() {
           <Paragraph>Setting up the fishing buddies in the void</Paragraph>
         </ImageWithAlt>
         <Paragraph>
-          They sounded interesting and after a bit of fiddling I managed to make
-          to setup locations for them on all the fishing spots. After completing
-          every second reeling attempt the script would now check on the fishing
+          They sounded interesting and after a bit of fiddling I managed to set
+          up locations for them on all the fishing spots. After completing every
+          second reeling attempt the script would now check on the fishing
           buddies to see if they had caught anything, this meant that on the
           time that before I got 2 fish, now I was getting 4.
         </Paragraph>
         <Paragraph>
           More idling attempts, more fish, and the script was making good
           progress on the journal. I had already reached max level and bought
-          all upgrades in about 50 or so hours of idling. I decided to make
-          changes to the script so I could target the elements I needed to
-          catch. As I said before each of the 79 items has a random chance of
+          all upgrades in about 50 or so hours of idling. At this point I wanted
+          to make changes to the script so I could target the elements I needed
+          to catch. As I said before each of the 79 items has a random chance of
           dropping in one of the 6 qualities, each type of bait modifies the
           odds of getting these qualities, up until now I was switching between
           baits as they ran out, but now I specifically wanted to target{" "}
           <span className="font-bold">Alpha</span> quality fish. So I added the
-          option for picking which bait would use, and instead of switching to
-          the next one it would instead initiate the buy/sell process when the
+          option for picking which bait to use, and instead of switching to the
+          next one it would instead initiate the buy/sell process when the
           current bait runs out.
         </Paragraph>
         <SectionSubtitle>
           Targeting Specific Fish and CLI Improvements
         </SectionSubtitle>
         <Paragraph>
-          Around this time I also decided to polish a bit the CLI, with the
+          Around this time I also chose to polish a bit the CLI, with the
           different options for bait, fishing locations so that I could switch
           between modes once I was done looking for specific fish.
         </Paragraph>
@@ -382,9 +385,9 @@ export default function AutomatingFishingForFunAndNoProfit() {
       <Section>
         <SectionTitle>Victory</SectionTitle>
         <Paragraph>
-          With that done, it was just a matter of time before I could complete
-          the journal, I left the script running at night during a couple of
-          days and eventually I woke up to a completed journal.
+          With that done, completing the journal became inevitable. I left the
+          script running at night during a couple of days and eventually I woke
+          up to a completed journal.
         </Paragraph>
         <ImageCarousel
           images={[
@@ -413,7 +416,7 @@ export default function AutomatingFishingForFunAndNoProfit() {
         </Paragraph>
       </Section>
       <Section>
-        <SectionTitle>Learned something</SectionTitle>
+        <SectionTitle>What I learned</SectionTitle>
         <Paragraph>
           This was a fun project that scratched the automation itch I've had for
           a while, not much learning in terms of new technologies, but it's fun
@@ -431,7 +434,11 @@ export default function AutomatingFishingForFunAndNoProfit() {
             then orchestrating them to achieve the overall goal.
           </span>
         </List>
-        <Paragraph>So yeah, automation is fun!</Paragraph>
+        <Paragraph>
+          Automation continues to be one of my favorite ways to solve
+          interesting problems, and this project reminded me why I love building
+          things that work while I sleep!
+        </Paragraph>
       </Section>
     </>
   );
