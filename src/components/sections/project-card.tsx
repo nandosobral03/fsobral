@@ -12,7 +12,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ title, image, children, year }: ProjectCardProps) {
   return (
-    <div className="shrink-0 w-[300px] md:w-[600px] md:aspect-square aspect-[2/3] flex flex-col border-[3px] border-foreground overflow-hidden transition-all duration-300 hover:bg-foreground hover:text-background group select-none">
+    <div className="shrink-0 w-[300px] md:w-[600px] md:aspect-square aspect-2/3 flex flex-col border-[3px] border-foreground overflow-hidden transition-all duration-300 hover:bg-foreground hover:text-background group select-none">
       <Link href={`/projects/${title}`}>
         <div className="w-full h-fit aspect-video relative">
           <Image src={image} alt={title} fill objectFit="cover" />

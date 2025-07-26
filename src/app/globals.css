@@ -1,63 +1,85 @@
-@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Outfit:wght@100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Outfit:wght@100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap')
+layer(base);
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200')
+layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
-  --background: #d5d0c3;
-  --foreground: #171717;
-  --accent: #348a9d;
-
+@theme {
+  --color-background: #d5d0c3;
+  --color-foreground: #171717;
+  --color-accent: #348a9d;
+  
+  --font-family-serif: Newsreader, serif;
+  --font-family-sans: Outfit, sans-serif;
+  --font-family-condensed: "Roboto Condensed", sans-serif;
+  
+  --width-article: 36rem;
   --max-width-article: 36rem;
+  --min-width-article: 36rem;
+  
+  --list-style-type-lower-alpha: lower-alpha;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: "Roboto", sans-serif;
-}
+@layer utilities {
+  :root {
+    --background: #d5d0c3;
+    --foreground: #171717;
+    --accent: #348a9d;
 
-/* Webkit scrollbar styles */
-::-webkit-scrollbar {
-  width: 10px;
-}
+    --max-width-article: 36rem;
+  }
 
-::-webkit-scrollbar-track {
-  background: var(--foreground);
-}
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: 'Roboto', sans-serif;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: var(--background);
-  border: 2px solid var(--foreground);
-  border-radius: 100px;
-}
+  /* Webkit scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--foreground);
-}
+  ::-webkit-scrollbar-track {
+    background: var(--foreground);
+  }
 
-/* Firefox scrollbar styles */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--background) var(--foreground);
-}
+  ::-webkit-scrollbar-thumb {
+    background: var(--background);
+    border: 2px solid var(--foreground);
+    border-radius: 100px;
+  }
 
-.material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
-}
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--foreground);
+  }
 
-body {
-  background-color: var(--background);
-}
+  /* Firefox scrollbar styles */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--background) var(--foreground);
+  }
 
-ol > li::marker {
-  font-weight: bold;
-}
+  .material-symbols-outlined {
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+  }
 
-* {
-  scroll-behavior: smooth;
+  body {
+    background-color: var(--background);
+  }
+
+  ol > li::marker {
+    font-weight: bold;
+  }
+
+  * {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer utilities {

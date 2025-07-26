@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
 
 interface CalendarData {
   date: string;
@@ -74,9 +72,16 @@ export default function GithubActivityClient({ calendarData }: GithubActivityCli
         {weeks.map((week, weekIndex) => (
           <div key={weekIndex} className={`flex ${isMobile ? "flex-row" : "flex-col"} gap-1`}>
             {week.map((day, dayIndex) => (
-              <Tippy key={`${weekIndex}-${dayIndex}`} content={`${day.count} contributions on ${day.date}`}>
-                <div className={`${isMobile ? "w-[12px] h-[12px]" : "w-[16px] h-[16px]"} rounded-sm`} style={{ backgroundColor: getColor(day.level) }} />
-              </Tippy>
+              <div 
+                key={`${weekIndex}-${dayIndex}`} 
+                className={`${isMobile ? "w-[12px] h-[12px]" : "w-[16px] h-[16px]"} rounded-sm relative group cursor-pointer`} 
+                style={{ backgroundColor: getColor(day.level) }}
+                title={`${day.count} contributions on ${day.date}`}
+              >
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                  {day.count} contributions on {day.date}
+                </div>
+              </div>
             ))}
           </div>
         ))}

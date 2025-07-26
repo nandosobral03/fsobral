@@ -152,7 +152,7 @@ export default {
         <SectionTitle>2. Dynamic Utility Values</SectionTitle>
         <Paragraph>
           One of the changes I liked the most in this new release is the introduction of dynamic utility values. In v3 and before most utility classes needed to be defined before use, for padding for example p-12 and p-14 were perfectly
-          valid classes, but p-13 didn't exist, you could still define it in your config file or use p-[3.25rem] but it either was a pain to do so for each value you wanted to use or you had to use the square bracket notation which meant
+          valid classes, but p-13 didn't exist, you could still define it in your config file or use p-13 but it either was a pain to do so for each value you wanted to use or you had to use the square bracket notation which meant
           not being tied to your design config file like for the rest of the classes.
         </Paragraph>
         <Paragraph>
@@ -261,9 +261,9 @@ ring-opacity-* →ring-black/50
 placeholder-opacity-* → placeholder-black/50
 flex-shrink-* → shrink-*
 flex-grow-* → grow-*
-overflow-ellipsis → text-ellipsis
-decoration-slice → box-decoration-slice
-decoration-clone → box-decoration-clone
+text-ellipsis → text-ellipsis
+box-decoration-slice → box-decoration-slice
+box-decoration-clone → box-decoration-clone
 shadow-sm → shadow-xs
 shadow → shadow-sm
 drop-shadow-sm → drop-shadow-xs

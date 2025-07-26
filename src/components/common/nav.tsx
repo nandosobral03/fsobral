@@ -34,7 +34,7 @@ export default function Nav() {
         <AnimatePresence>
           {(!isMobile || isMenuOpen) && (
             <motion.div
-              className="flex flex-col md:flex-row font-semibold md:mr-4 font-sans md:!flex"
+              className="flex flex-col md:flex-row font-semibold md:mr-4 font-sans md:flex!"
               initial={isMobile ? { opacity: 0, height: 0 } : false}
               animate={isMobile ? { opacity: 1, height: "auto" } : {}}
               exit={isMobile ? { opacity: 0, height: 0 } : {}}

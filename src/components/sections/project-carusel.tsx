@@ -40,7 +40,7 @@ export default function ProjectCarousel() {
         }}
       >
         {projects.map((project, index) => (
-          <motion.div key={index} className="flex-shrink-0">
+          <motion.div key={index} className="shrink-0">
             <ProjectCard title={project.name} image={project.preview.cover} year={project.year}>
               {project.preview.description}
             </ProjectCard>
