@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 interface CalendarData {
   date: string;
   count: number;
@@ -44,11 +42,11 @@ export default function GithubActivityClient({ calendarData }: GithubActivityCli
     return weeks;
   };
 
-  const renderGrid = (weeks: any[], sizeClass: string) => (
+  const renderGrid = (weeks: CalendarData[][], sizeClass: string) => (
     <div className="flex gap-1 relative flex-col md:flex-row">
       {weeks.map((week, weekIndex) => (
         <div key={weekIndex} className="flex flex-row md:flex-col gap-1">
-          {week.map((day: any, dayIndex: number) => (
+          {week.map((day: CalendarData, dayIndex: number) => (
             <div key={`${weekIndex}-${dayIndex}`} className={`${sizeClass} rounded-sm relative group cursor-pointer`} style={{ backgroundColor: getColor(day.level) }} title={`${day.count} contributions on ${day.date}`}>
               <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
                 {day.count} contributions on {day.date}
