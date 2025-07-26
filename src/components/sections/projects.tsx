@@ -17,8 +17,8 @@ export default function Projects() {
             </Link>
           </SectionTitle>
           <SectionDescription>
-            I enjoy working on various projects, either because I want to build something I want to use, I want learn something by building with it or simply because an idea popped into my head and I had to make it a reality. I like to
-            write a small post-natus writeup about what I did, why and how
+            I enjoy working on various projects, either because I want to build something I want to use, I want to learn something by building with it or simply because an idea popped into my head and I had to make it a reality. I like to
+            write a small post-mortem writeup about what I did, why and how
           </SectionDescription>
         </div>
         <div className="w-1/2">

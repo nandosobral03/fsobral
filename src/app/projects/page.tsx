@@ -33,7 +33,7 @@ export default function Home() {
         preface={
           <>
             2024 I decided to focus on building less but more polished projects. My mentality was the same, build for the sake of building, but now I wanted to learn deeper rather than wider. I wanted to spend more time on the same couple
-            of technologies and master them as much as I could. This means that if the proyect was web based I would use React, Next, tRPC for them.
+            of technologies and master them as much as I could. This means that if the project was web based I would use React, Next, tRPC for them.
           </>
         }
       />

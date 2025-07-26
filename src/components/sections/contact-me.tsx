@@ -7,7 +7,7 @@ export default function ContactMe() {
     <section className="flex flex-col gap-4 w-full" id="contact">
       <div className="p-6">
         <SectionTitle>Contact Me</SectionTitle>
-        <SectionDescription>If you have any questions or just want to say hi, feel free to contact me it's always nice to hear from strangers on the internet.</SectionDescription>
+        <SectionDescription>If you have any questions or just want to say hi, feel free to contact me, it's always nice to hear from strangers on the internet.</SectionDescription>
       </div>
       <div className="w-full items-center justify-center flex flex-col md:flex-row mb-20">
         <a

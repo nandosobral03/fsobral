@@ -4,7 +4,7 @@ import SectionDescription from "@/components/common/section-description";
 import SectionTitle from "@/components/common/section-title";
 import Link from "next/link";
 
-export default function AboutMe() {
+export default function Blog() {
   return (
     <section className="p-6 flex flex-col gap-4">
       <SectionTitle>

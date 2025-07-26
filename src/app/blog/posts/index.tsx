@@ -23,7 +23,7 @@ export const posts: Post[] = [
   {
     title: "Lessons learned from redoing the same project over the years",
     description:
-      "A look of my different iterations of the same project, why I've done it so many times, and what I've learned from it.",
+      "A look at my different iterations of the same project, why I've done it so many times, and what I've learned from it.",
     subtitle:
       "A nostalgic journey through my various iterations of the same project",
     slug: "lessons-from-redoing-projects",
@@ -81,7 +81,7 @@ export const posts: Post[] = [
   {
     title: "Tailwind v4: Releasing a major update in the age of AI",
     description:
-      "I had to write a blog about the new features in Tailwind CSS v4 so derailled it by going on tangents about the unique challenges of releasing big changes in the age of AI assisted coding.",
+      "I had to write a blog about the new features in Tailwind CSS v4 so I derailed it by going on tangents about the unique challenges of releasing big changes in the age of AI assisted coding.",
     slug: "tailwind-v4",
     date: "March 27, 2025",
     components: <TailwindV4 />,
