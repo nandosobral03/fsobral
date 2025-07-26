@@ -2,9 +2,9 @@ import SectionDescription from "@/components/common/section-description";
 import SectionTitle from "@/components/common/section-title";
 import { Suspense } from "react";
 import Spinner from "../common/spinner";
-import GithubActivityServer from "../gh-activity/gh-activity-server";
-import ProjectCarouselNoSSR from "./project-carusel-wrapper";
+import ProjectCarouselWrapper from "./project-carusel-wrapper";
 import Link from "next/link";
+import GithubActivityClient from "../gh-activity/gh-activity-client";
 export default function Projects() {
   return (
     <div className="w-full flex flex-col items-stretch p-6 ">
@@ -22,29 +22,11 @@ export default function Projects() {
           </SectionDescription>
         </div>
         <div className="w-1/2">
-          <Suspense
-            fallback={
-              <div className="w-full h-full flex items-center justify-center">
-                <Spinner />
-              </div>
-            }
-          >
-            <GithubActivityServer />
-          </Suspense>
+          <GithubActivityClient />
         </div>
       </section>
       <section className="w-full flex flex-col items-stretch pt-4">
-        <Suspense
-          fallback={
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="w-full h-full flex items-center justify-center">
-                <Spinner />
-              </div>
-            </div>
-          }
-        >
-          <ProjectCarouselNoSSR />
-        </Suspense>
+        <ProjectCarouselWrapper />
       </section>
     </div>
   );

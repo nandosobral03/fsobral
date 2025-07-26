@@ -24,7 +24,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav className="flex flex-col md:flex-row justify-between uppercase text-lg">
+      <nav className="flex flex-col md:flex-row justify-between uppercase text-lg border-b-[3px] border-foreground">
         <div className="flex justify-end items-center">
           <motion.button className="md:hidden px-4 py-2" onClick={() => setIsMenuOpen(!isMenuOpen)} whileTap={{ scale: 0.95 }}>
             {isMenuOpen ? "✕" : "☰"}
@@ -40,16 +40,32 @@ export default function Nav() {
               exit={isMobile ? { opacity: 0, height: 0 } : {}}
               transition={{ duration: 0.2 }}
             >
-              <Link href="/" className={`px-4 py-2 transition-colors duration-200 hover:scale-105 ${pathname === "" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}>
+              <Link
+                href="/"
+                className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] border-l-[3px] md:border-r-[3px] border-foreground last:border-r-0 ${
+                  pathname === "" ? "bg-foreground text-background" : "hover:bg-foreground/10"
+                }`}
+              >
                 ABOUT ME
               </Link>
-              <Link href="/projects" className={`px-4 py-2 transition-colors duration-200 hover:scale-105 ${pathname === "projects" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}>
+              <Link
+                href="/projects"
+                className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 ${
+                  pathname === "projects" ? "bg-foreground text-background" : "hover:bg-foreground/10"
+                }`}
+              >
                 PROJECTS
               </Link>
-              <Link href="/blog" className={`px-4 py-2 transition-colors duration-200 hover:scale-105 ${pathname === "blog" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}>
+              <Link
+                href="/blog"
+                className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 ${pathname === "blog" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}
+              >
                 BLOG
               </Link>
-              <Link href="/#contact" className={`px-4 py-2 transition-colors duration-200 hover:scale-105 ${pathname === "#contact" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}>
+              <Link
+                href="/#contact"
+                className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground ${pathname === "#contact" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}
+              >
                 CONTACT
               </Link>
             </motion.div>

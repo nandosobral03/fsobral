@@ -10,15 +10,10 @@ export default function AboutMe() {
       <SectionTitle>
         Blog
         <Link href="/blog" className="inline-flex">
-          <span className="material-symbols-outlined text-3xl my-auto">
-            north_east
-          </span>
+          <span className="material-symbols-outlined text-3xl my-auto">north_east</span>
         </Link>
       </SectionTitle>
-      <SectionDescription>
-        Occasionally, I write short articles about things I've learned or topics
-        I've enjoyed exploring.
-      </SectionDescription>
+      <SectionDescription>Occasionally, I write short articles about things I've learned or topics I've enjoyed exploring.</SectionDescription>
       <BlogPost post={posts.filter((post) => !post.hidden)[0]} align="left" />
     </section>
   );
