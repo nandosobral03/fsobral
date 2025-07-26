@@ -39,7 +39,11 @@ export default function GithubActivityClientWrapper() {
         {Array.from({ length: weekCount }, (_, weekIndex) => (
           <div key={weekIndex} className="flex flex-row md:flex-col gap-1">
             {Array.from({ length: 7 }, (_, dayIndex) => (
-              <div key={`${weekIndex}-${dayIndex}`} className={`${sizeClass} rounded-sm bg-gray-300`} />
+              <div 
+                key={`${weekIndex}-${dayIndex}`} 
+                className={`${sizeClass} rounded-sm`} 
+                style={{ backgroundColor: "#bfbbb0" }}
+              />
             ))}
           </div>
         ))}
@@ -48,17 +52,23 @@ export default function GithubActivityClientWrapper() {
 
     return (
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-        {/* Mobile: 15 weeks */}
-        <div className="block sm:hidden">{renderSkeletonGrid(5, "w-[10px] h-[10px]")}</div>
+        {/* Mobile: 20 weeks */}
+        <div className="block sm:hidden">{renderSkeletonGrid(20, "w-[10px] h-[10px]")}</div>
+
+        {/* Tablet: 16 weeks */}
+        <div className="hidden sm:block md:hidden">{renderSkeletonGrid(16, "w-[12px] h-[12px]")}</div>
 
         {/* Tablet: 25 weeks */}
-        <div className="hidden sm:block lg:hidden">{renderSkeletonGrid(10, "w-[12px] h-[12px]")}</div>
+        <div className="hidden md:block lg:hidden">{renderSkeletonGrid(25, "w-[12px] h-[12px]")}</div>
 
-        {/* Desktop: 40 weeks */}
-        <div className="hidden lg:block xl:hidden">{renderSkeletonGrid(10, "w-[14px] h-[14px]")}</div>
+        {/* Desktop: 28 weeks */}
+        <div className="hidden lg:block xl:hidden">{renderSkeletonGrid(28, "w-[14px] h-[14px]")}</div>
 
-        {/* Large desktop: 52 weeks */}
-        <div className="hidden xl:block">{renderSkeletonGrid(10, "w-[16px] h-[16px]")}</div>
+        {/* Large desktop: 32 weeks */}
+        <div className="hidden xl:block 2xl:hidden">{renderSkeletonGrid(32, "w-[16px] h-[16px]")}</div>
+
+        {/* Large desktop: 40 weeks */}
+        <div className="hidden 2xl:block">{renderSkeletonGrid(40, "w-[16px] h-[16px]")}</div>
       </div>
     );
   }
