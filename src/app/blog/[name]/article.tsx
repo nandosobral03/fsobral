@@ -4,6 +4,7 @@ import { useExpandedImage } from "../context/ExpandedImageContext";
 import type { Post } from "../posts";
 import { Header, Title, Subtitle } from "../components/blog-header";
 import Image from "next/image";
+import Tag from "@/components/common/tag";
 
 export default function Article({ post }: { post: Post }) {
   const { image, clearImage } = useExpandedImage();
@@ -25,6 +26,13 @@ export default function Article({ post }: { post: Post }) {
             <Title>{post.title}</Title>
             <Subtitle>{post.subtitle ?? post.description}</Subtitle>
           </Header>
+          {post.tags && post.tags.length > 0 && (
+            <div className="w-full flex flex-wrap gap-2 mb-2">
+              {post.tags.map((t) => (
+                <Tag key={t}>{t}</Tag>
+              ))}
+            </div>
+          )}
           {post.components}
         </div>
       </div>
