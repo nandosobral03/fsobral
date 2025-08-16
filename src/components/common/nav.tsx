@@ -63,6 +63,14 @@ export default function Nav() {
                 BLOG
               </Link>
               <Link
+                href="/favorites"
+                className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 ${
+                  pathname === "favorites" ? "bg-foreground text-background" : "hover:bg-foreground/10"
+                }`}
+              >
+                FAVORITES
+              </Link>
+              <Link
                 href="/#contact"
                 className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground ${pathname === "#contact" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}
               >
@@ -72,7 +80,6 @@ export default function Nav() {
           )}
         </AnimatePresence>
       </nav>
-      <Divider />
     </>
   );
 }
