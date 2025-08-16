@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
+
 interface CalendarData {
   date: string;
   count: number;
@@ -9,9 +11,23 @@ interface CalendarData {
 
 interface GithubActivityClientProps {
   calendarData: CalendarData[];
+  startFromDark?: boolean;
+  fillEmpty?: boolean;
+  forceDark?: boolean;
+  disableTooltips?: boolean;
 }
 
-export default function GithubActivityClient({ calendarData }: GithubActivityClientProps) {
+export default function GithubActivityClient({ calendarData, startFromDark = false, fillEmpty = false, forceDark = false, disableTooltips = false }: GithubActivityClientProps) {
+  const [isRevealed, setIsRevealed] = useState(!startFromDark);
+
+  useEffect(() => {
+    if (!startFromDark) return;
+    const id = requestAnimationFrame(() => setIsRevealed(true));
+    return () => cancelAnimationFrame(id);
+  }, [startFromDark]);
+
+  const darkColor = "#1a1917";
+
   const getColor = (level: number) => {
     switch (level) {
       case 0:
@@ -31,9 +47,20 @@ export default function GithubActivityClient({ calendarData }: GithubActivityCli
     }
   };
 
+  const placeholderDay: CalendarData = useMemo(() => ({ date: "", count: 0, level: 0, weekday: 0 }), []);
+
   const createWeeks = (weekCount: number) => {
-    const displayData = calendarData.slice(-weekCount * 7);
-    const weeks = [];
+    const required = weekCount * 7;
+    let displayData = calendarData.slice(-required);
+    if (fillEmpty && displayData.length < required) {
+      const deficit = required - displayData.length;
+      const filler: CalendarData[] = Array.from({ length: deficit }, (_, idx) => ({
+        ...placeholderDay,
+        weekday: idx % 7,
+      }));
+      displayData = [...filler, ...displayData];
+    }
+    const weeks = [] as CalendarData[][];
     for (let i = 0; i < displayData.length; i += 7) {
       const week = displayData.slice(i, i + 7);
       week.sort((a, b) => a.weekday - b.weekday);
@@ -47,10 +74,17 @@ export default function GithubActivityClient({ calendarData }: GithubActivityCli
       {weeks.map((week, weekIndex) => (
         <div key={weekIndex} className="flex flex-row md:flex-col gap-1">
           {week.map((day: CalendarData, dayIndex: number) => (
-            <div key={`${weekIndex}-${dayIndex}`} className={`${sizeClass} rounded-sm relative group cursor-pointer`} style={{ backgroundColor: getColor(day.level) }} title={`${day.count} contributions on ${day.date}`}>
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                {day.count} contributions on {day.date}
-              </div>
+            <div
+              key={`${weekIndex}-${dayIndex}`}
+              className={`${sizeClass} rounded-sm relative group cursor-pointer transition-colors duration-700 ease-in-out`}
+              style={{ backgroundColor: forceDark ? darkColor : isRevealed ? getColor(day.level) : darkColor }}
+              title={day.date ? `${day.count} contributions on ${day.date}` : undefined}
+            >
+              {!disableTooltips && day.date && (
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                  {day.count} contributions on {day.date}
+                </div>
+              )}
             </div>
           ))}
         </div>
