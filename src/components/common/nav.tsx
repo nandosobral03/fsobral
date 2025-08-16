@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import Divider from "./divider";
 import { motion, AnimatePresence } from "motion/react";
 
 export default function Nav() {

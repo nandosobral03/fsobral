@@ -1,7 +1,5 @@
 import SectionDescription from "@/components/common/section-description";
 import SectionTitle from "@/components/common/section-title";
-import { Suspense } from "react";
-import Spinner from "../common/spinner";
 import ProjectCarouselWrapper from "./project-carusel-wrapper";
 import Link from "next/link";
 import GithubActivityClient from "../gh-activity/gh-activity-client";

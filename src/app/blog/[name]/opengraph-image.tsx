@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { posts } from "../posts";
+import { postsMetadata } from "../posts-metadata";
 
 export const runtime = "edge";
 export const size = { width: 1200, height: 630 };
@@ -8,7 +8,7 @@ export const contentType = "image/png";
 export default async function Image({ params }: { params: Promise<{ name: string }> }) {
   const awaited = await params;
   const slug = decodeURIComponent(awaited.name);
-  const post = posts.find((p) => p.slug === slug);
+  const post = postsMetadata.find((p) => p.slug === slug);
 
   const title = post?.title ?? slug;
   const subtitle = post?.subtitle ?? post?.description ?? "";
