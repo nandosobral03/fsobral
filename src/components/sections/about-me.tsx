@@ -6,7 +6,7 @@ export default function AboutMe() {
     <section className="w-1/2 p-6 flex flex-col gap-4">
       <SectionTitle>About Me</SectionTitle>
       <SectionDescription>
-        Hi! I'm a Software Engineer and Full Stack Developer from Uruguay, currently working as a Software Engineer at Keeper.app (YC S21). I'm passionate about writing code, learning new technologies, and building things.
+        Hi! I'm a Software Engineer and Full Stack Developer from Uruguay, currently working as a Senior Software Engineer at Keeper.app (YC S21). I'm passionate about writing code, learning new technologies, and building things.
       </SectionDescription>
     </section>
   );
