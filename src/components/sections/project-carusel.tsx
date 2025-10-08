@@ -10,22 +10,35 @@ export default function ProjectCarousel() {
   const x = useMotionValue(0);
   const [isMounted, setIsMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 1200);
   
   useEffect(() => {
     setIsMounted(true);
-    setIsMobile(window.innerWidth < 768);
+    const updateViewport = () => {
+      const width = window.innerWidth;
+      setViewportWidth(width);
+      setIsMobile(width < 768);
+    };
+
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+
+    return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
   const cardWidth = isMobile ? 300 : 600;
   const gap = 16;
-  const containerWidth = isMounted ? window.innerWidth : 1200; // Default desktop width
-  const leftConstraint = -(projects.length * cardWidth + (projects.length - 1) * gap - containerWidth) - 60;
+  const containerWidth = isMounted ? viewportWidth : 1200; // Default desktop width
+  const sidePadding = 24;
+  const totalWidth = projects.length * cardWidth + (projects.length - 1) * gap + sidePadding * 2;
+  const overflow = totalWidth - containerWidth;
+  const leftConstraint = overflow > 0 ? -overflow : 0;
 
   // SSR/initial render: show static version
   if (!isMounted) {
     return (
       <div className="w-full overflow-hidden">
-        <div className="flex gap-4">
+        <div className="flex gap-4 px-6">
           {projects.slice(0, 3).map((project, index) => (
             <div key={index} className="flex-shrink-0">
               <ProjectCard title={project.name} image={project.preview.cover} year={project.year}>
@@ -41,7 +54,7 @@ export default function ProjectCarousel() {
   return (
     <motion.div ref={constraintsRef} className="w-full overflow-hidden" transition={{ duration: 0.5, ease: "linear" }}>
       <motion.div
-        style={{ x }}
+        style={{ x, paddingLeft: sidePadding, paddingRight: sidePadding }}
         drag="x"
         dragConstraints={{
           left: leftConstraint,

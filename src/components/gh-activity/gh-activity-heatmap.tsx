@@ -76,7 +76,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
           {week.map((day: CalendarData, dayIndex: number) => (
             <div
               key={`${weekIndex}-${dayIndex}`}
-              className={`${sizeClass} rounded-sm relative group cursor-pointer transition-colors duration-700 ease-in-out`}
+              className={`${sizeClass} rounded-sm relative group cursor-pointer transition-colors duration-300 ease-out transition-transform hover:scale-110 hover:brightness-110 hover:z-10`}
               style={{ backgroundColor: forceDark ? darkColor : isRevealed ? getColor(day.level) : darkColor }}
               title={day.date ? `${day.count} contributions on ${day.date}` : undefined}
             >

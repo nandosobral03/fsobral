@@ -24,7 +24,9 @@ export default function Projects() {
         </div>
       </section>
       <section className="w-full flex flex-col items-stretch pt-4">
-        <ProjectCarouselWrapper />
+        <div className="-mx-6">
+          <ProjectCarouselWrapper />
+        </div>
       </section>
     </div>
   );

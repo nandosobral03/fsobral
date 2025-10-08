@@ -113,43 +113,53 @@ const favorites = {
   ],
 };
 
-function FavoritesList({ items, type }: { items: FavoriteItem[]; type: string }) {
+function FavoritesList({ items, eyebrow, headline }: { items: FavoriteItem[]; eyebrow: string; headline: string }) {
   return (
-    <section className="w-1/2 p-6 flex flex-col gap-4">
-      <h3 className="text-3xl font-bold uppercase tracking-wide font-condensed">{type}</h3>
-      <div className="space-y-3">
-        {items.map((item, index) => (
-          <div key={index} className="space-y-1 flex gap-3">
-            <span className="text-foreground opacity-50 font-bold">|</span>
-            <div className="flex-1 space-y-1">
-              {item.url ? (
-                <a href={item.url} target="_blank" rel="noopener noreferrer" className="block font-medium hover:underline">
-                  {item.title}
-                </a>
-              ) : (
-                <div className="font-medium">{item.title}</div>
-              )}
-              {item.author && <div className="text-sm opacity-75">by {item.author}</div>}
-            </div>
-          </div>
-        ))}
+    <section className="flex flex-col gap-5">
+      <div>
+        <p className="text-xs uppercase tracking-[0.3em] font-semibold text-foreground/60">{eyebrow}</p>
+        <h3 className="text-3xl font-bold uppercase font-condensed">{headline}</h3>
       </div>
+      <ul className="space-y-3">
+        {items.map((item, index) => {
+          const number = String(index + 1).padStart(2, "0");
+          const hasLink = Boolean(item.url);
+          return (
+            <li key={index} className="group flex gap-4 rounded-md border border-foreground/40 bg-background/70 px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground">
+              <span className="font-condensed text-sm font-semibold text-accent mt-1">{number}</span>
+              <div className="flex-1 space-y-1">
+                {hasLink ? (
+                  <a href={item.url} target="_blank" rel="noopener noreferrer" className="block font-semibold underline-offset-4 decoration-dotted hover:underline">
+                    {item.title}
+                  </a>
+                ) : (
+                  <div className="font-semibold">{item.title}</div>
+                )}
+                {item.author && <div className="text-sm opacity-75">by {item.author}</div>}
+                {item.description && <p className="text-sm text-foreground/80">{item.description}</p>}
+              </div>
+              {hasLink && <span className="material-symbols-outlined text-base opacity-0 group-hover:opacity-100 transition-opacity duration-200">north_east</span>}
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 }
 
 export default function Favorites() {
   return (
-    <>
-      <div className="w-full p-6">
-        <SectionTitle>Favorites</SectionTitle>
-        <SectionDescription>Things I've read that stuck with me. Technical writing, philosophical pieces, and stories that changed how I see the world. Worth exploring more from these authors.</SectionDescription>
+    <section className="w-full bg-background/60">
+      <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col gap-10">
+        <div className="space-y-4">
+          <SectionTitle>Favorites</SectionTitle>
+          <SectionDescription>Things I've read that stuck with me. Technical writing, philosophical pieces, and stories that changed how I see the world. Worth exploring more from these authors.</SectionDescription>
+        </div>
+        <div className="grid gap-10 md:grid-cols-2">
+          <FavoritesList items={favorites.blogs} eyebrow="blogs" headline="web finds" />
+          <FavoritesList items={favorites.books} eyebrow="book" headline="selected prints" />
+        </div>
       </div>
-      <div className="w-full flex items-stretch border-t-[3px] border-foreground">
-        <FavoritesList items={favorites.blogs} type="blogs" />
-        <div className="w-[3px] bg-foreground"></div>
-        <FavoritesList items={favorites.books} type="books" />
-      </div>
-    </>
+    </section>
   );
 }

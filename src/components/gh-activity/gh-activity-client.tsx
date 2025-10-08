@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import GithubActivityClient from "./gh-activity-heatmap";
+import Link from "next/link";
 
 interface CalendarData {
   date: string;
@@ -18,6 +19,15 @@ export default function GithubActivityClientWrapper() {
   const [isSkeletonFading, setIsSkeletonFading] = useState(false);
   const [skeletonVisible, setSkeletonVisible] = useState(true);
 
+  // Resolve GitHub logins from public env var so we can link to profiles
+  const githubLogins = useMemo(() => {
+    const raw = process.env.NEXT_PUBLIC_GITHUB_LOGINS || "nandosobral03";
+    return raw
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }, []);
+
   // Track breathing animation start time to reveal at the next dark peak
   const breathingStartTimeRef = useRef<number | null>(null);
   const breathingCycleDurationMs = 2400; // 0% -> 50% (dark) -> 100% cycle
@@ -30,7 +40,8 @@ export default function GithubActivityClientWrapper() {
 
     async function fetchData() {
       try {
-        const response = await fetch("/api/github-activity");
+        const qs = new URLSearchParams({ logins: githubLogins.join(",") }).toString();
+        const response = await fetch(`/api/github-activity?${qs}`);
         if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
         setCalendarData(data);
@@ -43,7 +54,7 @@ export default function GithubActivityClientWrapper() {
     }
 
     fetchData();
-  }, []);
+  }, [githubLogins]);
 
   // When data is ready, keep breathing until the next dark peak, then reveal the heatmap
   useEffect(() => {
@@ -158,6 +169,18 @@ export default function GithubActivityClientWrapper() {
       {/* Always mount heatmap to avoid layout swaps; forceDark keeps it fully dark under skeleton */}
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
         <GithubActivityClient calendarData={calendarData} startFromDark forceDark={!isSkeletonFading && skeletonVisible} fillEmpty disableTooltips />
+        {/* Profile links */}
+        <div className="mt-3 text-xs text-gray-500">
+          Combined activity of {" "}
+          {githubLogins.map((login, idx) => (
+            <span key={login}>
+              <Link href={`https://github.com/${login}`} target="_blank" className="underline">
+                @{login}
+              </Link>
+              {idx < githubLogins.length - 1 ? <span>{" · "}</span> : null}
+            </span>
+          ))}
+        </div>
       </div>
       {skeletonVisible && (
         <div className={`absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none ${isSkeletonFading ? "opacity-0" : "opacity-100"}`} style={{ transition: "opacity 350ms ease" }}>
