@@ -3,7 +3,6 @@ import type { Post } from "../posts";
 import Image from "next/image";
 import { SectionTitle } from "./blog-section";
 import Tag from "@/components/common/tag";
-import { calculateReadingTime } from "../utils/reading-time";
 
 export const BlogPost = ({ post, align }: { post: Post; align: "left" | "right" }) => {
   return (
