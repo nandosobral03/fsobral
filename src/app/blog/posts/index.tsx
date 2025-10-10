@@ -1,4 +1,5 @@
 import AutomatingFishingForFunAndNoProfit from "./automating-fishing-for-fun-and-no-profit/automating-fishing-for-fun-and-no-profit";
+import EUnibusInfinitum from "./e-unibus-infinitum/e-unibus-infinitum";
 import GraveyardOfDeadProjects from "./graveyard-of-dead-projects/graveyard-of-dead-projects";
 import I3dPrintedMyGithubContributionHistory from "./i-3d-printed-my-github-contribution-history/i-3d-printed-my-github-contribution-history";
 import Inngest from "./inngest/inngest";
@@ -20,7 +21,16 @@ export type Post = {
   tags?: string[];
 };
 
-export const posts: Post[] = [
+const basePosts: Post[] = [
+  {
+    title: "E Unibus Infinitum",
+    description: "David Foster Wallace's E Unibus Pluram: was published in 1993, but is more relevant than ever today.",
+    slug: "e-unibus-infinitum",
+    date: "October 10, 2025",
+    components: <EUnibusInfinitum />,
+    coverImage: "/blog/covers/e-unibus-infinitum.png",
+    tags: ["media", "culture"],
+  },
   {
     title: "Lessons learned from redoing the same project over the years",
     description: "A look at my different iterations of the same project, why I've done it so many times, and what I've learned from it.",
@@ -104,4 +114,6 @@ export const posts: Post[] = [
     coverImage: "/blog/covers/automating-fishing-for-fun-and-no-profit.jpeg",
     tags: ["automation", "games"],
   },
-].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+];
+
+export const posts: Post[] = basePosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

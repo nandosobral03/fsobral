@@ -10,13 +10,13 @@ const SectionList = ({ type, children }: { type: ListTypes; children: React.Reac
   const Tag = type === "disc" ? "ul" : "ol";
   const style = listStyles[type];
 
-  if (!Array.isArray(children)) {
-    return <li className={`ml-4 list-${style} list-outside`}>{children}</li>;
-  }
+  const items = (Array.isArray(children) ? children : [children]).filter((child) => child !== null && child !== undefined && child !== false);
+
+  if (items.length === 0) return null;
 
   return (
     <Tag className={`list-${style} list-outside relative`}>
-      {children.map((child, index) => (
+      {items.map((child, index) => (
         <li key={index} className={`ml-4 list-${style} list-outside`}>
           {child}
         </li>

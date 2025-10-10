@@ -84,4 +84,12 @@ export const postsMetadata: PostMetadata[] = [
     coverImage: "/blog/covers/automating-fishing-for-fun-and-no-profit.jpeg",
     tags: ["automation", "games"],
   },
+  {
+    title: "E Unibus Infinitum",
+    description: "David Foster Wallace's E Unibus Pluram: was published in 1993, but is more relevant than ever today.",
+    slug: "e-unibus-infinitum",
+    date: "October 10, 2025",
+    coverImage: "/blog/covers/e-unibus-infinitum.png",
+    tags: ["media", "culture"],
+  },
 ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

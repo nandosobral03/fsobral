@@ -11,7 +11,15 @@ export const BlogPost = ({ post, align }: { post: Post; align: "left" | "right" 
         <div>
           <SectionTitle>{post.title}</SectionTitle>
           <p className="text-lg mb-2">{post.description}</p>
-          <p className="text-sm font-condensed">{post.date}</p>
+          <p className="text-sm font-condensed">
+            {post.date}
+            {post.readingTimeMinutes ? (
+              <>
+                {" "}
+                · ~{post.readingTimeMinutes} min read
+              </>
+            ) : null}
+          </p>
         </div>
         {post.tags && post.tags.length > 0 && (
           <div className={`mt-auto flex flex-wrap gap-2 ${align === "left" ? "justify-start" : "justify-end"}`}>
