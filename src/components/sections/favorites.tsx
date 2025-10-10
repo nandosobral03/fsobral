@@ -115,7 +115,7 @@ const favorites = {
 
 function FavoritesList({ items, eyebrow, headline }: { items: FavoriteItem[]; eyebrow: string; headline: string }) {
   return (
-    <section className="flex flex-col gap-5">
+    <section className="flex flex-col gap-6">
       <div>
         <p className="text-xs uppercase tracking-[0.3em] font-semibold text-foreground/60">{eyebrow}</p>
         <h3 className="text-3xl font-bold uppercase font-condensed">{headline}</h3>
@@ -125,11 +125,19 @@ function FavoritesList({ items, eyebrow, headline }: { items: FavoriteItem[]; ey
           const number = String(index + 1).padStart(2, "0");
           const hasLink = Boolean(item.url);
           return (
-            <li key={index} className="group flex gap-4 rounded-md border border-foreground/40 bg-background/70 px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground">
-              <span className="font-condensed text-sm font-semibold text-accent mt-1">{number}</span>
-              <div className="flex-1 space-y-1">
+            <li
+              key={index}
+              className="group flex items-start gap-5 border-[3px] border-foreground px-5 py-4 text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background focus-within:bg-foreground focus-within:text-background"
+            >
+              <span className="font-condensed text-xs font-semibold uppercase tracking-[0.3em] text-accent pt-1">{number}</span>
+              <div className="flex-1 space-y-2 transition-colors duration-200">
                 {hasLink ? (
-                  <a href={item.url} target="_blank" rel="noopener noreferrer" className="block font-semibold underline-offset-4 decoration-dotted hover:underline">
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block font-semibold underline decoration-dotted underline-offset-4 transition-colors duration-200 group-hover:decoration-background group-focus-within:decoration-background"
+                  >
                     {item.title}
                   </a>
                 ) : (
@@ -138,7 +146,11 @@ function FavoritesList({ items, eyebrow, headline }: { items: FavoriteItem[]; ey
                 {item.author && <div className="text-sm opacity-75">by {item.author}</div>}
                 {item.description && <p className="text-sm text-foreground/80">{item.description}</p>}
               </div>
-              {hasLink && <span className="material-symbols-outlined text-base opacity-0 group-hover:opacity-100 transition-opacity duration-200">north_east</span>}
+              {hasLink && (
+                <span className="material-symbols-outlined text-base opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100 group-hover:text-background group-focus-within:translate-x-1 group-focus-within:opacity-100 group-focus-within:text-background">
+                  north_east
+                </span>
+              )}
             </li>
           );
         })}
@@ -149,13 +161,13 @@ function FavoritesList({ items, eyebrow, headline }: { items: FavoriteItem[]; ey
 
 export default function Favorites() {
   return (
-    <section className="w-full bg-background/60">
-      <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col gap-10">
-        <div className="space-y-4">
+    <section className="w-full">
+      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-12 sm:px-6">
+        <div className="max-w-2xl space-y-4">
           <SectionTitle>Favorites</SectionTitle>
           <SectionDescription>Things I've read that stuck with me. Technical writing, philosophical pieces, and stories that changed how I see the world. Worth exploring more from these authors.</SectionDescription>
         </div>
-        <div className="grid gap-10 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 md:gap-10">
           <FavoritesList items={favorites.blogs} eyebrow="blogs" headline="web finds" />
           <FavoritesList items={favorites.books} eyebrow="book" headline="selected prints" />
         </div>

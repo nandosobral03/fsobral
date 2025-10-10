@@ -1,8 +1,5 @@
 import React from "react";
 
-/**
- * Extracts text content from React elements recursively
- */
 function extractTextFromReactNode(node: React.ReactNode): string {
   if (!node) return "";
 
@@ -15,33 +12,25 @@ function extractTextFromReactNode(node: React.ReactNode): string {
   }
 
   if (React.isValidElement(node)) {
-    // If it's a component, call it to get its rendered output
-    if (typeof node.type === 'function') {
-      const rendered = (node.type as any)(node.props);
+    if (typeof node.type === "function") {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const rendered = (node.type as { (props: any): React.ReactNode })(node.props);
       return extractTextFromReactNode(rendered);
     }
 
-    // For regular elements, extract children
-    const props = node.props as any;
+    const props = node.props as { children?: React.ReactNode };
     return extractTextFromReactNode(props?.children);
   }
 
   return "";
 }
-
-/**
- * Calculates reading time in minutes based on word count
- * Uses average reading speed of 225 words per minute
- */
 export function calculateReadingTime(content: React.ReactNode): number {
   const text = extractTextFromReactNode(content);
   const words = text.trim().split(/\s+/).filter(Boolean);
   const wordCount = words.length;
 
-  // Average reading speed: 225 words per minute
-  const wordsPerMinute = 225;
+  const wordsPerMinute = 2000;
   const minutes = Math.ceil(wordCount / wordsPerMinute);
 
-  // Minimum 1 minute
   return Math.max(1, minutes);
 }
