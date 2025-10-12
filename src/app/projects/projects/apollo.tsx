@@ -2,7 +2,10 @@ import { Project } from ".";
 
 export const apollo: Project = {
   name: "apollo",
-  links: [{ url: "https://github.com/nandosobral03/apollo", name: "Github" }],
+  links: [
+    { url: "https://github.com/nandosobral03/apollo", name: "Github" },
+    { url: "https://apollo.fsobral.dev", name: "Live" },
+  ],
   year: 2025,
   preview: {
     cover: "/covers/apollo.png",
