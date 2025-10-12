@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import GithubActivityClient from "./gh-activity-heatmap";
-import Link from "next/link";
 
 interface CalendarData {
   date: string;
@@ -35,12 +35,15 @@ export default function GithubActivityClientWrapper() {
   useEffect(() => {
     // Initialize breathing cycle start time on mount
     if (breathingStartTimeRef.current === null) {
-      breathingStartTimeRef.current = typeof performance !== "undefined" ? performance.now() : Date.now();
+      breathingStartTimeRef.current =
+        typeof performance !== "undefined" ? performance.now() : Date.now();
     }
 
     async function fetchData() {
       try {
-        const qs = new URLSearchParams({ logins: githubLogins.join(",") }).toString();
+        const qs = new URLSearchParams({
+          logins: githubLogins.join(","),
+        }).toString();
         const response = await fetch(`/api/github-activity?${qs}`);
         if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
@@ -63,8 +66,11 @@ export default function GithubActivityClientWrapper() {
     if (calendarData.length === 0) return;
     if (showHeatmap) return;
 
-    const startTime = breathingStartTimeRef.current ?? (typeof performance !== "undefined" ? performance.now() : Date.now());
-    const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+    const startTime =
+      breathingStartTimeRef.current ??
+      (typeof performance !== "undefined" ? performance.now() : Date.now());
+    const now =
+      typeof performance !== "undefined" ? performance.now() : Date.now();
     const elapsed = Math.max(0, now - startTime);
     const cycle = breathingCycleDurationMs;
     const positionInCycle = elapsed % cycle; // 0..cycle
@@ -101,7 +107,11 @@ export default function GithubActivityClientWrapper() {
 
   // If loading finished and there's an error or no data, show the message immediately
   if (!loading && (error || calendarData.length === 0)) {
-    return <div className="w-full h-full flex items-center justify-center text-gray-500">{error || "No GitHub activity data available"}</div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center text-gray-500">
+        {error || "Error loading GitHub activity data :("}
+      </div>
+    );
   }
 
   if (!showHeatmap) {
@@ -110,7 +120,13 @@ export default function GithubActivityClientWrapper() {
         {Array.from({ length: weekCount }, (_, weekIndex) => (
           <div key={weekIndex} className="flex flex-row md:flex-col gap-1">
             {Array.from({ length: 7 }, (_, dayIndex) => (
-              <div key={`${weekIndex}-${dayIndex}`} className={`${sizeClass} rounded-sm gh-skeleton-cell ${isSkeletonFading ? "gh-skeleton-cell-paused" : ""}`} style={{ backgroundColor: "#bfbbb0" }} />
+              <div
+                key={`${weekIndex}-${dayIndex}`}
+                className={`${sizeClass} rounded-sm gh-skeleton-cell ${
+                  isSkeletonFading ? "gh-skeleton-cell-paused" : ""
+                }`}
+                style={{ backgroundColor: "#bfbbb0" }}
+              />
             ))}
           </div>
         ))}
@@ -120,22 +136,34 @@ export default function GithubActivityClientWrapper() {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
         {/* Mobile: 20 weeks */}
-        <div className="block sm:hidden">{renderSkeletonGrid(20, "w-[10px] h-[10px]")}</div>
+        <div className="block sm:hidden">
+          {renderSkeletonGrid(20, "w-[10px] h-[10px]")}
+        </div>
 
         {/* Tablet: 16 weeks */}
-        <div className="hidden sm:block md:hidden">{renderSkeletonGrid(16, "w-[12px] h-[12px]")}</div>
+        <div className="hidden sm:block md:hidden">
+          {renderSkeletonGrid(16, "w-[12px] h-[12px]")}
+        </div>
 
         {/* Tablet: 25 weeks */}
-        <div className="hidden md:block lg:hidden">{renderSkeletonGrid(25, "w-[12px] h-[12px]")}</div>
+        <div className="hidden md:block lg:hidden">
+          {renderSkeletonGrid(25, "w-[12px] h-[12px]")}
+        </div>
 
         {/* Desktop: 28 weeks */}
-        <div className="hidden lg:block xl:hidden">{renderSkeletonGrid(28, "w-[14px] h-[14px]")}</div>
+        <div className="hidden lg:block xl:hidden">
+          {renderSkeletonGrid(28, "w-[14px] h-[14px]")}
+        </div>
 
         {/* Large desktop: 32 weeks */}
-        <div className="hidden xl:block 2xl:hidden">{renderSkeletonGrid(32, "w-[16px] h-[16px]")}</div>
+        <div className="hidden xl:block 2xl:hidden">
+          {renderSkeletonGrid(32, "w-[16px] h-[16px]")}
+        </div>
 
         {/* Large desktop: 40 weeks */}
-        <div className="hidden 2xl:block">{renderSkeletonGrid(40, "w-[16px] h-[16px]")}</div>
+        <div className="hidden 2xl:block">
+          {renderSkeletonGrid(40, "w-[16px] h-[16px]")}
+        </div>
 
         {/* Local keyframes for breathing animation (global to ensure it works outside Next.js styled-jsx) */}
         <style>{`
@@ -157,7 +185,13 @@ export default function GithubActivityClientWrapper() {
       {Array.from({ length: weekCount }, (_, weekIndex) => (
         <div key={weekIndex} className="flex flex-row md:flex-col gap-1">
           {Array.from({ length: 7 }, (_, dayIndex) => (
-            <div key={`${weekIndex}-${dayIndex}`} className={`${sizeClass} rounded-sm gh-skeleton-cell ${isSkeletonFading ? "gh-skeleton-cell-paused" : ""}`} style={{ backgroundColor: "#bfbbb0" }} />
+            <div
+              key={`${weekIndex}-${dayIndex}`}
+              className={`${sizeClass} rounded-sm gh-skeleton-cell ${
+                isSkeletonFading ? "gh-skeleton-cell-paused" : ""
+              }`}
+              style={{ backgroundColor: "#bfbbb0" }}
+            />
           ))}
         </div>
       ))}
@@ -168,13 +202,23 @@ export default function GithubActivityClientWrapper() {
     <div className="relative w-full h-full">
       {/* Always mount heatmap to avoid layout swaps; forceDark keeps it fully dark under skeleton */}
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-        <GithubActivityClient calendarData={calendarData} startFromDark forceDark={!isSkeletonFading && skeletonVisible} fillEmpty disableTooltips />
+        <GithubActivityClient
+          calendarData={calendarData}
+          startFromDark
+          forceDark={!isSkeletonFading && skeletonVisible}
+          fillEmpty
+          disableTooltips
+        />
         {/* Profile links */}
-        <div className="mt-3 text-xs text-gray-500">
-          Combined activity of {" "}
+        <div className="mt-3 text-xs text-gray-500 absolute bottom-0 left-0">
+          Combined activity of{" "}
           {githubLogins.map((login, idx) => (
             <span key={login}>
-              <Link href={`https://github.com/${login}`} target="_blank" className="underline">
+              <Link
+                href={`https://github.com/${login}`}
+                target="_blank"
+                className="underline"
+              >
                 @{login}
               </Link>
               {idx < githubLogins.length - 1 ? <span>{" · "}</span> : null}
@@ -183,24 +227,41 @@ export default function GithubActivityClientWrapper() {
         </div>
       </div>
       {skeletonVisible && (
-        <div className={`absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none ${isSkeletonFading ? "opacity-0" : "opacity-100"}`} style={{ transition: "opacity 350ms ease" }}>
+        <div
+          className={`absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none ${
+            isSkeletonFading ? "opacity-0" : "opacity-100"
+          }`}
+          style={{ transition: "opacity 350ms ease" }}
+        >
           {/* Mobile: 20 weeks */}
-          <div className="block sm:hidden">{renderSkeletonGrid(20, "w-[10px] h-[10px]")}</div>
+          <div className="block sm:hidden">
+            {renderSkeletonGrid(20, "w-[10px] h-[10px]")}
+          </div>
 
           {/* Tablet: 16 weeks */}
-          <div className="hidden sm:block md:hidden">{renderSkeletonGrid(16, "w-[12px] h-[12px]")}</div>
+          <div className="hidden sm:block md:hidden">
+            {renderSkeletonGrid(16, "w-[12px] h-[12px]")}
+          </div>
 
           {/* Tablet: 25 weeks */}
-          <div className="hidden md:block lg:hidden">{renderSkeletonGrid(25, "w-[12px] h-[12px]")}</div>
+          <div className="hidden md:block lg:hidden">
+            {renderSkeletonGrid(25, "w-[12px] h-[12px]")}
+          </div>
 
           {/* Desktop: 28 weeks */}
-          <div className="hidden lg:block xl:hidden">{renderSkeletonGrid(28, "w-[14px] h-[14px]")}</div>
+          <div className="hidden lg:block xl:hidden">
+            {renderSkeletonGrid(28, "w-[14px] h-[14px]")}
+          </div>
 
           {/* Large desktop: 32 weeks */}
-          <div className="hidden xl:block 2xl:hidden">{renderSkeletonGrid(32, "w-[16px] h-[16px]")}</div>
+          <div className="hidden xl:block 2xl:hidden">
+            {renderSkeletonGrid(32, "w-[16px] h-[16px]")}
+          </div>
 
           {/* Large desktop: 40 weeks */}
-          <div className="hidden 2xl:block">{renderSkeletonGrid(40, "w-[16px] h-[16px]")}</div>
+          <div className="hidden 2xl:block">
+            {renderSkeletonGrid(40, "w-[16px] h-[16px]")}
+          </div>
 
           {/* Keyframes and paused class ensure no perceptible jump at reveal */}
           <style>{`

@@ -1,23 +1,24 @@
-import { eos } from "./eos";
-import { minos } from "./minos";
-import { polemos } from "./poelmos";
-import { rhea } from "./rhea";
-import { chimera } from "./chimera";
-import { spring83 } from "./spring83";
-import { nochan } from "./nochan";
-import { deadair } from "./deadair";
-import { momentum } from "./momentum";
-import { todayin } from "./todayin";
-import { polemosRoyale } from "./polemos-royale";
-import { reactBonsai } from "./react-bonsai";
-import { mushare } from "./mushare";
 import { fourCombinator } from "./4combinator";
-import { timeslot } from "./timeslot";
-import { superhumanBenchmark } from "./superhuman-benchmark";
+import { apollo } from "./apollo";
+import { chimera } from "./chimera";
+import { deadair } from "./deadair";
+import { eos } from "./eos";
 import { mimicrai } from "./mimicrai";
+import { minos } from "./minos";
+import { momentum } from "./momentum";
+import { mushare } from "./mushare";
+import { nochan } from "./nochan";
+import { polemos } from "./poelmos";
+import { polemosRoyale } from "./polemos-royale";
+import { rabbithole } from "./rabbithole";
+import { reactBonsai } from "./react-bonsai";
+import { rhea } from "./rhea";
+import { spring83 } from "./spring83";
+import { superhumanBenchmark } from "./superhuman-benchmark";
+import { timeslot } from "./timeslot";
+import { todayin } from "./todayin";
 
 import React from "react";
-import { rabbithole } from "./rabbithole";
 
 type ProjectNames =
   | "eos"
@@ -37,7 +38,8 @@ type ProjectNames =
   | "timeslot"
   | "superhuman benchmark"
   | "mimicrai"
-  | "rabbithole";
+  | "rabbithole"
+  | "apollo";
 
 export type Project = {
   name: ProjectNames;
@@ -58,4 +60,4 @@ export type Project = {
   }[];
 };
 
-export const projects: Project[] = [eos, rhea, polemos, minos, chimera, spring83, nochan, deadair, momentum, todayin, polemosRoyale, reactBonsai, mushare, fourCombinator, timeslot, superhumanBenchmark, mimicrai, rabbithole].reverse();
+export const projects: Project[] = [eos, rhea, polemos, minos, chimera, spring83, nochan, deadair, momentum, todayin, polemosRoyale, reactBonsai, mushare, fourCombinator, timeslot, superhumanBenchmark, mimicrai, rabbithole, apollo].reverse();

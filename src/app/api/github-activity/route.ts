@@ -64,11 +64,11 @@ async function fetchGithubDataForLogin(login: string): Promise<CalendarData[]> {
   });
 
   const data: { data: GithubData } = await response.json();
-  const contributions = data.data.user.contributionsCollection.contributionCalendar;
+  const contributions = data.data?.user.contributionsCollection.contributionCalendar;
 
   const formattedData: CalendarData[] = [];
 
-  contributions.weeks.forEach((week) => {
+  contributions?.weeks.forEach((week) => {
     week.contributionDays.forEach((day) => {
       const level = day.contributionCount === 0 ? 0 : day.contributionCount === 1 ? 1 : day.contributionCount <= 3 ? 2 : day.contributionCount <= 6 ? 3 : day.contributionCount <= 9 ? 4 : day.contributionCount <= 15 ? 5 : 6;
 
