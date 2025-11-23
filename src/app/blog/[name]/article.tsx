@@ -3,7 +3,6 @@
 import { ExpandedImageProvider, useExpandedImage } from "../context/ExpandedImageContext";
 import { FootnoteProvider } from "../context/FootnoteContext";
 import type { Post } from "../posts";
-import { Header, Title, Subtitle } from "../components/blog-header";
 import Image from "next/image";
 import Tag from "@/components/common/tag";
 import ReactDOMServer from "react-dom/server";
@@ -22,7 +21,7 @@ const calculateReadingTimeMinutes = (components: React.ReactNode) => {
       .split(/\s+/)
       .filter(Boolean).length;
     return Math.max(1, Math.ceil(words / 200));
-  } catch (error) {
+  } catch {
     // Fallback if rendering fails
     return 5;
   }
