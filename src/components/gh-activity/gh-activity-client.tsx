@@ -1,8 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import GithubActivityClient from "./gh-activity-heatmap";
-import Link from "next/link";
 
 interface CalendarData {
   date: string;
@@ -40,7 +40,9 @@ export default function GithubActivityClientWrapper() {
 
     async function fetchData() {
       try {
-        const qs = new URLSearchParams({ logins: githubLogins.join(",") }).toString();
+        const qs = new URLSearchParams({
+          logins: githubLogins.join(","),
+        }).toString();
         const response = await fetch(`/api/github-activity?${qs}`);
         if (!response.ok) throw new Error("Failed to fetch");
         const data = await response.json();
@@ -101,7 +103,7 @@ export default function GithubActivityClientWrapper() {
 
   // If loading finished and there's an error or no data, show the message immediately
   if (!loading && (error || calendarData.length === 0)) {
-    return <div className="w-full h-full flex items-center justify-center text-gray-500">{error || "No GitHub activity data available"}</div>;
+    return <div className="w-full h-full flex items-center justify-center text-gray-500">{error || "Error loading GitHub activity data :("}</div>;
   }
 
   if (!showHeatmap) {
