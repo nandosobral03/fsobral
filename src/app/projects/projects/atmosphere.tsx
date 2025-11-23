@@ -1,5 +1,4 @@
 import { Project } from ".";
-import Link from "next/link";
 
 export const atmosphere: Project = {
   name: "atmosphere",
