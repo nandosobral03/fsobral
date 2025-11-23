@@ -1,5 +1,6 @@
 import { fourCombinator } from "./4combinator";
 import { apollo } from "./apollo";
+import { atmosphere } from "./atmosphere";
 import { chimera } from "./chimera";
 import { deadair } from "./deadair";
 import { eos } from "./eos";
@@ -39,7 +40,8 @@ type ProjectNames =
   | "superhuman benchmark"
   | "mimicrai"
   | "rabbithole"
-  | "apollo";
+  | "apollo"
+  | "atmosphere";
 
 export type Project = {
   name: ProjectNames;
@@ -60,4 +62,25 @@ export type Project = {
   }[];
 };
 
-export const projects: Project[] = [eos, rhea, polemos, minos, chimera, spring83, nochan, deadair, momentum, todayin, polemosRoyale, reactBonsai, mushare, fourCombinator, timeslot, superhumanBenchmark, mimicrai, rabbithole, apollo].reverse();
+export const projects: Project[] = [
+  eos,
+  rhea,
+  polemos,
+  minos,
+  chimera,
+  spring83,
+  nochan,
+  deadair,
+  momentum,
+  todayin,
+  polemosRoyale,
+  reactBonsai,
+  mushare,
+  fourCombinator,
+  timeslot,
+  superhumanBenchmark,
+  mimicrai,
+  rabbithole,
+  apollo,
+  atmosphere,
+].reverse();
