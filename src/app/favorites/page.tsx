@@ -6,7 +6,9 @@ export default function FavoritesPage() {
   return (
     <>
       <div className="mb-20">
-        <LargeTitle alt="READS">FAVORITES</LargeTitle>
+        <LargeTitle alt="READS" animation="dna">
+          FAVORITES
+        </LargeTitle>
       </div>
 
       <FavoritesInfo />

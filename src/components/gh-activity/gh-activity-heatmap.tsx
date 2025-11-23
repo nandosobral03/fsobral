@@ -73,7 +73,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
   };
 
   const renderGrid = (weeks: CalendarData[][], sizeClass: string) => (
-    <div className="flex gap-1 relative flex-col md:flex-row border border-foreground/10 rounded-sm p-3 bg-foreground">
+    <div className="flex gap-1 relative flex-col md:flex-row border border-foreground/10 rounded-sm p-4 bg-foreground">
       {weeks.map((week, weekIndex) => (
         <div key={weekIndex} className="flex flex-row md:flex-col gap-1">
           {week.map((day: CalendarData, dayIndex: number) => (

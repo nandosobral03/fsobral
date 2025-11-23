@@ -10,7 +10,9 @@ export default function Home() {
   return (
     <>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="mb-20">
-        <LargeTitle alt="AORNUM">PROJECTS</LargeTitle>
+        <LargeTitle alt="AORNUM" animation="cube">
+          PROJECTS
+        </LargeTitle>
       </motion.div>
 
       <ProjectsInfo />
