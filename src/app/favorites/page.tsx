@@ -1,15 +1,19 @@
-import Divider from "@/components/common/divider";
 import LargeTitle from "@/components/common/large-title";
 import Favorites from "@/components/sections/favorites";
+import FavoritesInfo from "./favorites-info";
 
 export default function FavoritesPage() {
   return (
     <>
-      <LargeTitle alt="READS">FAVORITES</LargeTitle>
-      <Divider />
+      <div className="mb-20">
+        <LargeTitle alt="READS">FAVORITES</LargeTitle>
+      </div>
+
+      <FavoritesInfo />
+
+      <div className="h-16" />
 
       <Favorites />
-      <Divider />
     </>
   );
 }

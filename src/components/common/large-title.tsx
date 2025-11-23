@@ -11,13 +11,18 @@ export default function LargeTitle({ children, alt }: { children: React.ReactNod
   const altWords = alt?.split(" ") || words;
 
   return (
-    <div className="flex flex-col items-end gap-4 my-16 overflow-x-auto select-none">
+    <div className="flex flex-col items-end gap-4 my-16 overflow-x-auto select-none relative">
       {words.map((word, wordIndex) => {
         const altWord = altWords[wordIndex] || word;
         const lengthDiff = altWord.length - word.length;
 
         return (
-          <motion.h1 key={wordIndex} initial="initial" whileHover="hovered" className="text-[15vw] font-semibold font-condensed text-end leading-[0.8] select-none relative overflow-hidden whitespace-nowrap max-w-full w-full">
+          <motion.h1
+            key={wordIndex}
+            initial="initial"
+            whileHover="hovered"
+            className="text-[15vw] xl:text-[12rem] font-semibold font-condensed text-end leading-[0.8] select-none relative overflow-hidden whitespace-nowrap max-w-full w-full"
+          >
             <div className="relative">
               {word.split("").map((l, i) => (
                 <motion.span
@@ -59,6 +64,7 @@ export default function LargeTitle({ children, alt }: { children: React.ReactNod
           </motion.h1>
         );
       })}
+
     </div>
   );
 }

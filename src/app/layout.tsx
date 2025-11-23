@@ -55,15 +55,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=optional" as="style" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=optional" />
+        {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font*/}
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" as="style" />
+        {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font*/}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" />
       </head>
       <body className={`antialiased h-screen flex flex-col w-full overflow-y-scroll ${roboto.variable} ${newsreader.variable} ${outfit.variable} ${robotoCondensed.variable}`}>
         <Nav />
         <main className="flex-1">
           {children}
-        <SpeedInsights />
-        <Analytics />
+          <SpeedInsights />
+          <Analytics />
         </main>
       </body>
     </html>

@@ -1,6 +1,3 @@
-import SectionDescription from "@/components/common/section-description";
-import SectionTitle from "@/components/common/section-title";
-
 interface FavoriteItem {
   title: string;
   author?: string;
@@ -127,7 +124,7 @@ function FavoritesList({ items, eyebrow, headline }: { items: FavoriteItem[]; ey
           return (
             <li
               key={index}
-              className="group flex items-start gap-5 border-[3px] border-foreground px-5 py-4 text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background focus-within:bg-foreground focus-within:text-background"
+              className="group flex items-start gap-5 border-[3px] border-foreground px-5 py-4 text-foreground transition-all duration-300 hover:bg-foreground hover:text-background hover:border-accent focus-within:bg-foreground focus-within:text-background focus-within:border-accent"
             >
               <span className="font-condensed text-xs font-semibold uppercase tracking-[0.3em] text-accent pt-1">{number}</span>
               <div className="flex-1 space-y-2 transition-colors duration-200">
@@ -162,14 +159,10 @@ function FavoritesList({ items, eyebrow, headline }: { items: FavoriteItem[]; ey
 export default function Favorites() {
   return (
     <section className="w-full">
-      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-12 sm:px-6">
-        <div className="max-w-2xl space-y-4">
-          <SectionTitle>Favorites</SectionTitle>
-          <SectionDescription>Things I've read that stuck with me. Technical writing, philosophical pieces, and stories that changed how I see the world. Worth exploring more from these authors.</SectionDescription>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2 md:gap-10">
+      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6 pb-20">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <FavoritesList items={favorites.blogs} eyebrow="blogs" headline="web finds" />
-          <FavoritesList items={favorites.books} eyebrow="book" headline="selected prints" />
+          <FavoritesList items={favorites.books} eyebrow="books" headline="selected prints" />
         </div>
       </div>
     </section>

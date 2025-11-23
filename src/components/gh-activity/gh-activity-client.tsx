@@ -110,7 +110,7 @@ export default function GithubActivityClientWrapper() {
         {Array.from({ length: weekCount }, (_, weekIndex) => (
           <div key={weekIndex} className="flex flex-row md:flex-col gap-1">
             {Array.from({ length: 7 }, (_, dayIndex) => (
-              <div key={`${weekIndex}-${dayIndex}`} className={`${sizeClass} rounded-sm gh-skeleton-cell ${isSkeletonFading ? "gh-skeleton-cell-paused" : ""}`} style={{ backgroundColor: "#bfbbb0" }} />
+              <div key={`${weekIndex}-${dayIndex}`} className={`${sizeClass} rounded-none gh-skeleton-cell ${isSkeletonFading ? "gh-skeleton-cell-paused" : ""}`} style={{ backgroundColor: "transparent" }} />
             ))}
           </div>
         ))}
@@ -120,7 +120,7 @@ export default function GithubActivityClientWrapper() {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
         {/* Mobile: 20 weeks */}
-        <div className="block sm:hidden">{renderSkeletonGrid(20, "w-[10px] h-[10px]")}</div>
+        <div className="block sm:hidden">{renderSkeletonGrid(18, "w-[10px] h-[10px]")}</div>
 
         {/* Tablet: 16 weeks */}
         <div className="hidden sm:block md:hidden">{renderSkeletonGrid(16, "w-[12px] h-[12px]")}</div>
@@ -140,9 +140,9 @@ export default function GithubActivityClientWrapper() {
         {/* Local keyframes for breathing animation (global to ensure it works outside Next.js styled-jsx) */}
         <style>{`
           @keyframes gh-breathing {
-            0% { background-color: #bfbbb0; }
+            0% { background-color: transparent; }
             50% { background-color: #1a1917; }
-            100% { background-color: #bfbbb0; }
+            100% { background-color: transparent; }
           }
           .gh-skeleton-cell { animation: gh-breathing ${breathingCycleDurationMs}ms ease-in-out infinite; }
           .gh-skeleton-cell-paused { animation: none !important; background-color: #1a1917 !important; }
@@ -157,7 +157,7 @@ export default function GithubActivityClientWrapper() {
       {Array.from({ length: weekCount }, (_, weekIndex) => (
         <div key={weekIndex} className="flex flex-row md:flex-col gap-1">
           {Array.from({ length: 7 }, (_, dayIndex) => (
-            <div key={`${weekIndex}-${dayIndex}`} className={`${sizeClass} rounded-sm gh-skeleton-cell ${isSkeletonFading ? "gh-skeleton-cell-paused" : ""}`} style={{ backgroundColor: "#bfbbb0" }} />
+            <div key={`${weekIndex}-${dayIndex}`} className={`${sizeClass} rounded-none border border-foreground/20 gh-skeleton-cell ${isSkeletonFading ? "gh-skeleton-cell-paused" : ""}`} style={{ backgroundColor: "transparent" }} />
           ))}
         </div>
       ))}
@@ -168,13 +168,13 @@ export default function GithubActivityClientWrapper() {
     <div className="relative w-full h-full">
       {/* Always mount heatmap to avoid layout swaps; forceDark keeps it fully dark under skeleton */}
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-        <GithubActivityClient calendarData={calendarData} startFromDark forceDark={!isSkeletonFading && skeletonVisible} fillEmpty disableTooltips />
+        <GithubActivityClient calendarData={calendarData} startFromDark forceDark={!isSkeletonFading && skeletonVisible} fillEmpty />
         {/* Profile links */}
-        <div className="mt-3 text-xs text-gray-500">
-          Combined activity of {" "}
+        <div className="mt-3 text-xs text-foreground/70 font-condensed uppercase tracking-wider">
+          Combined activity of{" "}
           {githubLogins.map((login, idx) => (
             <span key={login}>
-              <Link href={`https://github.com/${login}`} target="_blank" className="underline">
+              <Link href={`https://github.com/${login}`} target="_blank" className="underline hover:text-foreground text-foreground/70">
                 @{login}
               </Link>
               {idx < githubLogins.length - 1 ? <span>{" · "}</span> : null}
@@ -185,7 +185,7 @@ export default function GithubActivityClientWrapper() {
       {skeletonVisible && (
         <div className={`absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none ${isSkeletonFading ? "opacity-0" : "opacity-100"}`} style={{ transition: "opacity 350ms ease" }}>
           {/* Mobile: 20 weeks */}
-          <div className="block sm:hidden">{renderSkeletonGrid(20, "w-[10px] h-[10px]")}</div>
+          <div className="block sm:hidden">{renderSkeletonGrid(18, "w-[10px] h-[10px]")}</div>
 
           {/* Tablet: 16 weeks */}
           <div className="hidden sm:block md:hidden">{renderSkeletonGrid(16, "w-[12px] h-[12px]")}</div>
@@ -205,9 +205,9 @@ export default function GithubActivityClientWrapper() {
           {/* Keyframes and paused class ensure no perceptible jump at reveal */}
           <style>{`
             @keyframes gh-breathing {
-              0% { background-color: #bfbbb0; }
+              0% { background-color: transparent; }
               50% { background-color: #1a1917; }
-              100% { background-color: #bfbbb0; }
+              100% { background-color: transparent; }
             }
             .gh-skeleton-cell { animation: gh-breathing ${breathingCycleDurationMs}ms ease-in-out infinite; }
             .gh-skeleton-cell-paused { animation: none !important; background-color: #1a1917 !important; }

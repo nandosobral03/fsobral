@@ -23,7 +23,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav className="flex flex-col md:flex-row justify-between uppercase text-lg border-b-[3px] border-foreground">
+      <nav className="flex flex-col md:flex-row justify-between uppercase text-lg border-b-[3px] border-foreground mx-4">
         <div className="flex justify-end items-center">
           <motion.button className="md:hidden px-4 py-2" onClick={() => setIsMenuOpen(!isMenuOpen)} whileTap={{ scale: 0.95 }}>
             {isMenuOpen ? "✕" : "☰"}
@@ -33,7 +33,7 @@ export default function Nav() {
         <AnimatePresence>
           {(!isMobile || isMenuOpen) && (
             <motion.div
-              className="flex flex-col md:flex-row font-semibold md:mr-4 font-sans md:flex!"
+              className="flex flex-col md:flex-row font-semibold font-sans md:flex!"
               initial={isMobile ? { opacity: 0, height: 0 } : false}
               animate={isMobile ? { opacity: 1, height: "auto" } : {}}
               exit={isMobile ? { opacity: 0, height: 0 } : {}}
@@ -41,39 +41,41 @@ export default function Nav() {
             >
               <Link
                 href="/"
-                className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] border-l-[3px] md:border-r-[3px] border-foreground last:border-r-0 ${
+                className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
                   pathname === "" ? "bg-foreground text-background" : "hover:bg-foreground/10"
                 }`}
               >
-                ABOUT ME
+                <span className="relative z-10">ABOUT ME</span>
               </Link>
               <Link
                 href="/projects"
-                className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 ${
+                className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
                   pathname === "projects" ? "bg-foreground text-background" : "hover:bg-foreground/10"
                 }`}
               >
-                PROJECTS
+                <span className="relative z-10">PROJECTS</span>
               </Link>
               <Link
                 href="/blog"
-                className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 ${pathname === "blog" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}
+                className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
+                  pathname === "blog" ? "bg-foreground text-background" : "hover:bg-foreground/10"
+                }`}
               >
-                BLOG
+                <span className="relative z-10">BLOG</span>
               </Link>
               <Link
                 href="/favorites"
-                className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 ${
+                className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
                   pathname === "favorites" ? "bg-foreground text-background" : "hover:bg-foreground/10"
                 }`}
               >
-                FAVORITES
+                <span className="relative z-10">FAVORITES</span>
               </Link>
               <Link
                 href="/#contact"
-                className={`px-4 py-2 transition-colors duration-200 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground ${pathname === "#contact" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}
+                className={`px-4 py-2 transition-all duration-300 hover:scale-105   border-foreground relative overflow-hidden group ${pathname === "#contact" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}
               >
-                CONTACT
+                <span className="relative z-10">CONTACT</span>
               </Link>
             </motion.div>
           )}

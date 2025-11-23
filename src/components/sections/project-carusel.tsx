@@ -11,7 +11,7 @@ export default function ProjectCarousel() {
   const [isMounted, setIsMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [viewportWidth, setViewportWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 1200);
-  
+
   useEffect(() => {
     setIsMounted(true);
     const updateViewport = () => {
@@ -52,7 +52,7 @@ export default function ProjectCarousel() {
   }
 
   return (
-    <motion.div ref={constraintsRef} className="w-full overflow-hidden" transition={{ duration: 0.5, ease: "linear" }}>
+    <motion.div ref={constraintsRef} className="w-full overflow-hidden py-4" transition={{ duration: 0.5, ease: "linear" }}>
       <motion.div
         style={{ x, paddingLeft: sidePadding, paddingRight: sidePadding }}
         drag="x"

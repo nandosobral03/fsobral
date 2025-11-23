@@ -29,21 +29,24 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
   const darkColor = "#1a1917";
 
   const getColor = (level: number) => {
+    // Accent-based color scale with clear progression
     switch (level) {
       case 0:
-        return "#bfbbb0";
+        return "#1d1d1d"; // Almost invisible
       case 1:
-        return "#8a8580";
+        return "#1f2c2f"; // First hint of accent
       case 2:
-        return "#76736d";
+        return "#213a40"; // Darker teal
       case 3:
-        return "#615f5a";
+        return "#264d56"; // Medium teal
       case 4:
-        return "#4d4b47";
+        return "#2b616d"; // Stronger teal
       case 5:
-        return "#2d2b27";
+        return "#317684"; // Vibrant teal
       case 6:
-        return "#1a1917";
+        return "#368c9b"; // Peak activity - brightest teal
+      default:
+        return "#1a1b1b";
     }
   };
 
@@ -70,19 +73,19 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
   };
 
   const renderGrid = (weeks: CalendarData[][], sizeClass: string) => (
-    <div className="flex gap-1 relative flex-col md:flex-row">
+    <div className="flex gap-1 relative flex-col md:flex-row border border-foreground/10 rounded-sm p-3 bg-foreground">
       {weeks.map((week, weekIndex) => (
         <div key={weekIndex} className="flex flex-row md:flex-col gap-1">
           {week.map((day: CalendarData, dayIndex: number) => (
             <div
               key={`${weekIndex}-${dayIndex}`}
-              className={`${sizeClass} rounded-sm relative group cursor-pointer transition-colors duration-300 ease-out transition-transform hover:scale-110 hover:brightness-110 hover:z-10`}
+              className={`${sizeClass} rounded-sm relative group cursor-pointer transition-all duration-300 ease-out hover:scale-125 hover:brightness-110 hover:z-10`}
               style={{ backgroundColor: forceDark ? darkColor : isRevealed ? getColor(day.level) : darkColor }}
               title={day.date ? `${day.count} contributions on ${day.date}` : undefined}
             >
               {!disableTooltips && day.date && (
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                  {day.count} contributions on {day.date}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-accent text-background text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50 font-condensed font-semibold">
+                  {day.count} on {day.date}
                 </div>
               )}
             </div>
@@ -95,7 +98,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
       {/* Mobile: 15 weeks */}
-      <div className="block sm:hidden">{renderGrid(createWeeks(20), "w-[10px] h-[10px]")}</div>
+      <div className="block sm:hidden">{renderGrid(createWeeks(18), "w-[10px] h-[10px]")}</div>
 
       {/* Tablet: 25 weeks */}
       <div className="hidden sm:block md:hidden">{renderGrid(createWeeks(16), "w-[12px] h-[12px]")}</div>
