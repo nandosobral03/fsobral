@@ -5,7 +5,7 @@ import TLDR from "@/app/blog/components/TLDR";
 export default function SayingGoodbyeToMyFirstDomain() {
   return (
     <>
-      <TLDR>Reflecting on the journey with aornum.xyz, from its beginnings as a portfolio and tech playground to the lessons learned through server admin mishaps and project development, leading to the transition to fsobral.dev.</TLDR>
+      <TLDR>My first domain taught me more through doing and failing. What began as a makeshift portfolio was one of the best learning resources in my journey. Now it's time to move fsobral.dev</TLDR>
       <Section>
         <SectionTitle>Aornum.xyz: A Chapter&apos;s Beginning and End</SectionTitle>
         <Paragraph>

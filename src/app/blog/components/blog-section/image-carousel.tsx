@@ -51,10 +51,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, children }) => {
 
       <div className="w-full flex justify-center mt-2 gap-1">
         {images.map((_, index) => (
-          <button key={index} className={`w-3 h-3 rounded-full ${index === currentIndex ? "bg-accent" : "bg-gray-400"}`} onClick={() => goToImage(index)} />
+          <button key={index} className={`w-3 h-3 cursor-pointer border-[3px] transition-colors ${index === currentIndex ? "border-accent bg-accent" : "border-foreground hover:border-accent"}`} onClick={() => goToImage(index)} />
         ))}
       </div>
-      <figcaption className="text-start text-sm font-thin italic mt-2">{children}</figcaption>
+      <figcaption className="text-start text-sm font-light mt-2">{children}</figcaption>
     </div>
   );
 };

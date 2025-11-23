@@ -16,9 +16,7 @@ export default function AutomatingFishingForFunAndNoProfit() {
   return (
     <>
       <TLDR>
-        I decided to write a script that played a fishing game for me because I
-        can, now I'm probably one of the few persons in the world to have
-        completed it in its entirety without the use of mods
+        I built a Python automation script to complete Webfishing's 474-item journal (79 creatures × 6 rarities). After 189 hours and 15,514 fish caught, I now achieved what less than 0.5% of players have done.
       </TLDR>
       <Section>
         <SectionTitle>Introduction</SectionTitle>

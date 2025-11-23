@@ -7,7 +7,7 @@ import Footnote from "../../components/footnote";
 export default function PeaksOfYoreAndTheDifficultyBoulder() {
   return (
     <>
-      <TLDR>Peaks of yore is a great display of how to implement a well balanced difficulty curve in a game, taking their time to polish few mechanics instead of mindlessly adding more for the sake of difficulty.</TLDR>
+      <TLDR>Peaks of Yore introduces all mechanics in 14 climbs then spends the rest making you master them. The game never gets easier, you do. A lesson in building difficulty through player growth, not feature creep.</TLDR>
       <Section>
         <SectionTitle>Introduction</SectionTitle>
         <Paragraph>Rock climbing is a sport focused on scaling natural or artificial rock faces; it’s a test of one’s grip, balance, and endurance to ascend, overcoming obstacles by carefully choosing each hold and foothold.</Paragraph>

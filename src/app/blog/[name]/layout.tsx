@@ -14,10 +14,12 @@ export default function ArticleLayout({
     <FootnoteProvider>
       <ExpandedImageProvider>
         {children}
-        <article className="flex flex-col items-center justify-start gap-4 w-fit px-4 md:w-article px-0 mx-auto">
-          <Divider className="my-4" />
-          <Footer />
-        </article>
+        <div className="max-w-4xl mx-auto mt-12">
+          <Divider className="mx-6" />
+          <div className="px-6">
+            <Footer />
+          </div>
+        </div>
       </ExpandedImageProvider>
     </FootnoteProvider>
   );

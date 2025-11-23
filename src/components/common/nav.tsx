@@ -6,9 +6,13 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 export default function Nav() {
-  const pathname = usePathname()?.split("/")[1] || "";
+  const fullPathname = usePathname() || "";
+  const pathname = fullPathname.split("/")[1] || "";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  // Check if we're on a detail page (blog/[name] or projects/[name])
+  const isDetailPage = fullPathname.split("/").length > 2 && (pathname === "blog" || pathname === "projects");
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -22,8 +26,8 @@ export default function Nav() {
   }, []);
 
   return (
-    <>
-      <nav className="flex flex-col md:flex-row justify-between uppercase text-lg border-b-[3px] border-foreground mx-4">
+    <div className={`${isDetailPage ? "bg-foreground text-background" : ""}`}>
+      <nav className={`flex flex-col md:flex-row justify-between uppercase text-lg border-b-[3px] border-foreground mx-4 ${isDetailPage ? "bg-foreground text-background" : ""}`}>
         <div className="flex justify-end items-center">
           <motion.button className="md:hidden px-4 py-2" onClick={() => setIsMenuOpen(!isMenuOpen)} whileTap={{ scale: 0.95 }}>
             {isMenuOpen ? "✕" : "☰"}
@@ -42,7 +46,7 @@ export default function Nav() {
               <Link
                 href="/"
                 className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
-                  pathname === "" ? "bg-foreground text-background" : "hover:bg-foreground/10"
+                  pathname === "" ? (isDetailPage ? "bg-background text-foreground" : "bg-foreground text-background") : isDetailPage ? "hover:bg-background/10" : "hover:bg-foreground/10"
                 }`}
               >
                 <span className="relative z-10">ABOUT ME</span>
@@ -50,7 +54,7 @@ export default function Nav() {
               <Link
                 href="/projects"
                 className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
-                  pathname === "projects" ? "bg-foreground text-background" : "hover:bg-foreground/10"
+                  pathname === "projects" ? (isDetailPage ? "text-accent border-b-[3px] border-b-accent" : "bg-foreground text-background") : isDetailPage ? "hover:bg-background/10" : "hover:bg-foreground/10"
                 }`}
               >
                 <span className="relative z-10">PROJECTS</span>
@@ -58,7 +62,7 @@ export default function Nav() {
               <Link
                 href="/blog"
                 className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
-                  pathname === "blog" ? "bg-foreground text-background" : "hover:bg-foreground/10"
+                  pathname === "blog" ? (isDetailPage ? "text-accent border-b-[3px] border-b-accent" : "bg-foreground text-background") : isDetailPage ? "hover:bg-background/10" : "hover:bg-foreground/10"
                 }`}
               >
                 <span className="relative z-10">BLOG</span>
@@ -66,14 +70,16 @@ export default function Nav() {
               <Link
                 href="/favorites"
                 className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
-                  pathname === "favorites" ? "bg-foreground text-background" : "hover:bg-foreground/10"
+                  pathname === "favorites" ? (isDetailPage ? "bg-background text-foreground" : "bg-foreground text-background") : isDetailPage ? "hover:bg-background/10" : "hover:bg-foreground/10"
                 }`}
               >
                 <span className="relative z-10">FAVORITES</span>
               </Link>
               <Link
                 href="/#contact"
-                className={`px-4 py-2 transition-all duration-300 hover:scale-105   border-foreground relative overflow-hidden group ${pathname === "#contact" ? "bg-foreground text-background" : "hover:bg-foreground/10"}`}
+                className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
+                  pathname === "#contact" ? (isDetailPage ? "bg-background text-foreground" : "bg-foreground text-background") : isDetailPage ? "hover:bg-background/10" : "hover:bg-foreground/10"
+                }`}
               >
                 <span className="relative z-10">CONTACT</span>
               </Link>
@@ -81,6 +87,6 @@ export default function Nav() {
           )}
         </AnimatePresence>
       </nav>
-    </>
+    </div>
   );
 }

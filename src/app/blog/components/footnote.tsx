@@ -22,7 +22,7 @@ export default function Footnote({ footnote, children }: FootnoteProps) {
     <span>
       {footnote}
       <sup id={`footnote-ref-${footnoteIndex}`}>
-        <a href={`#footnote-${footnoteIndex}`} className="text-accent hover:text-black">
+        <a href={`#footnote-${footnoteIndex}`} className="text-accent hover:text-foreground transition-colors">
           {footnoteIndex + 1}
         </a>
       </sup>

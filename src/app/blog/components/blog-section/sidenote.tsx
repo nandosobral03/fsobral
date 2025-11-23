@@ -36,7 +36,7 @@ const Sidenote = ({ children, anchorText, config }: { children: React.ReactNode;
       <a
         id={`${anchorText}-anchor`}
         href={`#${anchorText}-sidenote`}
-        className={`border-b-2 border-dashed border-accent ${anchorOrSidenoteIsHovered ? "text-accent border-accent" : ""}`}
+        className={`border-b-[3px] border-dashed border-accent ${anchorOrSidenoteIsHovered ? "text-accent border-accent" : ""}`}
         data-anchor={anchorText}
         onMouseEnter={() => setAnchorOrSidenoteIsHovered(true)}
         onMouseLeave={() => setAnchorOrSidenoteIsHovered(false)}
@@ -45,7 +45,7 @@ const Sidenote = ({ children, anchorText, config }: { children: React.ReactNode;
       </a>
       <div
         data-sidenote={anchorText}
-        className={`hidden md:block absolute text-xs w-52 text-start ${side === "right" ? "-right-56" : "-left-56"} border-accent border-2 border-dashed rounded-sm p-3 transition-colors ${
+        className={`hidden md:block absolute text-xs w-52 text-start ${side === "right" ? "-right-56" : "-left-56"} border-accent border-[3px] border-dashed p-3 transition-colors ${
           anchorOrSidenoteIsHovered ? "bg-foreground text-background border-transparent" : ""
         }`}
         id={`${anchorText}-sidenote`}
