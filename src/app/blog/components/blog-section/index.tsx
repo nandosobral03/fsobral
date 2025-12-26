@@ -1,4 +1,5 @@
 export { default as Codeblock } from "./codeblock";
+export { default as Divider } from "./divider";
 export { default as ImageCarousel } from "./image-carousel";
 export { default as ImageWithAlt } from "./image-with-alt";
 export { default as List } from "./list";

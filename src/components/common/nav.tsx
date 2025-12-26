@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
+const detailPages = ["blog", "projects", "marginalia"];
+
 export default function Nav() {
   const fullPathname = usePathname() || "";
   const pathname = fullPathname.split("/")[1] || "";
@@ -12,7 +14,7 @@ export default function Nav() {
   const [isMobile, setIsMobile] = useState(false);
 
   // Check if we're on a detail page (blog/[name] or projects/[name])
-  const isDetailPage = fullPathname.split("/").length > 2 && (pathname === "blog" || pathname === "projects");
+  const isDetailPage = fullPathname.split("/").length > 2 && detailPages.includes(pathname);
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -66,14 +68,6 @@ export default function Nav() {
                 }`}
               >
                 <span className="relative z-10">BLOG</span>
-              </Link>
-              <Link
-                href="/favorites"
-                className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
-                  pathname === "favorites" ? (isDetailPage ? "bg-background text-foreground" : "bg-foreground text-background") : isDetailPage ? "hover:bg-background/10" : "hover:bg-foreground/10"
-                }`}
-              >
-                <span className="relative z-10">FAVORITES</span>
               </Link>
               <Link
                 href="/#contact"
