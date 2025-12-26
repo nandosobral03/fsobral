@@ -18,7 +18,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^17.2.1",
     "motion": "12.23.9",
-    "next": "15.4.4",
+    "next": "15.4.10",
     "react": "^19.1.0",
     "react-activity-calendar": "^2.7.13",
     "react-dom": "19.1.0",
