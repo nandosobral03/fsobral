@@ -1,7 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Roboto, Newsreader, Outfit, Roboto_Condensed } from "next/font/google";
+import { Roboto, Newsreader, Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import Nav from "../components/common/nav";
 import "./globals.css";
 
@@ -24,9 +24,9 @@ const outfit = Outfit({
   display: "swap",
 });
 
-const robotoCondensed = Roboto_Condensed({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-roboto-condensed",
+  variable: "--font-plus-jakarta",
   display: "swap",
 });
 
@@ -86,7 +86,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`antialiased h-screen flex flex-col w-full overflow-y-scroll ${roboto.variable} ${newsreader.variable} ${outfit.variable} ${robotoCondensed.variable}`}>
+      <body className={`antialiased h-screen flex flex-col w-full overflow-y-scroll ${roboto.variable} ${newsreader.variable} ${outfit.variable} ${plusJakarta.variable}`}>
         <Nav />
         <main className="flex-1">
           {children}

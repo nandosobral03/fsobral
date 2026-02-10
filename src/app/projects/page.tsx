@@ -10,18 +10,22 @@ export default function Home() {
   return (
     <>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="mb-20">
-        <LargeTitle alt="AORNUM" animation="cube">
+        <LargeTitle alt="AORNUM" animation="cube" variant="page">
           PROJECTS
         </LargeTitle>
       </motion.div>
 
       <ProjectsInfo />
 
+      <div className="structural-line" />
+
       <ProjectsByYear
         year={2025}
         preface={
           <>
-            <div className="mb-4 pl-6 border-l-4 border-accent/50 italic text-lg">"I'm really in pursuit of greatness. I want to be one of the greats, inspired by the greats — and I want to be up there."</div>
+            <span className="italic text-foreground/60">"I'm really in pursuit of greatness."</span>
+            <br />
+            <br />
             In 2025, the focus shifts from depth to excellence. I want to tackle harder, more challenging projects that push me beyond my comfort zone — projects that demand I finish the complex last 20% instead of settling for "good
             enough."
             <br />
@@ -31,8 +35,11 @@ export default function Home() {
         }
       />
 
+      <div className="structural-line" />
+
       <ProjectsByYear
         year={2024}
+        side="right"
         preface={
           <>
             In 2024, I shifted from exploration to mastery. Instead of learning a little about everything, I doubled down on a core stack: React, Next.js, and tRPC.
@@ -42,6 +49,8 @@ export default function Home() {
           </>
         }
       />
+
+      <div className="structural-line" />
 
       <ProjectsByYear
         year={2023}

@@ -2,12 +2,18 @@
 
 import { motion } from "motion/react";
 
-export default function SectionTitle({ children, index }: { children: React.ReactNode; index?: string }) {
+export default function SectionTitle({
+  children,
+  index,
+}: {
+  children: React.ReactNode;
+  index?: string;
+}) {
   return (
     <div>
       {index && (
         <motion.span
-          className="meta-label block mb-1 opacity-40"
+          className="meta-label block mb-1 text-accent"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-50px" }}

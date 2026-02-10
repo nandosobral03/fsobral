@@ -45,7 +45,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
 
   const darkColor = "#1a1917";
 
-  const colors = ["#1d1d1d", "#1a3038", "#1e4a56", "#256878", "#2d879b", "#38a8bf"];
+  const colors = ["#1d1d1d", "#4a1e14", "#7a2d1a", "#a63a1f", "#d44527", "#e8603a"];
 
   const quartiles = useMemo(() => {
     const nonZero = calendarData.map((d) => d.count).filter((c) => c > 0).sort((a, b) => a - b);

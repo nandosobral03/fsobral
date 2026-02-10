@@ -3,12 +3,11 @@
 @theme {
   --color-background: #d5d0c3;
   --color-foreground: #171717;
-  --color-accent: #0d5a6c;
+  --color-accent: #d44527;
   --color-muted: color-mix(in srgb, #171717 60%, #d5d0c3);
 
   --font-family-serif: var(--font-newsreader), serif;
   --font-family-sans: var(--font-outfit), sans-serif;
-  --font-family-condensed: var(--font-roboto-condensed), sans-serif;
 
   --width-article: 36rem;
   --max-width-article: 36rem;
@@ -21,8 +20,8 @@
   :root {
     --background: #d5d0c3;
     --foreground: #171717;
-    --accent: #0d5a6c;
-    --accent-on-dark: #419fb1;
+    --accent: #d44527;
+    --accent-on-dark: #e8775e;
 
     --max-width-article: 36rem;
   }
@@ -149,6 +148,10 @@
   }
 }
 
+@utility font-condensed {
+  font-family: var(--font-plus-jakarta), sans-serif;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -171,7 +174,7 @@
 
   /* Ghost typography — oversized, barely-visible background text */
   .ghost-text {
-    font-family: var(--font-family-condensed);
+    font-family: var(--font-plus-jakarta), sans-serif;
     font-weight: 900;
     text-transform: uppercase;
     color: color-mix(in srgb, var(--foreground) 4%, transparent);

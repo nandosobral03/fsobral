@@ -15,17 +15,22 @@ export default function Home() {
 
   return (
     <>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="mb-20">
-        <LargeTitle alt="IPSUM" animation="sphere">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        className="mb-20"
+      >
+        <LargeTitle alt="IPSUM" animation="sphere" variant="page">
           BLOG
         </LargeTitle>
       </motion.div>
 
       <BlogInfo activeTab={activeTab} onTabChange={setActiveTab} />
 
-      <div className="h-16" />
+      <div className="structural-line" />
 
-      <div className="max-w-6xl mx-auto px-6 mb-20">
+      <div className="max-w-6xl mx-auto px-6 py-12 mb-20">
         <AnimatePresence mode="wait">
           {activeTab === "posts" ? (
             <motion.div
@@ -38,9 +43,15 @@ export default function Home() {
             >
               {posts
                 .filter((post) => !post.hidden)
-                .map((post, index) => (
+                .map((post, index, arr) => (
                   <div key={post.slug}>
-                    <BlogPost post={post} align={index % 2 === 0 ? "left" : "right"} />
+                    <BlogPost
+                      post={post}
+                      align={index % 2 === 0 ? "left" : "right"}
+                    />
+                    {index < arr.length - 1 && (
+                      <div className="structural-line my-14" />
+                    )}
                   </div>
                 ))}
             </motion.div>

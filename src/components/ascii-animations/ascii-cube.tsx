@@ -1,178 +1,249 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
+
+const CHARS = " .:-=+*#%@";
+
+function createCharAtlas(): HTMLCanvasElement {
+  const size = 64;
+  const cols = CHARS.length;
+  const canvas = document.createElement("canvas");
+  canvas.width = size * cols;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d")!;
+
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "white";
+  ctx.font = `bold ${size * 0.85}px ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  for (let i = 0; i < cols; i++) {
+    ctx.fillText(CHARS[i], i * size + size / 2, size / 2);
+  }
+
+  return canvas;
+}
+
+const VERT = `
+attribute vec2 a_position;
+void main() {
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}
+`;
+
+const FRAG = `
+precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform sampler2D u_charAtlas;
+uniform float u_charCount;
+
+float hash21(vec2 p) {
+  p = fract(p * vec2(233.34, 851.73));
+  p += dot(p, p + 23.45);
+  return fract(p.x * p.y);
+}
+
+mat3 rotY(float a) { float c=cos(a),s=sin(a); return mat3(c,0.0,s, 0.0,1.0,0.0, -s,0.0,c); }
+mat3 rotX(float a) { float c=cos(a),s=sin(a); return mat3(1.0,0.0,0.0, 0.0,c,-s, 0.0,s,c); }
+
+vec2 iBox(vec3 ro, vec3 rd, vec3 b) {
+  vec3 m = 1.0 / rd;
+  vec3 n = m * ro;
+  vec3 k = abs(m) * b;
+  vec3 t1 = -n - k;
+  vec3 t2 = -n + k;
+  float tN = max(max(t1.x, t1.y), t1.z);
+  float tF = min(min(t2.x, t2.y), t2.z);
+  if (tN > tF || tF < 0.0) return vec2(-1.0);
+  return vec2(tN, tF);
+}
+
+vec3 boxNormal(vec3 p, vec3 b) {
+  vec3 d = abs(p) - b;
+  vec3 s = sign(p);
+  if (d.x > d.y && d.x > d.z) return vec3(s.x, 0.0, 0.0);
+  if (d.y > d.z) return vec3(0.0, s.y, 0.0);
+  return vec3(0.0, 0.0, s.z);
+}
+
+mat3 transp(mat3 m) {
+  return mat3(
+    m[0][0], m[1][0], m[2][0],
+    m[0][1], m[1][1], m[2][1],
+    m[0][2], m[1][2], m[2][2]
+  );
+}
+
+void main() {
+  float cellSize = min(u_resolution.x, u_resolution.y) / 280.0;
+  vec2 cell = floor(gl_FragCoord.xy / cellSize);
+  vec2 cellUV = fract(gl_FragCoord.xy / cellSize);
+
+  vec2 cc = (cell + 0.5) * cellSize;
+  vec2 p = (cc - u_resolution * 0.5) / min(u_resolution.x, u_resolution.y);
+
+  // Orthographic ray looking along -Z
+  vec3 ro = vec3(p, 2.0);
+  vec3 rd = vec3(0.0, 0.0, -1.0);
+
+  // Rotate ray into cube local space
+  mat3 rot = rotX(u_time * 0.35) * rotY(u_time * 0.5);
+  vec3 lro = rot * ro;
+  vec3 lrd = rot * rd;
+
+  vec3 b = vec3(0.32);
+  vec2 t = iBox(lro, lrd, b);
+
+  if (t.x < 0.0) {
+    gl_FragColor = vec4(0.0);
+    return;
+  }
+
+  vec3 hit = lro + lrd * t.x;
+  vec3 nLocal = boxNormal(hit, b);
+  vec3 n = transp(rot) * nLocal;
+
+  // Rotating key light
+  float angle = u_time * 0.6;
+  vec3 keyLight = normalize(vec3(sin(angle), 0.3, cos(angle)));
+
+  float diffuse = dot(n, keyLight);
+  float halfLambert = diffuse * 0.5 + 0.5;
+
+  // Edge darkening — darken near cube edges for definition
+  vec3 absHit = abs(hit) / b;
+  float second = max(min(absHit.x, absHit.y), min(max(absHit.x, absHit.y), absHit.z));
+  float edgeFactor = smoothstep(0.92, 1.0, second) * 0.25;
+
+  // Rim darkening
+  float facing = max(dot(n, vec3(0.0, 0.0, 1.0)), 0.0);
+  float rimDark = pow(1.0 - facing, 2.0) * 0.35;
+
+  float brightness = 1.0 - halfLambert + rimDark + edgeFactor;
+  brightness = clamp(brightness, 0.05, 0.95);
+
+  // Dither
+  float noise = (hash21(cell + floor(u_time * 2.0)) - 0.5) * (1.0 / u_charCount);
+  brightness = clamp(brightness + noise, 0.0, 1.0);
+
+  float charIdx = floor(brightness * (u_charCount - 1.0));
+  charIdx = clamp(charIdx, 0.0, u_charCount - 1.0);
+
+  float atlasX = (charIdx + cellUV.x) / u_charCount;
+  float atlasY = 1.0 - cellUV.y;
+  float charAlpha = texture2D(u_charAtlas, vec2(atlasX, atlasY)).r;
+
+  vec3 fgColor = vec3(0.09, 0.09, 0.09);
+  gl_FragColor = vec4(fgColor, charAlpha);
+}
+`;
 
 export default function AsciiCube() {
-  const [output, setOutput] = useState("");
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
-    let angleX = 0;
-    let angleY = 0;
-    let animationId: number;
-    let lastFrameTime = 0;
-    const targetFPS = 30;
-    const frameInterval = 1000 / targetFPS;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const width = 80;
-    const height = 60;
-    const cubeSize = 25;
-    // Aspect ratio correction for characters (height is usually larger than width)
-    const yAspect = 1.5;
+    const gl = canvas.getContext("webgl", {
+      alpha: true,
+      premultipliedAlpha: false,
+    });
+    if (!gl) return;
 
-    // Light direction (normalized)
-    const lightDir = { x: 0.5, y: -0.5, z: 1.0 };
-    const len = Math.sqrt(lightDir.x * lightDir.x + lightDir.y * lightDir.y + lightDir.z * lightDir.z);
-    const lx = lightDir.x / len;
-    const ly = lightDir.y / len;
-    const lz = lightDir.z / len;
+    const vs = gl.createShader(gl.VERTEX_SHADER)!;
+    gl.shaderSource(vs, VERT);
+    gl.compileShader(vs);
 
-    const shadeChars = ["@", "%", "#", "*", "+", "=", "-", ":", ".", " "];
+    const fs = gl.createShader(gl.FRAGMENT_SHADER)!;
+    gl.shaderSource(fs, FRAG);
+    gl.compileShader(fs);
 
-    const renderFrame = (timestamp: number) => {
-      if (timestamp - lastFrameTime >= frameInterval) {
-        lastFrameTime = timestamp;
+    const program = gl.createProgram()!;
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    gl.useProgram(program);
 
-        angleX = (angleX + 1.5) % 360;
-        angleY = (angleY + 1.0) % 360;
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
+      gl.STATIC_DRAW,
+    );
 
-        const radX = (angleX * Math.PI) / 180;
-        const radY = (angleY * Math.PI) / 180;
-        const cx = Math.cos(radX);
-        const sx = Math.sin(radX);
-        const cy = Math.cos(radY);
-        const sy = Math.sin(radY);
+    const aPos = gl.getAttribLocation(program, "a_position");
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
-        // We define the rotation matrix M that transforms World -> Local Cube Space.
-        // Ray Origin in World: (nx, ny, 0)
-        // Ray Direction in World: (0, 0, 1)
-        // Local = Rx^T * Ry^T * World
-        // M = Rx^T * Ry^T
+    const atlasCanvas = createCharAtlas();
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      atlasCanvas,
+    );
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
-        // Columns of Ry^T are [cy, 0, sy], [0, 1, 0], [-sy, 0, cy]
-        // M * Col0 = Rx^T * [cy, 0, sy]^T = [cy, sx*sy, cx*sy]^T
-        const m00 = cy;
-        const m10 = sx * sy;
-        const m20 = cx * sy;
+    const uTime = gl.getUniformLocation(program, "u_time");
+    const uRes = gl.getUniformLocation(program, "u_resolution");
+    const uCharCount = gl.getUniformLocation(program, "u_charCount");
+    const uCharAtlas = gl.getUniformLocation(program, "u_charAtlas");
 
-        // M * Col1 = Rx^T * [0, 1, 0]^T = [0, cx, -sx]^T
-        const m01 = 0;
-        const m11 = cx;
-        const m21 = -sx;
+    gl.uniform1f(uCharCount, CHARS.length);
+    gl.uniform1i(uCharAtlas, 0);
 
-        // M * Col2 = Rx^T * [-sy, 0, cy]^T = [-sy, sx*cy, cx*cy]^T
-        // This is also the transformed Ray Direction (since world dir is 0,0,1)
-        const m02 = -sy;
-        const m12 = sx * cy;
-        const m22 = cx * cy;
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-        // Ray Direction in Local Space
-        const rdx = m02;
-        const rdy = m12;
-        const rdz = m22;
-
-        // Inverse direction for Slab intersection (handle near-zero)
-        const eps = 1e-9;
-        const invRdx = 1.0 / (Math.abs(rdx) < eps ? eps : rdx);
-        const invRdy = 1.0 / (Math.abs(rdy) < eps ? eps : rdy);
-        const invRdz = 1.0 / (Math.abs(rdz) < eps ? eps : rdz);
-
-        let frameOutput = "";
-
-        for (let y = 0; y < height; y++) {
-          // Normalized screen coordinates centered at (0,0)
-          const ny = ((y - height / 2) * yAspect) / cubeSize;
-
-          for (let x = 0; x < width; x++) {
-            const nx = (x - width / 2) / cubeSize;
-
-            // Ray Origin in Local Space: M * (nx, ny, 0)
-            const rox = nx * m00 + ny * m01;
-            const roy = nx * m10 + ny * m11;
-            const roz = nx * m20 + ny * m21;
-
-            // Slab Intersection with Unit Cube [-1, 1]
-            // Check X slabs
-            let t1 = (-1 - rox) * invRdx;
-            let t2 = (1 - rox) * invRdx;
-            let tMin = Math.min(t1, t2);
-            let tMax = Math.max(t1, t2);
-
-            // Check Y slabs
-            t1 = (-1 - roy) * invRdy;
-            t2 = (1 - roy) * invRdy;
-            tMin = Math.max(tMin, Math.min(t1, t2));
-            tMax = Math.min(tMax, Math.max(t1, t2));
-
-            // Check Z slabs
-            t1 = (-1 - roz) * invRdz;
-            t2 = (1 - roz) * invRdz;
-            tMin = Math.max(tMin, Math.min(t1, t2));
-            tMax = Math.min(tMax, Math.max(t1, t2));
-
-            if (tMin < tMax) {
-              // Intersection found. We want the closest face to the camera.
-              // Since ray is (0,0,1) (towards +Z), and viewer is "at +infinity" looking back?
-              // Actually, with (0,0,1) direction, t corresponds to World Z.
-              // Standard painter's algorithm: draw object with largest Z last?
-              // Or if we just want the surface "in front" for an orthographic projection:
-              // If we look from +Z towards -Z, we see the face with MAX Z.
-              // So we take t = tMax.
-              const t = tMax;
-
-              // Intersection point in Local Space
-              const ix = rox + t * rdx;
-              const iy = roy + t * rdy;
-              const iz = roz + t * rdz;
-
-              // Determine normal based on which face was hit (closest to +/- 1)
-              const ax = Math.abs(ix);
-              const ay = Math.abs(iy);
-              const az = Math.abs(iz);
-
-              let nxLoc = 0,
-                nyLoc = 0,
-                nzLoc = 0;
-              if (ax > ay && ax > az) nxLoc = Math.sign(ix);
-              else if (ay > az) nyLoc = Math.sign(iy);
-              else nzLoc = Math.sign(iz);
-
-              // Transform Normal to World: N_w = M^T * N_loc
-              // M^T rows are columns of M:
-              // Row0: m00, m10, m20
-              // Row1: m01, m11, m21
-              // Row2: m02, m12, m22
-              const nwx = m00 * nxLoc + m10 * nyLoc + m20 * nzLoc;
-              const nwy = m01 * nxLoc + m11 * nyLoc + m21 * nzLoc;
-              const nwz = m02 * nxLoc + m12 * nyLoc + m22 * nzLoc;
-
-              // Calculate illumination (Dot product with Light Dir)
-              const dot = nwx * lx + nwy * ly + nwz * lz;
-
-              if (dot > 0.9) {
-                frameOutput += " ";
-              } else {
-                // Map [-1, 1] to texture index
-                // 1 (bright) -> index 9 (space)
-                // -1 (dark) -> index 0 (@)
-                const val = (dot + 1) / 2;
-                const idx = Math.floor(val * (shadeChars.length - 1));
-                frameOutput += shadeChars[Math.max(0, Math.min(shadeChars.length - 1, idx))];
-              }
-            } else {
-              frameOutput += " ";
-            }
-          }
-          frameOutput += "\n";
-        }
-
-        setOutput(frameOutput);
-      }
-      animationId = requestAnimationFrame(renderFrame);
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      gl.viewport(0, 0, canvas.width, canvas.height);
     };
 
-    animationId = requestAnimationFrame(renderFrame);
-    return () => cancelAnimationFrame(animationId);
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(canvas);
+
+    const start = performance.now();
+    const render = () => {
+      const t = (performance.now() - start) / 1000;
+      gl.uniform1f(uTime, t);
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      rafRef.current = requestAnimationFrame(render);
+    };
+
+    rafRef.current = requestAnimationFrame(render);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      observer.disconnect();
+      gl.deleteTexture(tex);
+      gl.deleteProgram(program);
+      gl.deleteShader(vs);
+      gl.deleteShader(fs);
+      gl.deleteBuffer(buf);
+    };
   }, []);
 
-  return <pre className="font-mono text-[6px] leading-[5px] text-foreground whitespace-pre select-none">{output}</pre>;
+  return <canvas ref={canvasRef} className="w-full h-full select-none" />;
 }

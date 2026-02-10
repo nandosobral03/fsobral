@@ -16,7 +16,7 @@ export const BlogPost = ({ post, align }: { post: Post; align: "left" | "right" 
         {post.tags && post.tags.length > 0 && (
           <div className={`mt-auto flex flex-wrap gap-2 pt-2 justify-start ${align === "left" ? "lg:justify-start" : "lg:justify-end"}`}>
             {post.tags.map((t) => (
-              <span key={t} className="meta-label text-[10px] text-background/40 border border-background/15 px-2 py-0.5">
+              <span key={t} className="meta-label text-[10px] text-background/40 border border-accent/40 px-2 py-0.5">
                 {t}
               </span>
             ))}

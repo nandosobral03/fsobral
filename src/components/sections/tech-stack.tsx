@@ -12,7 +12,7 @@ export default function TechStack() {
           {mainStack.map((tech) => (
             <span
               key={tech}
-              className="px-3 py-1.5 border border-background/40 text-background font-condensed font-semibold text-sm hover:border-background/70 transition-all duration-300"
+              className="px-3 py-1.5 border border-accent/40 text-background font-condensed font-semibold text-sm hover:border-accent/70 transition-all duration-300"
             >
               {tech}
             </span>

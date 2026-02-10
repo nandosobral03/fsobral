@@ -16,7 +16,7 @@ export default function ContactMe() {
         </div>
         <div className="h-px bg-background/10 mt-4" />
         <div className="flex items-center justify-between">
-          <span className="meta-label text-background/30">&copy; {new Date().getFullYear()} Fernando Sobral</span>
+          <span className="meta-label text-background/30">&copy; {new Date().getFullYear()} <span className="text-accent/60">Fernando Sobral</span></span>
           <span className="meta-label text-background/30">Montevideo, Uruguay</span>
         </div>
       </div>

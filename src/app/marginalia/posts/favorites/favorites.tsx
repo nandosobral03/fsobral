@@ -34,11 +34,12 @@ const selectedPrints: FavoriteItem[] = [
   { title: "Look Back", author: "Tatsuki Fujimoto" },
 ];
 
-function FavoritesListTitle({ children }: { children: React.ReactNode }) {
+function FavoritesListTitle({ children, count }: { children: React.ReactNode; count: number }) {
   return (
     <div className="flex items-center gap-3 mb-5">
       <span className="w-6 h-px bg-accent" />
       <h3 className="text-xs font-condensed uppercase tracking-[0.2em] text-foreground/70">{children}</h3>
+      <span className="meta-label text-accent/50">{count}</span>
     </div>
   );
 }
@@ -49,7 +50,7 @@ function FavoritesList({ items }: { items: FavoriteItem[] }) {
       {items.map((item, index) => {
         const num = String(index + 1).padStart(2, "0");
         return (
-          <li key={index} className="group flex items-baseline gap-4 py-2 hover:bg-foreground/[0.02] transition-colors -mx-2 px-2 rounded-sm">
+          <li key={index} className="group flex items-baseline gap-4 py-2 hover:bg-foreground/[0.02] transition-all -mx-2 px-2 border-l-2 border-transparent hover:border-accent">
             <span className="font-serif text-base text-accent/50 tabular-nums select-none group-hover:text-accent transition-colors">{num}</span>
             <div className="flex-1 min-w-0">
               {item.url ? (
@@ -74,11 +75,11 @@ export default function Favorites() {
       <TLDR customTitle="What?">These are some of my favorite blogs, books, and other things that made a lasting impression.</TLDR>
       <div className="grid gap-12 md:grid-cols-2 mt-8">
         <div>
-          <FavoritesListTitle>Web Finds</FavoritesListTitle>
+          <FavoritesListTitle count={webFinds.length}>Web Finds</FavoritesListTitle>
           <FavoritesList items={webFinds} />
         </div>
         <div>
-          <FavoritesListTitle>Selected Prints</FavoritesListTitle>
+          <FavoritesListTitle count={selectedPrints.length}>Selected Prints</FavoritesListTitle>
           <FavoritesList items={selectedPrints} />
         </div>
       </div>

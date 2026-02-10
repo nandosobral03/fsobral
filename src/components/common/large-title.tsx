@@ -6,6 +6,7 @@ import AsciiCube from "@/components/ascii-animations/ascii-cube";
 import AsciiDonut from "@/components/ascii-animations/ascii-donut";
 import AsciiDna from "@/components/ascii-animations/ascii-dna";
 import AsciiImage from "@/components/ascii-animations/ascii-image";
+import CircularText from "@/components/common/circular-text";
 import { useState, useEffect } from "react";
 
 const DURATION = 0.25;
@@ -18,6 +19,7 @@ interface LargeTitleProps {
   alt?: string;
   animation?: AnimationType;
   backgroundImage?: string;
+  variant?: "hero" | "page";
 }
 
 export default function LargeTitle({
@@ -25,6 +27,7 @@ export default function LargeTitle({
   alt,
   animation = "sphere",
   backgroundImage,
+  variant = "hero",
 }: LargeTitleProps) {
   const text = children?.toString() || "";
   const words = text.split(" ");
@@ -50,10 +53,12 @@ export default function LargeTitle({
     }
   };
 
+  const isHero = variant === "hero";
+
   const content = (
     <>
-      {/* Ghost text (hidden when backgroundImage is used) */}
-      {!backgroundImage && (
+      {/* Ghost text (hero only, hidden when backgroundImage is used) */}
+      {isHero && !backgroundImage && (
         <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
           <span className="ghost-text text-[20vw] md:text-[15vw] whitespace-nowrap">
             SOFTWARE
@@ -61,9 +66,11 @@ export default function LargeTitle({
         </div>
       )}
 
-      {/* Animation on the left — fills available space (only when no backgroundImage) */}
+      {/* Animation on the left */}
       {!backgroundImage && (
-        <div className="hidden md:flex flex-1 items-center justify-center h-[60vh]">
+        <div
+          className={`hidden md:flex items-center justify-center ${isHero ? "flex-1 h-[60vh]" : "flex-1 h-[50vh]"}`}
+        >
           {renderAnimation()}
         </div>
       )}
@@ -79,7 +86,7 @@ export default function LargeTitle({
               key={wordIndex}
               initial="initial"
               whileHover="hovered"
-              className="text-[15vw] md:text-[8vw] font-semibold font-condensed text-end leading-[0.8] select-none relative overflow-hidden whitespace-nowrap max-w-full w-full"
+              className={`font-semibold font-condensed text-end leading-[0.95] select-none relative overflow-hidden whitespace-nowrap max-w-full w-full ${isHero ? "text-[15vw] md:text-[8vw]" : "text-[15vw] xl:text-[12rem]"}`}
             >
               <div className="relative">
                 {word.split("").map((l, i) => (
@@ -125,44 +132,72 @@ export default function LargeTitle({
             </motion.h1>
           );
         })}
-        <motion.span
-          className="meta-label text-foreground/50 mt-2 tracking-[0.2em]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          Software Engineer
-        </motion.span>
-      </div>
-
-      {/* Monospace coordinates - bottom left */}
-      <div className="absolute bottom-8 left-6 meta-label text-foreground/70">
-        34.9011S / 56.1645W
-      </div>
-
-      {/* Scroll indicator - bottom center */}
-      <AnimatePresence>
-        {showScroll && (
-          <motion.div
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 meta-label text-foreground/30"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span>scroll</span>
+        {isHero && (
+          <div className="flex items-center gap-3 mt-2">
             <motion.span
-              className="block w-px h-4 bg-foreground/30"
-              animate={{ y: [0, 6, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              className="h-[2px] w-12 bg-accent/50"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
+              style={{ transformOrigin: "right" }}
             />
-          </motion.div>
+            <motion.span
+              className="meta-label text-foreground/50 tracking-[0.2em]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              Software Engineer
+            </motion.span>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
+
+      {/* Monospace coordinates - bottom left (hero only) */}
+      {isHero && (
+        <div className="absolute bottom-8 left-6 meta-label text-foreground/70">
+          34.9011S / 56.1645W
+        </div>
+      )}
+
+      {/* Scroll indicator - bottom center (hero only) */}
+      {isHero && (
+        <AnimatePresence>
+          {showScroll && (
+            <motion.div
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 meta-label text-foreground/30"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <span>scroll</span>
+              <motion.span
+                className="block w-px h-4 bg-foreground/30"
+                animate={{ y: [0, 6, 0] }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
+
+      {/* Circular text - bottom right (hero only) */}
+      {isHero && (
+        <div className="absolute bottom-4 right-4 hidden md:block">
+          <CircularText
+            text="CODE • CREATE • SHIP • REPEAT • "
+            spinDuration={20}
+            onHover="slowDown"
+            radius={55}
+            className="!w-[120px] !h-[120px] text-foreground !text-[0.85rem] !font-semibold "
+          />
+        </div>
+      )}
     </>
   );
 
@@ -171,16 +206,20 @@ export default function LargeTitle({
       <div className="relative min-h-[calc(100svh-80px)] select-none mb-8">
         {/* Full-bleed ASCII background */}
         <div className="absolute inset-0 pointer-events-none">
-          <AsciiImage
-            src={backgroundImage}
-            opacity={1.0}
-            density={300}
-          />
+          <AsciiImage src={backgroundImage} opacity={1.0} density={300} />
         </div>
         {/* Content with normal margins */}
         <div className="relative flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[calc(100svh-80px)] overflow-hidden pr-6 md:pr-12 pb-6 border-b-[3px] border-foreground mx-4">
           {content}
         </div>
+      </div>
+    );
+  }
+
+  if (!isHero) {
+    return (
+      <div className="flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[50vh] my-16 px-6 md:px-12 select-none relative overflow-hidden">
+        {content}
       </div>
     );
   }

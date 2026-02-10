@@ -120,7 +120,7 @@ export default function GithubActivityClientWrapper() {
           </a>
           {showHeatmap && totalLastYear !== null ? (
             <span className="meta-label text-background/40">
-              {totalLastYear.toLocaleString()} contributions in the last year
+              <span className="text-accent/70">{totalLastYear.toLocaleString()}</span> contributions in the last year
             </span>
           ) : (
             <span className="meta-label text-background/40 invisible">0 contributions in the last year</span>

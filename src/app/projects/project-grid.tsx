@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 
 export function ProjectGrid({ projects }: { projects: Project[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
       {projects.map((project, index) => (
         <motion.div
           key={index}
@@ -15,7 +15,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
           viewport={{ once: true, margin: "-50px" }}
           transition={{
             duration: 0.5,
-            delay: (index % 3) * 0.1,
+            delay: (index % 2) * 0.1,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="w-full"
