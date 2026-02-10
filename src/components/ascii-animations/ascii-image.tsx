@@ -94,8 +94,17 @@ void main() {
   // Invert: dark areas of image → dense chars (@#%), light areas → sparse (. :)
   brightness = 1.0 - brightness;
 
-  // Subtle dithering noise (updates slowly)
-  float noise = (hash21(cell + floor(u_time * 0.5)) - 0.5) * (1.0 / u_charCount);
+  // Boost contrast so mid-tones (skin) use denser characters
+  brightness = smoothstep(0.0, 0.7, brightness);
+  brightness = pow(brightness, 0.6);
+
+  // Smooth dithering noise — blend between two noise frames
+  float timeBase = u_time * 0.4;
+  float t = fract(timeBase);
+  t = t * t * (3.0 - 2.0 * t); // smoothstep interpolation
+  float n1 = hash21(cell + floor(timeBase));
+  float n2 = hash21(cell + floor(timeBase) + 1.0);
+  float noise = (mix(n1, n2, t) - 0.5) * (1.0 / u_charCount);
   brightness = clamp(brightness + noise, 0.0, 1.0);
 
   // Pick character from atlas

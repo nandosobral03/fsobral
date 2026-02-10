@@ -29,7 +29,7 @@ export default function Nav() {
 
   return (
     <div className={`${isDetailPage ? "bg-foreground text-background" : ""}`}>
-      <nav aria-label="Main navigation" className={`flex flex-col md:flex-row justify-between uppercase text-lg border-b-[3px] border-foreground mx-4 ${isDetailPage ? "bg-foreground text-background" : ""}`}>
+      <nav aria-label="Main navigation" className={`flex flex-col md:flex-row justify-between uppercase text-sm border-b-[3px] border-foreground mx-4 ${isDetailPage ? "bg-foreground text-background" : ""}`}>
         <div className="flex justify-end items-center">
           <motion.button className="md:hidden px-4 py-2" onClick={() => setIsMenuOpen(!isMenuOpen)} whileTap={{ scale: 0.95 }} aria-label="Toggle menu" aria-expanded={isMenuOpen}>
             {isMenuOpen ? "✕" : "☰"}

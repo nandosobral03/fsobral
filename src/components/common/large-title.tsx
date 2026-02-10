@@ -50,25 +50,16 @@ export default function LargeTitle({
     }
   };
 
-  return (
-    <div className="flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[calc(100svh-80px)] select-none relative overflow-hidden pr-6 md:pr-12 pb-6 border-b-[3px] border-foreground mx-4 mb-8">
-      {/* Background ASCII image — when backgroundImage is set */}
-      {backgroundImage && (
-        <div className="absolute inset-0 pointer-events-none">
-          <AsciiImage
-            src={backgroundImage}
-            opacity={0.8}
-            density={200}
-          />
+  const content = (
+    <>
+      {/* Ghost text (hidden when backgroundImage is used) */}
+      {!backgroundImage && (
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+          <span className="ghost-text text-[20vw] md:text-[15vw] whitespace-nowrap">
+            SOFTWARE
+          </span>
         </div>
       )}
-
-      {/* Ghost text */}
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
-        <span className="ghost-text text-[20vw] md:text-[15vw] whitespace-nowrap">
-          SOFTWARE
-        </span>
-      </div>
 
       {/* Animation on the left — fills available space (only when no backgroundImage) */}
       {!backgroundImage && (
@@ -172,6 +163,31 @@ export default function LargeTitle({
           </motion.div>
         )}
       </AnimatePresence>
+    </>
+  );
+
+  if (backgroundImage) {
+    return (
+      <div className="relative min-h-[calc(100svh-80px)] select-none mb-8">
+        {/* Full-bleed ASCII background */}
+        <div className="absolute inset-0 pointer-events-none">
+          <AsciiImage
+            src={backgroundImage}
+            opacity={1.0}
+            density={300}
+          />
+        </div>
+        {/* Content with normal margins */}
+        <div className="relative flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[calc(100svh-80px)] overflow-hidden pr-6 md:pr-12 pb-6 border-b-[3px] border-foreground mx-4">
+          {content}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[calc(100svh-80px)] select-none relative overflow-hidden pr-6 md:pr-12 pb-6 border-b-[3px] border-foreground mx-4 mb-8">
+      {content}
     </div>
   );
 }
