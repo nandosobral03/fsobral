@@ -5,6 +5,7 @@ import AsciiSphere from "@/components/ascii-animations/ascii-sphere";
 import AsciiCube from "@/components/ascii-animations/ascii-cube";
 import AsciiDonut from "@/components/ascii-animations/ascii-donut";
 import AsciiDna from "@/components/ascii-animations/ascii-dna";
+import AsciiImage from "@/components/ascii-animations/ascii-image";
 import { useState, useEffect } from "react";
 
 const DURATION = 0.25;
@@ -16,12 +17,14 @@ interface LargeTitleProps {
   children: React.ReactNode;
   alt?: string;
   animation?: AnimationType;
+  backgroundImage?: string;
 }
 
 export default function LargeTitle({
   children,
   alt,
   animation = "sphere",
+  backgroundImage,
 }: LargeTitleProps) {
   const text = children?.toString() || "";
   const words = text.split(" ");
@@ -49,6 +52,17 @@ export default function LargeTitle({
 
   return (
     <div className="flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[calc(100svh-80px)] select-none relative overflow-hidden pr-6 md:pr-12 pb-6 border-b-[3px] border-foreground mx-4 mb-8">
+      {/* Background ASCII image — when backgroundImage is set */}
+      {backgroundImage && (
+        <div className="absolute inset-0 pointer-events-none">
+          <AsciiImage
+            src={backgroundImage}
+            opacity={0.8}
+            density={200}
+          />
+        </div>
+      )}
+
       {/* Ghost text */}
       <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
         <span className="ghost-text text-[20vw] md:text-[15vw] whitespace-nowrap">
@@ -56,10 +70,12 @@ export default function LargeTitle({
         </span>
       </div>
 
-      {/* Animation on the left — fills available space */}
-      <div className="hidden md:flex flex-1 items-center justify-center h-[60vh]">
-        {renderAnimation()}
-      </div>
+      {/* Animation on the left — fills available space (only when no backgroundImage) */}
+      {!backgroundImage && (
+        <div className="hidden md:flex flex-1 items-center justify-center h-[60vh]">
+          {renderAnimation()}
+        </div>
+      )}
 
       {/* Title text */}
       <div className="flex flex-col items-end gap-4 flex-1 min-w-0 overflow-hidden">

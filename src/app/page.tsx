@@ -15,7 +15,7 @@ export default function Home() {
     <>
       {/* Hero Section - Full viewport height */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}>
-        <LargeTitle alt="ABOUT ME">FERNANDO SOBRAL</LargeTitle>
+        <LargeTitle alt="ABOUT ME" backgroundImage="/images/creation-hands.jpg">FERNANDO SOBRAL</LargeTitle>
       </motion.div>
 
       <div className="structural-line" />
