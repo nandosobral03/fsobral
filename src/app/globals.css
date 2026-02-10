@@ -163,8 +163,8 @@
   }
 
   /* Generous spacing between homepage sections */
-  .section-gap { padding-top: 6rem; padding-bottom: 6rem; }
-  @media (min-width: 768px) { .section-gap { padding-top: 8rem; padding-bottom: 8rem; } }
+  .section-gap { padding-top: 4rem; padding-bottom: 4rem; }
+  @media (min-width: 768px) { .section-gap { padding-top: 5rem; padding-bottom: 5rem; } }
 
   /* Thin structural line (replaces thick Divider between sections) */
   .structural-line { height: 1px; background: var(--foreground); opacity: 0.15; margin: 0 1.5rem; }

@@ -1,45 +1,32 @@
-"use client";
-
 import Link from "next/link";
 import type { Post } from "../posts";
 import Image from "next/image";
-import { SectionTitle } from "./blog-section";
-import Tag from "@/components/common/tag";
-import { motion } from "motion/react";
-import { useState } from "react";
 
 export const BlogPost = ({ post, align }: { post: Post; align: "left" | "right" }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <Link
       href={`/blog/${post.slug}`}
       key={post.slug}
-      className={`mb-6 flex lg:h-[300px] grow frame hover:border-accent group flex-col-reverse ${align === "left" ? "lg:flex-row" : "lg:flex-row-reverse"} overflow-hidden relative hover:-translate-y-1 transition-transform`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className={`flex bg-foreground text-background group flex-col-reverse ${align === "left" ? "lg:flex-row" : "lg:flex-row-reverse"} overflow-hidden`}
     >
-      <motion.div className="absolute inset-0 bg-accent opacity-0 pointer-events-none" animate={{ opacity: isHovered ? 0.05 : 0 }} transition={{ duration: 0.3 }} />
-      <div className={`p-6 group-hover:bg-foreground group-hover:text-background transition-all duration-300 grow text-left ${align === "left" ? "lg:text-left" : "lg:text-right"} flex flex-col relative z-10`}>
-        <div>
-          <SectionTitle>{post.title}</SectionTitle>
-          <p className="text-lg mb-2 leading-relaxed">{post.description}</p>
-          <p className="meta-label text-foreground/50 group-hover:text-[var(--accent-on-dark)]">{post.date}</p>
-        </div>
+      <div className={`p-5 md:p-6 grow text-left ${align === "left" ? "lg:text-left" : "lg:text-right"} flex flex-col gap-2`}>
+        <h3 className="font-bold font-condensed uppercase text-xl md:text-2xl text-background">{post.title}</h3>
+        <p className="font-serif text-sm md:text-base leading-relaxed text-background/50">{post.description}</p>
+        <p className="meta-label text-background/30 mt-1">{post.date}</p>
         {post.tags && post.tags.length > 0 && (
-          <div className={`mt-auto flex flex-wrap gap-2 justify-start ${align === "left" ? "lg:justify-start" : "lg:justify-end"}`}>
+          <div className={`mt-auto flex flex-wrap gap-2 pt-2 justify-start ${align === "left" ? "lg:justify-start" : "lg:justify-end"}`}>
             {post.tags.map((t) => (
-              <Tag key={t} interactive>
+              <span key={t} className="meta-label text-[10px] text-background/40 border border-background/15 px-2 py-0.5">
                 {t}
-              </Tag>
+              </span>
             ))}
           </div>
         )}
       </div>
       {post.coverImage && (
-        <motion.div className="lg:w-auto lg:h-full w-full h-auto relative overflow-hidden" whileHover={{ scale: 1.05 }} transition={{ duration: 0.4 }}>
-          <Image src={post.coverImage} alt={post.title} width={1600} height={900} className="lg:w-auto lg:h-full w-full h-auto object-cover" />
-        </motion.div>
+        <div className="lg:w-[400px] lg:shrink-0 w-full h-48 lg:h-auto relative overflow-hidden">
+          <Image src={post.coverImage} alt={post.title} width={1600} height={900} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        </div>
       )}
     </Link>
   );

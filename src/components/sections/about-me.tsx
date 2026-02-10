@@ -13,25 +13,6 @@ export default function AboutMe() {
         side projects that scratch a creative itch, love building for the sake
         of building stuff
       </SectionDescription>
-      <div className="flex flex-col gap-3 mt-2">
-        <div className="flex items-center gap-3">
-          <span className="meta-label opacity-50 w-20 shrink-0">Role</span>
-          <span className="text-sm font-serif">
-            Senior Software Engineer at
-            <a
-              href="https://www.doublehq.com"
-              className="text-[#5F63F5] mx-1 font-sans"
-            >
-              double
-            </a>
-            (YC S21)
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="meta-label opacity-50 w-20 shrink-0">Location</span>
-          <span className="text-sm font-serif">Montevideo, Uruguay</span>
-        </div>
-      </div>
     </section>
   );
 }

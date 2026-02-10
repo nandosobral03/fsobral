@@ -134,7 +134,8 @@ export default function GithubActivityClientWrapper() {
             <div className="hidden sm:block md:hidden w-full">{renderSkeletonGrid(52)}</div>
             <div className="hidden md:block lg:hidden w-full">{renderSkeletonGrid(72)}</div>
             <div className="hidden lg:block xl:hidden w-full">{renderSkeletonGrid(90)}</div>
-            <div className="hidden xl:block w-full">{renderSkeletonGrid(104)}</div>
+            <div className="hidden xl:block 2xl:hidden w-full">{renderSkeletonGrid(78)}</div>
+            <div className="hidden 2xl:block w-full">{renderSkeletonGrid(104)}</div>
           </>
         )}
       </div>

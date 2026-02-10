@@ -26,7 +26,7 @@ export default function ProjectCarousel() {
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
-  const cardWidth = isMobile ? 300 : 600;
+  const cardWidth = isMobile ? 280 : 420;
   const gap = 16;
   const containerWidth = isMounted ? viewportWidth : 1200; // Default desktop width
   const sidePadding = 24;

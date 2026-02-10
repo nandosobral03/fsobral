@@ -48,12 +48,8 @@ export default function Home() {
         <Blog />
       </div>
 
-      <div className="structural-line" />
-
-      {/* Contact Section */}
-      <div className="section-gap">
-        <ContactMe />
-      </div>
+      {/* Contact / Footer */}
+      <ContactMe />
     </>
   );
 }

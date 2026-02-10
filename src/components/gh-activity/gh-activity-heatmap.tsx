@@ -177,7 +177,8 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
       <div className="hidden sm:block md:hidden w-full">{renderGrid(createWeeks(52), "aspect-square")}</div>
       <div className="hidden md:block lg:hidden w-full">{renderGrid(createWeeks(72), "aspect-square")}</div>
       <div className="hidden lg:block xl:hidden w-full">{renderGrid(createWeeks(90), "aspect-square")}</div>
-      <div className="hidden xl:block w-full">{renderGrid(createWeeks(104), "aspect-square")}</div>
+      <div className="hidden xl:block 2xl:hidden w-full">{renderGrid(createWeeks(78), "aspect-square")}</div>
+      <div className="hidden 2xl:block w-full">{renderGrid(createWeeks(104), "aspect-square")}</div>
       {tooltip && (
         <div
           className="fixed z-[9999] flex items-baseline gap-2 px-3 py-1.5 border border-accent/40 bg-foreground/95 backdrop-blur-sm pointer-events-none whitespace-nowrap"
