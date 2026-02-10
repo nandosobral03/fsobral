@@ -7,15 +7,18 @@ import TechStack from "@/components/sections/tech-stack";
 import Projects from "@/components/sections/projects";
 import Blog from "@/components/sections/blog";
 import ContactMe from "@/components/sections/contact-me";
+import GithubActivityClient from "@/components/gh-activity/gh-activity-client";
 import { motion } from "motion/react";
 
 export default function Home() {
   return (
     <>
-      {/* Hero Section - Give it space to breathe */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="mb-20">
+      {/* Hero Section - Full viewport height */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}>
         <LargeTitle alt="ABOUT ME">FERNANDO SOBRAL</LargeTitle>
       </motion.div>
+
+      <div className="structural-line" />
 
       {/* About Section - Unified split layout with dark background */}
       <div className="w-full bg-foreground text-background">
@@ -25,20 +28,32 @@ export default function Home() {
           <Divider orientation="horizontal" className="md:hidden bg-background" />
           <TechStack />
         </div>
+        <div className="h-px bg-background/15 mx-8 md:mx-12" />
+        <div className="px-8 md:px-12 pt-6 md:pt-8 pb-8 md:pb-10">
+          <GithubActivityClient />
+        </div>
       </div>
 
-      {/* Projects Section - Full bleed */}
-      <Projects />
+      <div className="structural-line" />
 
-      {/* Visual separator with accent */}
-      <Divider />
+      {/* Projects Section */}
+      <div className="section-gap">
+        <Projects />
+      </div>
+
+      <div className="structural-line" />
+
       {/* Blog Section */}
-      <Blog />
+      <div className="section-gap">
+        <Blog />
+      </div>
 
-      <Divider />
+      <div className="structural-line" />
 
-      {/* Contact Section - Final CTA */}
-      <ContactMe />
+      {/* Contact Section */}
+      <div className="section-gap">
+        <ContactMe />
+      </div>
     </>
   );
 }

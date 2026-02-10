@@ -25,7 +25,7 @@ export default function GHActivityForceNoSSR({ calendarData, logins }: { calenda
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
         <GithubActivityClient calendarData={calendarData} />
         {githubLogins.length > 0 && (
-          <div className="mt-3 text-xs text-gray-500">
+          <div className="mt-3 text-xs text-foreground/50">
             Combined activity of{" "}
             {githubLogins.map((login, idx) => (
               <span key={login}>

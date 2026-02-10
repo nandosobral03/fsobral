@@ -1,7 +1,7 @@
 export default function SortDirection({ onSort, value }: { onSort: (sortBy: "asc" | "desc") => void; value: "asc" | "desc" }) {
   return (
     <div className="flex justify-end gap-2 items-center">
-      <button onClick={() => onSort(value === "asc" ? "desc" : "asc")} className="text-sm font-medium text-gray-900 hover:text-black">
+      <button onClick={() => onSort(value === "asc" ? "desc" : "asc")} aria-label={value === "asc" ? "Sort descending" : "Sort ascending"} className="text-sm font-medium text-foreground/80 hover:text-foreground">
         {value === "asc" ? <ChevronUp /> : <ChevronDown />}
       </button>
     </div>

@@ -3,7 +3,8 @@
 @theme {
   --color-background: #d5d0c3;
   --color-foreground: #171717;
-  --color-accent: #348a9d;
+  --color-accent: #0d5a6c;
+  --color-muted: color-mix(in srgb, #171717 60%, #d5d0c3);
 
   --font-family-serif: var(--font-newsreader), serif;
   --font-family-sans: var(--font-outfit), sans-serif;
@@ -20,9 +21,14 @@
   :root {
     --background: #d5d0c3;
     --foreground: #171717;
-    --accent: #348a9d;
+    --accent: #0d5a6c;
+    --accent-on-dark: #419fb1;
 
     --max-width-article: 36rem;
+  }
+
+  .bg-foreground {
+    --color-accent: var(--accent-on-dark, #419fb1);
   }
 
   body {
@@ -76,6 +82,19 @@
     scrollbar-color: var(--background) var(--foreground);
   }
 
+  .frame {
+    border: 3px solid var(--color-foreground);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+
   .material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
   }
@@ -96,8 +115,8 @@
     left: -3px;
     width: 20px;
     height: 20px;
-    border-top: 3px solid var(--accent);
-    border-left: 3px solid var(--accent);
+    border-top: 3px solid var(--color-accent);
+    border-left: 3px solid var(--color-accent);
     transition: all 0.3s ease;
   }
 
@@ -108,8 +127,8 @@
     right: -3px;
     width: 20px;
     height: 20px;
-    border-bottom: 3px solid var(--accent);
-    border-right: 3px solid var(--accent);
+    border-bottom: 3px solid var(--color-accent);
+    border-right: 3px solid var(--color-accent);
     transition: all 0.3s ease;
   }
 
@@ -121,17 +140,43 @@
 
   /* Glow effect utility */
   .glow-accent {
-    box-shadow: 0 0 20px rgba(52, 138, 157, 0.3);
+    box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 30%, transparent);
     transition: box-shadow 0.3s ease;
   }
 
   .glow-accent:hover {
-    box-shadow: 0 0 30px rgba(52, 138, 157, 0.5);
+    box-shadow: 0 0 30px color-mix(in srgb, var(--color-accent) 50%, transparent);
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Monospace metadata — for dates, labels, coordinates, indices */
+  .meta-label {
+    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Generous spacing between homepage sections */
+  .section-gap { padding-top: 6rem; padding-bottom: 6rem; }
+  @media (min-width: 768px) { .section-gap { padding-top: 8rem; padding-bottom: 8rem; } }
+
+  /* Thin structural line (replaces thick Divider between sections) */
+  .structural-line { height: 1px; background: var(--foreground); opacity: 0.15; margin: 0 1.5rem; }
+
+  /* Ghost typography — oversized, barely-visible background text */
+  .ghost-text {
+    font-family: var(--font-family-condensed);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--foreground) 4%, transparent);
+    pointer-events: none;
+    user-select: none;
+    line-height: 0.85;
   }
 }

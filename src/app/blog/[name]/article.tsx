@@ -64,7 +64,7 @@ export default function Article({ post }: { post: Post }) {
 
       <div className="max-w-4xl mx-auto px-6">
         {post.coverImage && (
-          <div className="mb-12 border-[3px] border-foreground overflow-hidden">
+          <div className="mb-12 frame overflow-hidden">
             <Image src={post.coverImage} alt={post.title} width={1600} height={900} className="w-full h-auto" />
           </div>
         )}

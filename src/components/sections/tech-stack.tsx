@@ -8,44 +8,34 @@ export default function TechStack() {
   const alsoInterestedIn = ["Rust", "Python", "Svelte", "TanStack Start"];
 
   return (
-    <section className="w-full md:w-1/2 p-6 flex flex-col gap-6 relative">
+    <section className="w-full md:w-1/2 p-8 md:p-12 flex flex-col gap-6 relative">
       <SectionTitle>Tech Stack</SectionTitle>
 
       <div className="flex flex-col gap-4 mt-2">
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}>
-          <p className="text-xs uppercase tracking-wider font-condensed font-bold mb-2 text-background">Main Stack</p>
+          <p className="meta-label mb-2 text-background">Main Stack</p>
           <div className="flex flex-wrap gap-2">
-            {mainStack.map((tech, index) => (
-              <motion.span
+            {mainStack.map((tech) => (
+              <span
                 key={tech}
-                className="px-3 py-1.5 border-2 border-background bg-background text-foreground font-condensed font-semibold text-sm hover:bg-accent hover:border-accent hover:text-background hover:scale-110 transition-all duration-300"
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.4 + index * 0.05, type: "spring", stiffness: 200 }}
-                whileHover={{ scale: 1.05 }}
+                className="px-3 py-1.5 border-2 border-background bg-background text-foreground font-condensed font-semibold text-sm hover:border-background/50 hover:bg-background/80 transition-all duration-300"
               >
                 {tech}
-              </motion.span>
+              </span>
             ))}
           </div>
         </motion.div>
 
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.5 }}>
-          <p className="text-xs uppercase tracking-wider font-condensed font-bold mb-2 text-accent">Also Interested In</p>
+          <p className="meta-label mb-2 text-background/70">Also Interested In</p>
           <div className="flex flex-wrap gap-2">
-            {alsoInterestedIn.map((tech, index) => (
-              <motion.span
+            {alsoInterestedIn.map((tech) => (
+              <span
                 key={tech}
-                className="px-3 py-1.5 border-2 border-accent bg-foreground text-accent font-condensed font-semibold text-sm hover:bg-accent hover:text-background hover:scale-110 transition-all duration-300"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.6 + index * 0.05 }}
-                whileHover={{ scale: 1.05 }}
+                className="px-3 py-1.5 border-2 border-background/30 bg-foreground text-background/70 font-condensed font-semibold text-sm hover:border-background/50 hover:text-background transition-all duration-300"
               >
                 {tech}
-              </motion.span>
+              </span>
             ))}
           </div>
         </motion.div>

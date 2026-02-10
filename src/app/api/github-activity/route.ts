@@ -34,7 +34,8 @@ interface CalendarData {
   weekday: number;
 }
 
-async function fetchGithubDataForLogin(login: string): Promise<CalendarData[]> {
+async function fetchGithubContributions(login: string, from?: string, to?: string): Promise<{ days: CalendarData[]; total: number }> {
+  const dateArgs = from ? `(from: "${from}"${to ? `, to: "${to}"` : ""})` : "";
   const response = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
@@ -45,7 +46,7 @@ async function fetchGithubDataForLogin(login: string): Promise<CalendarData[]> {
       query: `
         query {
           user(login: "${login}") {
-            contributionsCollection {
+            contributionsCollection${dateArgs} {
               contributionCalendar {
                 totalContributions
                 weeks {
@@ -70,18 +71,39 @@ async function fetchGithubDataForLogin(login: string): Promise<CalendarData[]> {
 
   contributions?.weeks.forEach((week) => {
     week.contributionDays.forEach((day) => {
-      const level = day.contributionCount === 0 ? 0 : day.contributionCount === 1 ? 1 : day.contributionCount <= 3 ? 2 : day.contributionCount <= 6 ? 3 : day.contributionCount <= 9 ? 4 : day.contributionCount <= 15 ? 5 : 6;
-
       formattedData.push({
         date: day.date,
         count: day.contributionCount,
-        level: level,
+        level: levelFromCount(day.contributionCount),
         weekday: day.weekday,
       });
     });
   });
 
-  return formattedData;
+  return { days: formattedData, total: contributions?.totalContributions ?? 0 };
+}
+
+async function fetchGithubDataForLogin(login: string): Promise<{ days: CalendarData[]; totalLastYear: number }> {
+  const now = new Date();
+  const oneYearAgo = new Date(now);
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  const twoYearsAgo = new Date(now);
+  twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
+
+  const [currentYear, previousYear] = await Promise.all([
+    fetchGithubContributions(login),
+    fetchGithubContributions(login, twoYearsAgo.toISOString(), oneYearAgo.toISOString()),
+  ]);
+
+  // Merge and deduplicate by date (current year takes priority)
+  const byDate = new Map<string, CalendarData>();
+  for (const day of previousYear.days) byDate.set(day.date, day);
+  for (const day of currentYear.days) byDate.set(day.date, day);
+
+  return {
+    days: Array.from(byDate.values()).sort((a, b) => (a.date < b.date ? -1 : 1)),
+    totalLastYear: currentYear.total,
+  };
 }
 
 function levelFromCount(count: number): number {
@@ -109,8 +131,10 @@ export async function GET(request: Request) {
 
     // Aggregate by date across all users
     const byDate = new Map<string, { count: number; weekday: number }>();
-    for (const data of allData) {
-      for (const day of data) {
+    let totalLastYear = 0;
+    for (const { days, totalLastYear: t } of allData) {
+      totalLastYear += t;
+      for (const day of days) {
         const existing = byDate.get(day.date);
         if (existing) {
           existing.count += day.count;
@@ -130,7 +154,7 @@ export async function GET(request: Request) {
         weekday,
       }));
 
-    return NextResponse.json(calendarData, {
+    return NextResponse.json({ days: calendarData, totalLastYear }, {
       headers: {
         "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400",
       },

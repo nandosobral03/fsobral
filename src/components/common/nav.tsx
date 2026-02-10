@@ -29,9 +29,9 @@ export default function Nav() {
 
   return (
     <div className={`${isDetailPage ? "bg-foreground text-background" : ""}`}>
-      <nav className={`flex flex-col md:flex-row justify-between uppercase text-lg border-b-[3px] border-foreground mx-4 ${isDetailPage ? "bg-foreground text-background" : ""}`}>
+      <nav aria-label="Main navigation" className={`flex flex-col md:flex-row justify-between uppercase text-lg border-b-[3px] border-foreground mx-4 ${isDetailPage ? "bg-foreground text-background" : ""}`}>
         <div className="flex justify-end items-center">
-          <motion.button className="md:hidden px-4 py-2" onClick={() => setIsMenuOpen(!isMenuOpen)} whileTap={{ scale: 0.95 }}>
+          <motion.button className="md:hidden px-4 py-2" onClick={() => setIsMenuOpen(!isMenuOpen)} whileTap={{ scale: 0.95 }} aria-label="Toggle menu" aria-expanded={isMenuOpen}>
             {isMenuOpen ? "✕" : "☰"}
           </motion.button>
         </div>
@@ -47,6 +47,7 @@ export default function Nav() {
             >
               <Link
                 href="/"
+                aria-current={pathname === "" ? "page" : undefined}
                 className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
                   pathname === "" ? (isDetailPage ? "bg-background text-foreground" : "bg-foreground text-background") : isDetailPage ? "hover:bg-background/10" : "hover:bg-foreground/10"
                 }`}
@@ -55,6 +56,7 @@ export default function Nav() {
               </Link>
               <Link
                 href="/projects"
+                aria-current={pathname === "projects" ? "page" : undefined}
                 className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
                   pathname === "projects" ? (isDetailPage ? "text-accent border-b-[3px] border-b-accent" : "bg-foreground text-background") : isDetailPage ? "hover:bg-background/10" : "hover:bg-foreground/10"
                 }`}
@@ -63,6 +65,7 @@ export default function Nav() {
               </Link>
               <Link
                 href="/blog"
+                aria-current={pathname === "blog" ? "page" : undefined}
                 className={`px-4 py-2 transition-all duration-300 hover:scale-105 border-r-[3px] md:border-r-[3px] border-foreground last:border-r-0 relative overflow-hidden group ${
                   pathname === "blog" ? (isDetailPage ? "text-accent border-b-[3px] border-b-accent" : "bg-foreground text-background") : isDetailPage ? "hover:bg-background/10" : "hover:bg-foreground/10"
                 }`}

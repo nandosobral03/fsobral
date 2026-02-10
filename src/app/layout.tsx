@@ -30,11 +30,25 @@ const robotoCondensed = Roboto_Condensed({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://fsobral.com";
+
 export const metadata: Metadata = {
-  title: "Fernando Sobral",
-  description: "my own space in the internet",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Fernando Sobral",
+    template: "%s | Fernando Sobral",
+  },
+  description: "Software engineer, writer, and builder of things on the internet.",
   icons: {
     icon: "/favicon.svg",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Fernando Sobral",
+  },
+  twitter: {
+    card: "summary",
   },
 };
 
@@ -59,6 +73,18 @@ export default function RootLayout({
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" as="style" />
         {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font*/}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Fernando Sobral",
+              url: siteUrl,
+              sameAs: ["https://github.com/nandosobral03", "https://www.linkedin.com/in/fernando-sobral-2b100621b/"],
+            }),
+          }}
+        />
       </head>
       <body className={`antialiased h-screen flex flex-col w-full overflow-y-scroll ${roboto.variable} ${newsreader.variable} ${outfit.variable} ${robotoCondensed.variable}`}>
         <Nav />

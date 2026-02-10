@@ -9,20 +9,20 @@ import { useState } from "react";
 export default function ContactMe() {
   return (
     <section className="flex flex-col gap-8 w-full" id="contact">
-      <div className="p-6 flex flex-col gap-4">
-        <SectionTitle>Contact Me</SectionTitle>
+      <div className="px-6 flex flex-col gap-4">
+        <SectionTitle index="04">Contact Me</SectionTitle>
         <SectionDescription>If you have any questions or just want to say hi, feel free to contact me, it's always nice to hear from strangers on the internet.</SectionDescription>
       </div>
-      <div className="w-full items-center justify-center flex flex-col md:flex-row gap-8 mb-20 px-6">
-        <ContactCard href="mailto:nandosobral03@gmail.com" icon="/icons/email.png" label="Email" delay={0} />
-        <ContactCard href="https://www.linkedin.com/in/fernando-sobral-2b100621b/" icon="/icons/linkedin.png" label="LinkedIn" delay={0.1} />
-        <ContactCard href="https://www.github.com/nandosobral03" icon="/icons/github.png" label="Github" delay={0.2} />
+      <div className="w-full items-center justify-center flex flex-col md:flex-row gap-8 px-6">
+        <ContactCard href="mailto:nandosobral03@gmail.com" icon="/icons/email.png" label="Email" delay={0} ariaLabel="Send me an email" />
+        <ContactCard href="https://www.linkedin.com/in/fernando-sobral-2b100621b/" icon="/icons/linkedin.png" label="LinkedIn" delay={0.1} ariaLabel="Visit my LinkedIn profile" />
+        <ContactCard href="https://www.github.com/nandosobral03" icon="/icons/github.png" label="Github" delay={0.2} ariaLabel="Visit my Github profile" />
       </div>
     </section>
   );
 }
 
-function ContactCard({ href, icon, label, delay }: { href: string; icon: string; label: string; delay: number }) {
+function ContactCard({ href, icon, label, delay, ariaLabel }: { href: string; icon: string; label: string; delay: number; ariaLabel: string }) {
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
 
@@ -46,7 +46,8 @@ function ContactCard({ href, icon, label, delay }: { href: string; icon: string;
   return (
     <motion.a
       href={href}
-      className="group w-full md:w-[300px] py-16 border-[3px] border-foreground flex flex-col items-center justify-center text-sm gap-3 transition-all duration-300 relative overflow-hidden accent-corner"
+      aria-label={ariaLabel}
+      className="group w-full md:w-[300px] py-16 frame flex flex-col items-center justify-center text-sm gap-3 transition-all duration-300 relative overflow-hidden accent-corner"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       initial={{ opacity: 0, y: 50 }}

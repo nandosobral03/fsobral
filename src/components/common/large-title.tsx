@@ -1,10 +1,11 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import AsciiSphere from "@/components/ascii-animations/ascii-sphere";
 import AsciiCube from "@/components/ascii-animations/ascii-cube";
 import AsciiDonut from "@/components/ascii-animations/ascii-donut";
 import AsciiDna from "@/components/ascii-animations/ascii-dna";
+import { useState, useEffect } from "react";
 
 const DURATION = 0.25;
 const STAGGER = 0.025;
@@ -17,10 +18,20 @@ interface LargeTitleProps {
   animation?: AnimationType;
 }
 
-export default function LargeTitle({ children, alt, animation = "sphere" }: LargeTitleProps) {
+export default function LargeTitle({
+  children,
+  alt,
+  animation = "sphere",
+}: LargeTitleProps) {
   const text = children?.toString() || "";
   const words = text.split(" ");
   const altWords = alt?.split(" ") || words;
+  const [showScroll, setShowScroll] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowScroll(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const renderAnimation = () => {
     switch (animation) {
@@ -37,9 +48,18 @@ export default function LargeTitle({ children, alt, animation = "sphere" }: Larg
   };
 
   return (
-    <div className="flex items-center justify-end gap-6 md:gap-8 lg:gap-12 my-16 select-none relative overflow-hidden">
-      {/* ASCII Animation on the left */}
-      <div className="hidden md:flex flex-shrink-0 overflow-hidden items-center justify-end w-[150px] lg:w-[250px] xl:w-[300px]">{renderAnimation()}</div>
+    <div className="flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[calc(100svh-80px)] select-none relative overflow-hidden pr-6 md:pr-12 pb-6 border-b-[3px] border-foreground mx-4 mb-8">
+      {/* Ghost text */}
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+        <span className="ghost-text text-[20vw] md:text-[15vw] whitespace-nowrap">
+          SOFTWARE
+        </span>
+      </div>
+
+      {/* Animation on the left — fills available space */}
+      <div className="hidden md:flex flex-1 items-center justify-center h-[60vh]">
+        {renderAnimation()}
+      </div>
 
       {/* Title text */}
       <div className="flex flex-col items-end gap-4 flex-1 min-w-0 overflow-hidden">
@@ -52,7 +72,7 @@ export default function LargeTitle({ children, alt, animation = "sphere" }: Larg
               key={wordIndex}
               initial="initial"
               whileHover="hovered"
-              className="text-[15vw] xl:text-[12rem] font-semibold font-condensed text-end leading-[0.8] select-none relative overflow-hidden whitespace-nowrap max-w-full w-full"
+              className="text-[15vw] md:text-[8vw] font-semibold font-condensed text-end leading-[0.8] select-none relative overflow-hidden whitespace-nowrap max-w-full w-full"
             >
               <div className="relative">
                 {word.split("").map((l, i) => (
@@ -73,7 +93,10 @@ export default function LargeTitle({ children, alt, animation = "sphere" }: Larg
                   </motion.span>
                 ))}
               </div>
-              <div className="absolute inset-0 whitespace-nowrap" style={{ left: `-${lengthDiff > 0 ? lengthDiff * 0.5 : 0}em` }}>
+              <div
+                className="absolute inset-0 whitespace-nowrap"
+                style={{ left: `-${lengthDiff > 0 ? lengthDiff * 0.5 : 0}em` }}
+              >
                 {altWord.split("").map((l, i) => (
                   <motion.span
                     key={i}
@@ -95,7 +118,44 @@ export default function LargeTitle({ children, alt, animation = "sphere" }: Larg
             </motion.h1>
           );
         })}
+        <motion.span
+          className="meta-label text-foreground/50 mt-2 tracking-[0.2em]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          Software Engineer
+        </motion.span>
       </div>
+
+      {/* Monospace coordinates - bottom left */}
+      <div className="absolute bottom-8 left-6 meta-label text-foreground/70">
+        34.9011S / 56.1645W
+      </div>
+
+      {/* Scroll indicator - bottom center */}
+      <AnimatePresence>
+        {showScroll && (
+          <motion.div
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 meta-label text-foreground/30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span>scroll</span>
+            <motion.span
+              className="block w-px h-4 bg-foreground/30"
+              animate={{ y: [0, 6, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

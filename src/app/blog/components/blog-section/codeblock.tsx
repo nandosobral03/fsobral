@@ -8,7 +8,7 @@ interface CodeblockProps {
 
 const Codeblock = ({ children, language = "typescript" }: CodeblockProps) => {
   return (
-    <div className="my-2 overflow-x-auto border-[3px] border-foreground hover:border-accent transition-colors max-w-[calc(100vw-2rem)]">
+    <div className="my-2 overflow-x-auto frame hover:border-accent transition-colors max-w-[calc(100vw-2rem)]">
       <SyntaxHighlighter
         language={language}
         style={nord}
@@ -18,7 +18,7 @@ const Codeblock = ({ children, language = "typescript" }: CodeblockProps) => {
           fontSize: "0.875rem",
           borderRadius: "0",
           overflowX: "auto",
-          backgroundColor: "#171717",
+          backgroundColor: "var(--foreground)",
         }}
         wrapLines={true}
         wrapLongLines={true}

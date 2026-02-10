@@ -47,7 +47,7 @@ export const AsciiScene = ({ width = 90, height = 130, scale = 1.25, children }:
 
   return (
     <div className="w-full flex justify-center p-6">
-      <div className="relative w-full max-w-[350px] aspect-[9/16] border-[3px] border-foreground bg-background rounded-[2rem] flex items-center justify-center font-mono overflow-hidden shadow-[10px_10px_0px_0px_var(--foreground)]">
+      <div className="relative w-full max-w-[350px] aspect-[9/16] frame bg-background rounded-[2rem] flex items-center justify-center font-mono overflow-hidden shadow-[10px_10px_0px_0px_var(--foreground)]">
         <div className="absolute inset-0 -top-10 flex items-center justify-center pointer-events-none opacity-100 overflow-hidden">
           <pre className={`text-[6px] leading-[5px] font-bold text-foreground whitespace-pre select-none text-center font-[family-name:monospace] scale-${Math.round(scale * 100) / 100}`.replace("scale-", "scale-[") + "]"}>
             <Renderer width={width} height={height} angle={angle}>

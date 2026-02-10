@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface CalendarData {
   date: string;
@@ -13,12 +13,13 @@ interface GithubActivityClientProps {
   calendarData: CalendarData[];
   startFromDark?: boolean;
   fillEmpty?: boolean;
-  forceDark?: boolean;
   disableTooltips?: boolean;
 }
 
-export default function GithubActivityClient({ calendarData, startFromDark = false, fillEmpty = false, forceDark = false, disableTooltips = false }: GithubActivityClientProps) {
+export default function GithubActivityClient({ calendarData, startFromDark = false, fillEmpty = false, disableTooltips = false }: GithubActivityClientProps) {
   const [isRevealed, setIsRevealed] = useState(!startFromDark);
+  const [tooltip, setTooltip] = useState<{ x: number; y: number; count: number; date: string } | null>(null);
+  const tooltipTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   useEffect(() => {
     if (!startFromDark) return;
@@ -26,29 +27,43 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
     return () => cancelAnimationFrame(id);
   }, [startFromDark]);
 
+  const handleCellEnter = useCallback((e: React.MouseEvent<HTMLDivElement>, day: CalendarData) => {
+    if (disableTooltips || !day.date) return;
+    if (tooltipTimeoutRef.current) clearTimeout(tooltipTimeoutRef.current);
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTooltip({
+      x: rect.left + rect.width / 2,
+      y: rect.top,
+      count: day.count,
+      date: day.date,
+    });
+  }, [disableTooltips]);
+
+  const handleCellLeave = useCallback(() => {
+    tooltipTimeoutRef.current = setTimeout(() => setTooltip(null), 50);
+  }, []);
+
   const darkColor = "#1a1917";
 
-  const getColor = (level: number) => {
-    // Accent-based color scale with clear progression
-    switch (level) {
-      case 0:
-        return "#1d1d1d"; // Almost invisible
-      case 1:
-        return "#1f2c2f"; // First hint of accent
-      case 2:
-        return "#213a40"; // Darker teal
-      case 3:
-        return "#264d56"; // Medium teal
-      case 4:
-        return "#2b616d"; // Stronger teal
-      case 5:
-        return "#317684"; // Vibrant teal
-      case 6:
-        return "#368c9b"; // Peak activity - brightest teal
-      default:
-        return "#1a1b1b";
-    }
+  const colors = ["#1d1d1d", "#1a3038", "#1e4a56", "#256878", "#2d879b", "#38a8bf"];
+
+  const quartiles = useMemo(() => {
+    const nonZero = calendarData.map((d) => d.count).filter((c) => c > 0).sort((a, b) => a - b);
+    if (nonZero.length === 0) return [1, 2, 3, 4];
+    const q = (p: number) => nonZero[Math.max(0, Math.ceil(p * nonZero.length) - 1)];
+    return [q(0.25), q(0.5), q(0.75), q(1)];
+  }, [calendarData]);
+
+  const getLevel = (count: number) => {
+    if (count === 0) return 0;
+    if (count <= quartiles[0]) return 1;
+    if (count <= quartiles[1]) return 2;
+    if (count <= quartiles[2]) return 3;
+    if (count < quartiles[3]) return 4;
+    return 5;
   };
+
+  const getColor = (count: number) => colors[getLevel(count)];
 
   const placeholderDay: CalendarData = useMemo(() => ({ date: "", count: 0, level: 0, weekday: 0 }), []);
 
@@ -72,48 +87,109 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
     return weeks;
   };
 
-  const renderGrid = (weeks: CalendarData[][], sizeClass: string) => (
-    <div className="flex gap-1 relative flex-col md:flex-row border border-foreground/10 rounded-sm p-4 bg-foreground">
-      {weeks.map((week, weekIndex) => (
-        <div key={weekIndex} className="flex flex-row md:flex-col gap-1">
-          {week.map((day: CalendarData, dayIndex: number) => (
-            <div
-              key={`${weekIndex}-${dayIndex}`}
-              className={`${sizeClass} rounded-sm relative group cursor-pointer transition-all duration-300 ease-out hover:scale-125 hover:brightness-110 hover:z-10`}
-              style={{ backgroundColor: forceDark ? darkColor : isRevealed ? getColor(day.level) : darkColor }}
-              title={day.date ? `${day.count} contributions on ${day.date}` : undefined}
-            >
-              {!disableTooltips && day.date && (
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-accent text-background text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50 font-condensed font-semibold">
-                  {day.count} on {day.date}
-                </div>
-              )}
+  const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  const getMonthLabels = (weeks: CalendarData[][]) => {
+    const labels: { weekIndex: number; label: string; isYear: boolean }[] = [];
+    let lastMonth = -1;
+
+    weeks.forEach((week, weekIndex) => {
+      // Find the first day of the month (day 1) in this week
+      const firstOfMonth = week.find((d) => {
+        if (!d.date) return false;
+        const dayNum = parseInt(d.date.split("-")[2], 10);
+        return dayNum === 1;
+      });
+      if (!firstOfMonth) return;
+
+      const date = new Date(firstOfMonth.date + "T00:00:00");
+      const month = date.getMonth();
+      const year = date.getFullYear();
+
+      if (month !== lastMonth) {
+        const isYear = month === 0;
+        const label = isYear ? `${year}` : MONTHS_SHORT[month];
+        labels.push({ weekIndex, label, isYear });
+        lastMonth = month;
+      }
+    });
+
+    return labels;
+  };
+
+  const sweepDurationMs = 1000;
+
+  const renderGrid = (weeks: CalendarData[][], sizeClass: string) => {
+    const monthLabels = getMonthLabels(weeks);
+    const totalWeeks = weeks.length;
+
+    return (
+      <div className="flex flex-col w-full">
+        {/* Month/year labels row */}
+        <div className="hidden md:flex gap-[2px] w-full mb-1 h-4">
+          {weeks.map((_, weekIndex) => {
+            const label = monthLabels.find((l) => l.weekIndex === weekIndex);
+            return (
+              <div key={weekIndex} className="flex-1 relative">
+                {label && (
+                  <span
+                    className={`meta-label text-[9px] absolute left-0 top-0 whitespace-nowrap ${label.isYear ? "text-background/70 font-bold" : "text-background/40"}`}
+                    style={{
+                      opacity: isRevealed ? 1 : 0,
+                      transition: `opacity 300ms ease`,
+                      transitionDelay: `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
+                    }}
+                  >
+                    {label.label}
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        {/* Grid */}
+        <div className="flex gap-[2px] relative flex-col md:flex-row w-full">
+          {weeks.map((week, weekIndex) => (
+            <div key={weekIndex} className="flex flex-row md:flex-col gap-[2px] flex-1">
+              {week.map((day: CalendarData, dayIndex: number) => (
+                <div
+                  key={`${weekIndex}-${dayIndex}`}
+                  className={`${sizeClass} rounded-none cursor-pointer hover:brightness-150`}
+                  style={{
+                    backgroundColor: isRevealed ? getColor(day.count) : darkColor,
+                    transition: `background-color 400ms ease-out`,
+                    transitionDelay: `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
+                  }}
+                  onMouseEnter={(e) => handleCellEnter(e, day)}
+                  onMouseLeave={handleCellLeave}
+                />
+              ))}
             </div>
           ))}
         </div>
-      ))}
-    </div>
-  );
+      </div>
+    );
+  };
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-      {/* Mobile: 15 weeks */}
-      <div className="block sm:hidden">{renderGrid(createWeeks(18), "w-[10px] h-[10px]")}</div>
-
-      {/* Tablet: 25 weeks */}
-      <div className="hidden sm:block md:hidden">{renderGrid(createWeeks(16), "w-[12px] h-[12px]")}</div>
-
-      {/* Tablet: 25 weeks */}
-      <div className="hidden md:block lg:hidden">{renderGrid(createWeeks(25), "w-[12px] h-[12px]")}</div>
-
-      {/* Desktop: 40 weeks */}
-      <div className="hidden lg:block xl:hidden">{renderGrid(createWeeks(28), "w-[14px] h-[14px]")}</div>
-
-      {/* Large desktop: 52 weeks */}
-      <div className="hidden xl:block 2xl:hidden">{renderGrid(createWeeks(32), "w-[16px] h-[16px]")}</div>
-
-      {/* Large desktop: 52 weeks */}
-      <div className="hidden 2xl:block">{renderGrid(createWeeks(40), "w-[16px] h-[16px]")}</div>
+    <div className="w-full flex flex-col items-center justify-center gap-2">
+      <div className="block sm:hidden w-full">{renderGrid(createWeeks(26), "aspect-square")}</div>
+      <div className="hidden sm:block md:hidden w-full">{renderGrid(createWeeks(52), "aspect-square")}</div>
+      <div className="hidden md:block lg:hidden w-full">{renderGrid(createWeeks(72), "aspect-square")}</div>
+      <div className="hidden lg:block xl:hidden w-full">{renderGrid(createWeeks(90), "aspect-square")}</div>
+      <div className="hidden xl:block w-full">{renderGrid(createWeeks(104), "aspect-square")}</div>
+      {tooltip && (
+        <div
+          className="fixed z-[9999] flex items-baseline gap-2 px-3 py-1.5 border border-accent/40 bg-foreground/95 backdrop-blur-sm pointer-events-none whitespace-nowrap"
+          style={{ left: tooltip.x, top: tooltip.y - 10, transform: `translateX(-50%) translateY(-100%)` }}
+        >
+          <span className="text-sm font-condensed font-bold text-background">{tooltip.count}</span>
+          <span className="w-px h-3 bg-background/20" />
+          <span className="meta-label text-[9px] text-background/50">
+            {new Date(tooltip.date + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+          </span>
+        </div>
+      )}
     </div>
   );
 }

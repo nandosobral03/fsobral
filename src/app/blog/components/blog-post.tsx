@@ -15,7 +15,7 @@ export const BlogPost = ({ post, align }: { post: Post; align: "left" | "right" 
     <Link
       href={`/blog/${post.slug}`}
       key={post.slug}
-      className={`mb-6 flex lg:h-[300px] grow border-[3px] border-foreground hover:border-accent group flex-col-reverse ${align === "left" ? "lg:flex-row" : "lg:flex-row-reverse"} overflow-hidden relative`}
+      className={`mb-6 flex lg:h-[300px] grow frame hover:border-accent group flex-col-reverse ${align === "left" ? "lg:flex-row" : "lg:flex-row-reverse"} overflow-hidden relative hover:-translate-y-1 transition-transform`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -24,7 +24,7 @@ export const BlogPost = ({ post, align }: { post: Post; align: "left" | "right" 
         <div>
           <SectionTitle>{post.title}</SectionTitle>
           <p className="text-lg mb-2 leading-relaxed">{post.description}</p>
-          <p className="text-sm font-condensed text-foreground group-hover:text-accent">{post.date}</p>
+          <p className="meta-label text-foreground/50 group-hover:text-[var(--accent-on-dark)]">{post.date}</p>
         </div>
         {post.tags && post.tags.length > 0 && (
           <div className={`mt-auto flex flex-wrap gap-2 justify-start ${align === "left" ? "lg:justify-start" : "lg:justify-end"}`}>

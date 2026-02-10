@@ -22,10 +22,10 @@ export default function ProjectCard({ title, image, children, year, variant = "c
 
   return (
     <motion.div
-      className={`${sizeClasses} flex flex-col border-[3px] border-foreground hover:border-accent overflow-hidden transition-all duration-300 hover:bg-foreground hover:text-background group select-none relative`}
+      className={`${sizeClasses} flex flex-col frame hover:border-accent overflow-hidden transition-all duration-300 hover:bg-foreground hover:text-background group select-none relative`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      whileHover={{ y: -8 }}
+      whileHover={{ y: -4 }}
       transition={{ duration: 0.3 }}
     >
       <motion.div className="absolute inset-0 bg-accent opacity-0 pointer-events-none" animate={{ opacity: isHovered ? 0.08 : 0 }} transition={{ duration: 0.3 }} />
@@ -47,7 +47,7 @@ export default function ProjectCard({ title, image, children, year, variant = "c
         <h3 className="font-bold font-condensed uppercase text-lg md:text-2xl mb-2">
           <Link href={`/projects/${title}`} className="flex items-center gap-2 group-hover:text-background transition-colors">
             {title}
-            <span className="text-xs opacity-50 group-hover:text-accent transition-colors">({year})</span>
+            <span className="meta-label opacity-50 group-hover:text-[var(--accent-on-dark)] transition-colors">({year})</span>
           </Link>
         </h3>
 

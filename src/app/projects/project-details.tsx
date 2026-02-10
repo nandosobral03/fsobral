@@ -34,7 +34,7 @@ export default function ProjectDetails({ project }: { project: Project }) {
 
       <div className="h-16" />
       <div className="max-w-4xl mx-auto px-6 pb-20">
-        <div className="aspect-video relative w-full border-[3px] border-foreground overflow-hidden mb-12">
+        <div className="aspect-video relative w-full frame overflow-hidden mb-12">
           <Image src={project.preview.cover} alt={`${project.name} preview`} fill className="object-cover" />
         </div>
 
@@ -57,7 +57,7 @@ export default function ProjectDetails({ project }: { project: Project }) {
               <h2 className="text-3xl md:text-4xl font-bold uppercase font-condensed tracking-wide  pb-2 inline-block">Gallery</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {project.images.map((image, index) => (
-                  <div key={`image-${index}`} className="aspect-video relative w-full cursor-pointer border-[3px] border-foreground hover:border-accent transition-all duration-300 overflow-hidden" onClick={() => setSelectedImage(image)}>
+                  <div key={`image-${index}`} className="aspect-video relative w-full cursor-pointer frame hover:border-accent transition-all duration-300 overflow-hidden" onClick={() => setSelectedImage(image)}>
                     <Image src={image.url} alt={image.alt} fill className={`object-cover ${image.isMobile ? "object-scale-down" : ""}`} />
                   </div>
                 ))}
