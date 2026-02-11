@@ -98,14 +98,19 @@ void main() {
   brightness = smoothstep(0.0, 0.7, brightness);
   brightness = pow(brightness, 0.6);
 
-  // Smooth dithering noise — blend between two noise frames
+  // Dithering noise — temporal + spatial layers, scaled by darkness
   float timeBase = u_time * 0.4;
   float t = fract(timeBase);
-  t = t * t * (3.0 - 2.0 * t); // smoothstep interpolation
+  t = t * t * (3.0 - 2.0 * t);
   float n1 = hash21(cell + floor(timeBase));
   float n2 = hash21(cell + floor(timeBase) + 1.0);
-  float noise = (mix(n1, n2, t) - 0.5) * (1.0 / u_charCount);
-  brightness = clamp(brightness + noise, 0.0, 1.0);
+  float temporalNoise = (mix(n1, n2, t) - 0.5) * (3.0 / u_charCount);
+
+  float spatialNoise = (hash21(cell * 1.73 + 0.5) - 0.5) * (1.5 / u_charCount);
+
+  // Only dither where there's actual darkness — light areas stay clean
+  float ditherMask = smoothstep(0.05, 0.3, brightness);
+  brightness = clamp(brightness + (temporalNoise + spatialNoise) * ditherMask, 0.0, 1.0);
 
   // Pick character from atlas
   float charIdx = floor(brightness * (u_charCount - 1.0));
