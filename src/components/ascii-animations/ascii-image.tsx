@@ -44,6 +44,7 @@ uniform float u_charCount;
 uniform float u_opacity;
 uniform float u_density;
 uniform vec2 u_imageSize;
+uniform float u_rotate;
 
 float hash21(vec2 p) {
   p = fract(p * vec2(233.34, 851.73));
@@ -80,6 +81,31 @@ void main() {
   }
 
   // Discard cells outside image bounds
+  if (imageUV.x < 0.0 || imageUV.x > 1.0 || imageUV.y < 0.0 || imageUV.y > 1.0) {
+    gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+    return;
+  }
+
+  // Apply rotation around center if angle is set
+  if (abs(u_rotate) > 0.01) {
+    float cosR = cos(u_rotate);
+    float sinR = sin(u_rotate);
+    float imgAspect = u_imageSize.x / u_imageSize.y;
+    // Scale up so rotated image still covers the viewport
+    float coverScale = abs(cosR) + abs(sinR);
+    // Convert to aspect-correct space so rotation doesn't warp
+    vec2 centered = imageUV - 0.5;
+    centered.x *= imgAspect;
+    centered *= coverScale;
+    vec2 rotated = vec2(
+      centered.x * cosR + centered.y * sinR,
+      -centered.x * sinR + centered.y * cosR
+    );
+    rotated.x /= imgAspect;
+    imageUV = rotated + 0.5;
+  }
+
+  // Re-check bounds after rotation
   if (imageUV.x < 0.0 || imageUV.x > 1.0 || imageUV.y < 0.0 || imageUV.y > 1.0) {
     gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
     return;
@@ -132,6 +158,8 @@ interface AsciiImageProps {
   opacity?: number;
   density?: number;
   className?: string;
+  /** Rotation angle in degrees */
+  rotateAngle?: number;
 }
 
 export default function AsciiImage({
@@ -139,6 +167,7 @@ export default function AsciiImage({
   opacity = 0.08,
   density = 120,
   className,
+  rotateAngle = 0,
 }: AsciiImageProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
@@ -244,11 +273,14 @@ export default function AsciiImage({
       const uDensity = gl.getUniformLocation(program, "u_density");
       const uImageSize = gl.getUniformLocation(program, "u_imageSize");
 
+      const uRotate = gl.getUniformLocation(program, "u_rotate");
+
       gl.uniform1f(uCharCount, CHARS.length);
       gl.uniform1i(uCharAtlas, 0);
       gl.uniform1i(uImage, 1);
       gl.uniform1f(uOpacity, opacity);
       gl.uniform1f(uDensity, density);
+      gl.uniform1f(uRotate, (rotateAngle * Math.PI) / 180);
       gl.uniform2f(uImageSize, img.naturalWidth, img.naturalHeight);
 
       gl.enable(gl.BLEND);
@@ -268,6 +300,11 @@ export default function AsciiImage({
 
       const start = performance.now();
       const render = () => {
+        // Skip rendering when hidden (e.g. CSS display:none at breakpoints)
+        if (canvas.offsetParent === null) {
+          rafRef.current = requestAnimationFrame(render);
+          return;
+        }
         const t = (performance.now() - start) / 1000;
         gl.uniform1f(uTime, t);
         gl.uniform2f(uRes, canvas.width, canvas.height);
@@ -301,7 +338,7 @@ export default function AsciiImage({
       const c = canvas as unknown as { _cleanup?: () => void };
       c._cleanup?.();
     };
-  }, [src, opacity, density]);
+  }, [src, opacity, density, rotateAngle]);
 
   return (
     <canvas

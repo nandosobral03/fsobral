@@ -5,9 +5,18 @@ import dynamic from "next/dynamic";
 import CircularText from "@/components/common/circular-text";
 import { useState, useEffect } from "react";
 
-const AsciiSphere = dynamic(() => import("@/components/ascii-animations/ascii-sphere"), { ssr: false });
-const AsciiCube = dynamic(() => import("@/components/ascii-animations/ascii-cube"), { ssr: false });
-const AsciiImage = dynamic(() => import("@/components/ascii-animations/ascii-image"), { ssr: false });
+const AsciiSphere = dynamic(
+  () => import("@/components/ascii-animations/ascii-sphere"),
+  { ssr: false },
+);
+const AsciiCube = dynamic(
+  () => import("@/components/ascii-animations/ascii-cube"),
+  { ssr: false },
+);
+const AsciiImage = dynamic(
+  () => import("@/components/ascii-animations/ascii-image"),
+  { ssr: false },
+);
 
 const DURATION = 0.25;
 const STAGGER = 0.025;
@@ -33,7 +42,6 @@ export default function LargeTitle({
   const words = text.split(" ");
   const altWords = alt?.split(" ") || words;
   const [showScroll, setShowScroll] = useState(true);
-
   useEffect(() => {
     const timer = setTimeout(() => setShowScroll(false), 3000);
     return () => clearTimeout(timer);
@@ -200,8 +208,17 @@ export default function LargeTitle({
   if (backgroundImage) {
     return (
       <div className="relative min-h-[calc(100svh-80px)] select-none mb-8">
-        {/* Full-bleed ASCII background */}
-        <div className="absolute inset-0 pointer-events-none">
+        {/* Full-bleed ASCII background — mobile (rotated, low density) */}
+        <div className="absolute inset-0 pointer-events-none md:hidden">
+          <AsciiImage
+            src={backgroundImage}
+            opacity={1.0}
+            density={120}
+            rotateAngle={30}
+          />
+        </div>
+        {/* Full-bleed ASCII background — desktop */}
+        <div className="absolute inset-0 pointer-events-none hidden md:block">
           <AsciiImage src={backgroundImage} opacity={1.0} density={300} />
         </div>
         {/* Content with normal margins */}
