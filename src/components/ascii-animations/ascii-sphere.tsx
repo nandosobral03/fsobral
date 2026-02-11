@@ -187,11 +187,23 @@ export default function AsciiSphere() {
       rafRef.current = requestAnimationFrame(render);
     };
 
-    rafRef.current = requestAnimationFrame(render);
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!rafRef.current) rafRef.current = requestAnimationFrame(render);
+        } else {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = 0;
+        }
+      },
+      { threshold: 0 }
+    );
+    visibilityObserver.observe(canvas);
 
     return () => {
       cancelAnimationFrame(rafRef.current);
       observer.disconnect();
+      visibilityObserver.disconnect();
       gl.deleteTexture(tex);
       gl.deleteProgram(program);
       gl.deleteShader(vs);

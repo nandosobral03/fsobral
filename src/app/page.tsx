@@ -8,6 +8,7 @@ import Projects from "@/components/sections/projects";
 import Blog from "@/components/sections/blog";
 import ContactMe from "@/components/sections/contact-me";
 import GithubActivityServer from "@/components/gh-activity/gh-activity-server";
+import GhActivitySkeleton from "@/components/gh-activity/gh-activity-skeleton";
 
 export default function Home() {
   return (
@@ -29,7 +30,7 @@ export default function Home() {
         </div>
         <div className="h-px bg-background/15 mx-8 md:mx-12" />
         <div className="px-8 md:px-12 pt-6 md:pt-8 pb-8 md:pb-10">
-          <Suspense fallback={<div className="min-h-[120px]" />}>
+          <Suspense fallback={<GhActivitySkeleton />}>
             <GithubActivityServer />
           </Suspense>
         </div>

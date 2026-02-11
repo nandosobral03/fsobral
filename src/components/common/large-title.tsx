@@ -29,6 +29,7 @@ interface LargeTitleProps {
   animation?: AnimationType;
   backgroundImage?: string;
   variant?: "hero" | "page";
+  textClassName?: string;
 }
 
 export default function LargeTitle({
@@ -37,6 +38,7 @@ export default function LargeTitle({
   animation = "sphere",
   backgroundImage,
   variant = "hero",
+  textClassName,
 }: LargeTitleProps) {
   const text = children?.toString() || "";
   const words = text.split(" ");
@@ -90,7 +92,7 @@ export default function LargeTitle({
               key={wordIndex}
               initial="initial"
               whileHover="hovered"
-              className={`font-semibold font-condensed text-end leading-[0.95] select-none relative overflow-hidden whitespace-nowrap max-w-full w-full ${isHero ? "text-[15vw] md:text-[8vw]" : "text-[15vw] xl:text-[12rem]"}`}
+              className={`font-semibold font-condensed text-end leading-[0.95] select-none relative overflow-hidden whitespace-nowrap max-w-full w-full ${textClassName ?? (isHero ? "text-[15vw] md:text-[8vw]" : "text-[15vw] xl:text-[12rem]")}`}
             >
               <div className="relative">
                 {word.split("").map((l, i) => (

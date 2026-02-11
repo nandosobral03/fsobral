@@ -1,13 +1,15 @@
-import AutomatingFishingForFunAndNoProfit from "./automating-fishing-for-fun-and-no-profit/automating-fishing-for-fun-and-no-profit";
-import EUnibusInfinitum from "./e-unibus-infinitum/e-unibus-infinitum";
-import GraveyardOfDeadProjects from "./graveyard-of-dead-projects/graveyard-of-dead-projects";
-import I3dPrintedMyGithubContributionHistory from "./i-3d-printed-my-github-contribution-history/i-3d-printed-my-github-contribution-history";
-import Inngest from "./inngest/inngest";
-import LessonsFromRedoingProjects from "./lessons-from-redoing-projects/lessons-from-redoing-projects";
-import PeaksOfYoreAndTheDifficultyBoulder from "./peaks-of-yore-and-the-difficulty-boulder/peaks-of-yore-and-the-difficulty-boulder";
-import SayingGoodbyeToMyFirstDomain from "./saying-goodbye-to-my-first-domain/saying-goodbye-to-my-first-domain";
-import TailwindV4 from "./tailwind-v4/tailwind-v4";
-import TheEndlessMediaEpidemic from "./the-end-less-media-epidemic/the-end-less-media-epidemic";
+import dynamic from "next/dynamic";
+
+const AutomatingFishingForFunAndNoProfit = dynamic(() => import("./automating-fishing-for-fun-and-no-profit/automating-fishing-for-fun-and-no-profit"));
+const EUnibusInfinitum = dynamic(() => import("./e-unibus-infinitum/e-unibus-infinitum"));
+const GraveyardOfDeadProjects = dynamic(() => import("./graveyard-of-dead-projects/graveyard-of-dead-projects"));
+const I3dPrintedMyGithubContributionHistory = dynamic(() => import("./i-3d-printed-my-github-contribution-history/i-3d-printed-my-github-contribution-history"));
+const Inngest = dynamic(() => import("./inngest/inngest"));
+const LessonsFromRedoingProjects = dynamic(() => import("./lessons-from-redoing-projects/lessons-from-redoing-projects"));
+const PeaksOfYoreAndTheDifficultyBoulder = dynamic(() => import("./peaks-of-yore-and-the-difficulty-boulder/peaks-of-yore-and-the-difficulty-boulder"));
+const SayingGoodbyeToMyFirstDomain = dynamic(() => import("./saying-goodbye-to-my-first-domain/saying-goodbye-to-my-first-domain"));
+const TailwindV4 = dynamic(() => import("./tailwind-v4/tailwind-v4"));
+const TheEndlessMediaEpidemic = dynamic(() => import("./the-end-less-media-epidemic/the-end-less-media-epidemic"));
 
 export type Post = {
   title: string;

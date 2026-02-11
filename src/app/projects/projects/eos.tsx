@@ -67,7 +67,7 @@ export const eos: Project = {
       component: `
         I would probably do the RSS feed aggregation differently. I call all the feeds in parallel and then
         sort them by date. This works well on a small scale but as more feeds are added it will take longer,
-        a would solution for this would include a database and a backend that would call the feeds every so oftern
+        a would solution for this would include a database and a backend that would call the feeds every so often
         and stores them in the database/cache. Then the frontend would just call the backend and get the data from
         there.`,
     },

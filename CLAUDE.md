@@ -61,7 +61,7 @@ Blog posts use building-block components from `src/app/blog/components/blog-sect
 Custom Tailwind v4 theme defined in `globals.css`:
 - Background: `#d5d0c3` (warm beige)
 - Foreground: `#171717` (near-black)
-- Accent: `#348a9d` (teal)
+- Accent: `#d44527` (burnt orange)
 
 ## Environment Variables
 
