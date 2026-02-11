@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, createContext, useCallback, useContext, useState } from "react";
+import { ReactNode, createContext, useCallback, useContext, useMemo, useState } from "react";
 
 type Footnote = {
   id: string;
@@ -44,5 +44,7 @@ export const FootnoteProvider = ({ children }: { children: ReactNode }) => {
     [footnotes]
   );
 
-  return <FootnoteContext.Provider value={{ footnotes, addFootnote, getFootnoteIndex }}>{children}</FootnoteContext.Provider>;
+  const value = useMemo(() => ({ footnotes, addFootnote, getFootnoteIndex }), [footnotes, addFootnote, getFootnoteIndex]);
+
+  return <FootnoteContext.Provider value={value}>{children}</FootnoteContext.Provider>;
 };

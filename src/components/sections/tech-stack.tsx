@@ -1,7 +1,14 @@
 "use client";
 
 export default function TechStack() {
-  const mainStack = ["React", "TypeScript", "Node.js", "Express", "Next.js", "tRPC"];
+  const mainStack = [
+    "React",
+    "TypeScript",
+    "Node.js",
+    "Express",
+    "Next.js",
+    "tRPC",
+  ];
   const alsoInterestedIn = ["Rust", "Python", "Svelte", "TanStack Start"];
 
   return (
@@ -37,16 +44,27 @@ export default function TechStack() {
       <div className="mt-auto" />
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3">
-          <span className="meta-label text-background/30 w-20 shrink-0">Role</span>
+          <span className="meta-label text-background/30 w-20 shrink-0">
+            Role
+          </span>
           <span className="text-sm font-serif text-background/70">
             Senior Software Engineer at{" "}
-            <a href="https://www.doublehq.com" className="text-[#5F63F5] font-sans">double</a>
-            {" "}(YC S21)
+            <a
+              href="https://www.doublehq.com"
+              className="bg-[#5F63F5] text-white rounded-sm p-1 font-sans"
+            >
+              double
+            </a>{" "}
+            (YC S21)
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="meta-label text-background/30 w-20 shrink-0">Location</span>
-          <span className="text-sm font-serif text-background/70">Montevideo, Uruguay</span>
+          <span className="meta-label text-background/30 w-20 shrink-0">
+            Location
+          </span>
+          <span className="text-sm font-serif text-background/70">
+            Montevideo, Uruguay
+          </span>
         </div>
       </div>
     </section>

@@ -117,6 +117,28 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
     return labels;
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [weekCount, setWeekCount] = useState(0);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const calculate = () => {
+      const width = el.clientWidth;
+      const TARGET_CELL = 14;
+      const GAP = 2;
+      const maxWeeks = Math.floor(width / (TARGET_CELL + GAP));
+      const availableWeeks = Math.floor(calendarData.length / 7);
+      setWeekCount(Math.min(maxWeeks, availableWeeks));
+    };
+
+    calculate();
+    const observer = new ResizeObserver(calculate);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [calendarData.length]);
+
   const sweepDurationMs = 1000;
 
   const renderGrid = (weeks: CalendarData[][], sizeClass: string) => {
@@ -172,13 +194,8 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
   };
 
   return (
-    <div className="w-full flex flex-col items-center justify-center gap-2">
-      <div className="block sm:hidden w-full">{renderGrid(createWeeks(26), "aspect-square")}</div>
-      <div className="hidden sm:block md:hidden w-full">{renderGrid(createWeeks(52), "aspect-square")}</div>
-      <div className="hidden md:block lg:hidden w-full">{renderGrid(createWeeks(72), "aspect-square")}</div>
-      <div className="hidden lg:block xl:hidden w-full">{renderGrid(createWeeks(90), "aspect-square")}</div>
-      <div className="hidden xl:block 2xl:hidden w-full">{renderGrid(createWeeks(78), "aspect-square")}</div>
-      <div className="hidden 2xl:block w-full">{renderGrid(createWeeks(104), "aspect-square")}</div>
+    <div ref={containerRef} className="w-full flex flex-col items-center justify-center gap-2">
+      {weekCount > 0 && renderGrid(createWeeks(weekCount), "aspect-square")}
       {tooltip && (
         <div
           className="fixed z-[9999] flex items-baseline gap-2 px-3 py-1.5 border border-accent/40 bg-foreground/95 backdrop-blur-sm pointer-events-none whitespace-nowrap"

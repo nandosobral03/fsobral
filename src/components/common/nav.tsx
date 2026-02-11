@@ -11,20 +11,18 @@ export default function Nav() {
   const fullPathname = usePathname() || "";
   const pathname = fullPathname.split("/")[1] || "";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia("(max-width: 767px)").matches : false
+  );
 
   // Check if we're on a detail page (blog/[name] or projects/[name])
   const isDetailPage = fullPathname.split("/").length > 2 && detailPages.includes(pathname);
 
   useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-
-    return () => window.removeEventListener("resize", checkIfMobile);
+    const mql = window.matchMedia("(max-width: 767px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
   }, []);
 
   return (

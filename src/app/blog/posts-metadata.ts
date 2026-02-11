@@ -1,4 +1,4 @@
-export type PostMetadata = {
+type PostMetadata = {
   title: string;
   description: string;
   slug: string;

@@ -1,22 +1,21 @@
-"use client";
-
+import { Suspense } from "react";
 import AboutMe from "@/components/sections/about-me";
 import Divider from "@/components/common/divider";
+import FadeIn from "@/components/common/fade-in";
 import LargeTitle from "@/components/common/large-title";
 import TechStack from "@/components/sections/tech-stack";
 import Projects from "@/components/sections/projects";
 import Blog from "@/components/sections/blog";
 import ContactMe from "@/components/sections/contact-me";
-import GithubActivityClient from "@/components/gh-activity/gh-activity-client";
-import { motion } from "motion/react";
+import GithubActivityServer from "@/components/gh-activity/gh-activity-server";
 
 export default function Home() {
   return (
     <>
       {/* Hero Section - Full viewport height */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}>
+      <FadeIn>
         <LargeTitle alt="ABOUT ME" backgroundImage="/images/creation-hands.png">FERNANDO SOBRAL</LargeTitle>
-      </motion.div>
+      </FadeIn>
 
       <div className="structural-line" />
 
@@ -30,7 +29,9 @@ export default function Home() {
         </div>
         <div className="h-px bg-background/15 mx-8 md:mx-12" />
         <div className="px-8 md:px-12 pt-6 md:pt-8 pb-8 md:pb-10">
-          <GithubActivityClient />
+          <Suspense fallback={<div className="min-h-[120px]" />}>
+            <GithubActivityServer />
+          </Suspense>
         </div>
       </div>
 

@@ -142,7 +142,7 @@ export default function FishingGame() {
       if (mashCount >= requiredMashes) {
         const newBarriers = [...barriers];
         newBarriers[currentBarrier].passed = true;
-        setBarriers(newBarriers);
+        setBarriers(newBarriers); // eslint-disable-line react-hooks/set-state-in-effect -- game state machine
         setCurrentBarrier(null);
         setGameState("reeling");
         triggerShake();

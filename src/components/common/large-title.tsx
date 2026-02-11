@@ -1,18 +1,18 @@
 "use client";
 
 import { motion, AnimatePresence } from "motion/react";
-import AsciiSphere from "@/components/ascii-animations/ascii-sphere";
-import AsciiCube from "@/components/ascii-animations/ascii-cube";
-import AsciiDonut from "@/components/ascii-animations/ascii-donut";
-import AsciiDna from "@/components/ascii-animations/ascii-dna";
-import AsciiImage from "@/components/ascii-animations/ascii-image";
+import dynamic from "next/dynamic";
 import CircularText from "@/components/common/circular-text";
 import { useState, useEffect } from "react";
+
+const AsciiSphere = dynamic(() => import("@/components/ascii-animations/ascii-sphere"), { ssr: false });
+const AsciiCube = dynamic(() => import("@/components/ascii-animations/ascii-cube"), { ssr: false });
+const AsciiImage = dynamic(() => import("@/components/ascii-animations/ascii-image"), { ssr: false });
 
 const DURATION = 0.25;
 const STAGGER = 0.025;
 
-type AnimationType = "sphere" | "cube" | "donut" | "dna";
+type AnimationType = "sphere" | "cube";
 
 interface LargeTitleProps {
   children: React.ReactNode;
@@ -43,10 +43,6 @@ export default function LargeTitle({
     switch (animation) {
       case "cube":
         return <AsciiCube />;
-      case "donut":
-        return <AsciiDonut />;
-      case "dna":
-        return <AsciiDna />;
       case "sphere":
       default:
         return <AsciiSphere />;

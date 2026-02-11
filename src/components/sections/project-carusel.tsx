@@ -9,23 +9,29 @@ export default function ProjectCarousel() {
   const constraintsRef = useRef(null);
   const x = useMotionValue(0);
   const [isMounted, setIsMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [viewportWidth, setViewportWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 1200);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia("(max-width: 767px)").matches : false
+  );
+  const [viewportWidth, setViewportWidth] = useState<number>(() => typeof window !== "undefined" ? window.innerWidth : 1200);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-    const updateViewport = () => {
-      const width = window.innerWidth;
-      setViewportWidth(width);
-      setIsMobile(width < 768);
+    setIsMounted(true); // eslint-disable-line react-hooks/set-state-in-effect -- hydration flag
+
+    // Use matchMedia for mobile breakpoint (only fires on transition)
+    const mql = window.matchMedia("(max-width: 767px)");
+    const mqlHandler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener("change", mqlHandler);
+
+    // Viewport width still needs resize for card layout calculations
+    const resizeHandler = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", resizeHandler);
+
+    return () => {
+      mql.removeEventListener("change", mqlHandler);
+      window.removeEventListener("resize", resizeHandler);
     };
-
-    updateViewport();
-    window.addEventListener("resize", updateViewport);
-
-    return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
   const cardWidth = isMobile ? 280 : 420;

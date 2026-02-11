@@ -34,7 +34,7 @@ interface CalendarData {
   weekday: number;
 }
 
-async function fetchGithubDataForLogin(login: string): Promise<CalendarData[]> {
+async function fetchContributionsForRange(login: string, from: string, to: string): Promise<CalendarData[]> {
   const response = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
@@ -45,7 +45,7 @@ async function fetchGithubDataForLogin(login: string): Promise<CalendarData[]> {
       query: `
         query {
           user(login: "${login}") {
-            contributionsCollection {
+            contributionsCollection(from: "${from}", to: "${to}") {
               contributionCalendar {
                 totalContributions
                 weeks {
@@ -66,22 +66,33 @@ async function fetchGithubDataForLogin(login: string): Promise<CalendarData[]> {
   const data: { data: GithubData } = await response.json();
   const contributions = data.data.user.contributionsCollection.contributionCalendar;
 
-  const formattedData: CalendarData[] = [];
+  return contributions.weeks.flatMap((week) =>
+    week.contributionDays.map((day) => ({
+      date: day.date,
+      count: day.contributionCount,
+      level: levelFromCount(day.contributionCount),
+      weekday: day.weekday,
+    }))
+  );
+}
 
-  contributions.weeks.forEach((week) => {
-    week.contributionDays.forEach((day) => {
-      const level = day.contributionCount === 0 ? 0 : day.contributionCount === 1 ? 1 : day.contributionCount <= 3 ? 2 : day.contributionCount <= 6 ? 3 : day.contributionCount <= 9 ? 4 : day.contributionCount <= 15 ? 5 : 6;
+async function fetchGithubDataForLogin(login: string): Promise<CalendarData[]> {
+  const now = new Date();
+  const oneYearAgo = new Date(now);
+  oneYearAgo.setFullYear(now.getFullYear() - 1);
+  const twoYearsAgo = new Date(now);
+  twoYearsAgo.setFullYear(now.getFullYear() - 2);
 
-      formattedData.push({
-        date: day.date,
-        count: day.contributionCount,
-        level: level,
-        weekday: day.weekday,
-      });
-    });
-  });
+  const [recent, older] = await Promise.all([
+    fetchContributionsForRange(login, oneYearAgo.toISOString(), now.toISOString()),
+    fetchContributionsForRange(login, twoYearsAgo.toISOString(), oneYearAgo.toISOString()),
+  ]);
 
-  return formattedData;
+  const byDate = new Map<string, CalendarData>();
+  for (const day of [...older, ...recent]) {
+    byDate.set(day.date, day);
+  }
+  return Array.from(byDate.values()).sort((a, b) => (a.date < b.date ? -1 : 1));
 }
 
 function levelFromCount(count: number): number {

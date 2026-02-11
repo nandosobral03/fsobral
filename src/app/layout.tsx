@@ -1,8 +1,7 @@
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Roboto, Newsreader, Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import Nav from "../components/common/nav";
+import DeferredAnalytics from "../components/common/deferred-analytics";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -72,7 +71,7 @@ export default function RootLayout({
         {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font*/}
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" as="style" />
         {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font*/}
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" media="all" id="material-symbols-css" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -90,8 +89,7 @@ export default function RootLayout({
         <Nav />
         <main className="flex-1">
           {children}
-          <SpeedInsights />
-          <Analytics />
+          <DeferredAnalytics />
         </main>
       </body>
     </html>
