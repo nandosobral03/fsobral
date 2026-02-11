@@ -8,7 +8,7 @@ export default function MarginaliaArticle({ post }: { post: MarginaliaPost }) {
     <>
       {/* Dark intro section */}
       <div className="w-full bg-foreground text-background">
-        <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col gap-6">
+        <div className="max-w-6xl mx-auto px-6 py-28 flex flex-col gap-6">
           <p className="text-xs uppercase tracking-[0.3em] font-semibold text-accent">Marginalia</p>
           <h1 className="text-4xl md:text-6xl font-bold uppercase font-condensed tracking-wide leading-tight">{post.title}</h1>
           {post.description && <div className="text-lg md:text-xl font-light leading-relaxed opacity-90">{post.description}</div>}

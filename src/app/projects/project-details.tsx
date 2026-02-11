@@ -14,7 +14,7 @@ export default function ProjectDetails({ project }: { project: Project }) {
     <>
       {/* Dark intro section */}
       <div className="w-full bg-foreground text-background">
-        <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col gap-6">
+        <div className="max-w-6xl mx-auto px-6 py-28 flex flex-col gap-6">
           <h1 className="text-5xl md:text-7xl font-bold uppercase font-condensed tracking-wide">{project.name}</h1>
           <div className="text-lg md:text-xl font-light leading-relaxed">{project.preview.description}</div>
           <div className="flex flex-wrap gap-3">

@@ -42,7 +42,7 @@ export default function Article({ post }: { post: Post }) {
 
       {/* Dark intro section */}
       <div className="w-full bg-foreground text-background">
-        <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col gap-6">
+        <div className="max-w-6xl mx-auto px-6 py-28 flex flex-col gap-6">
           <h1 className="text-4xl md:text-6xl font-bold uppercase font-condensed tracking-wide leading-tight">{post.title}</h1>
           {(post.subtitle ?? post.description) && <div className="text-lg md:text-xl font-light leading-relaxed opacity-90">{post.subtitle ?? post.description}</div>}
           <div className="flex flex-wrap items-center gap-4 text-sm uppercase font-condensed">
