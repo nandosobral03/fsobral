@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Roboto, Newsreader, Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import {
+  Roboto,
+  Newsreader,
+  Outfit,
+  Plus_Jakarta_Sans,
+} from "next/font/google";
 import Nav from "../components/common/nav";
 import DeferredAnalytics from "../components/common/deferred-analytics";
 import "./globals.css";
@@ -37,9 +42,10 @@ export const metadata: Metadata = {
     default: "Fernando Sobral",
     template: "%s | Fernando Sobral",
   },
-  description: "Software engineer, writer, and builder of things on the internet.",
+  description:
+    "Software engineer, writer, and builder of things on the internet.",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.png",
   },
   openGraph: {
     type: "website",
@@ -69,9 +75,18 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font*/}
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" as="style" />
+        <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+          as="style"
+        />
         {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font*/}
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" media="all" id="material-symbols-css" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+          media="all"
+          id="material-symbols-css"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -80,12 +95,17 @@ export default function RootLayout({
               "@type": "Person",
               name: "Fernando Sobral",
               url: siteUrl,
-              sameAs: ["https://github.com/nandosobral03", "https://www.linkedin.com/in/fernando-sobral-2b100621b/"],
+              sameAs: [
+                "https://github.com/nandosobral03",
+                "https://www.linkedin.com/in/fernando-sobral-2b100621b/",
+              ],
             }),
           }}
         />
       </head>
-      <body className={`antialiased h-screen flex flex-col w-full overflow-y-scroll ${roboto.variable} ${newsreader.variable} ${outfit.variable} ${plusJakarta.variable}`}>
+      <body
+        className={`antialiased h-screen flex flex-col w-full overflow-y-scroll ${roboto.variable} ${newsreader.variable} ${outfit.variable} ${plusJakarta.variable}`}
+      >
         <Nav />
         <main className="flex-1">
           {children}
