@@ -20,23 +20,35 @@ export default function GHActivityForceNoSSR({ calendarData, logins }: { calenda
 
   const githubLogins = (logins && logins.length > 0 ? logins : fallbackLogins).map((s) => s.trim()).filter(Boolean);
 
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  const oneYearAgoStr = oneYearAgo.toISOString().slice(0, 10);
+  const totalContributions = calendarData
+    .filter((d) => d.date >= oneYearAgoStr)
+    .reduce((sum, d) => sum + d.count, 0);
+
   return (
     <NoSsrWrapper>
       <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-        <GithubActivityClient calendarData={calendarData} />
         {githubLogins.length > 0 && (
-          <div className="mt-3 text-xs text-foreground/50">
-            Combined activity of{" "}
-            {githubLogins.map((login, idx) => (
-              <span key={login}>
-                <Link href={`https://github.com/${login}`} target="_blank" className="underline">
-                  @{login}
-                </Link>
-                {idx < githubLogins.length - 1 ? <span>{" · "}</span> : null}
-              </span>
-            ))}
+          <div className="w-full flex items-baseline justify-between mb-1 font-mono">
+            <div className="text-xs text-background/40">
+              {githubLogins.map((login, idx) => (
+                <span key={login}>
+                  <Link href={`https://github.com/${login}`} target="_blank" className="underline hover:text-background/60">
+                    @{login}
+                  </Link>
+                  {idx < githubLogins.length - 1 ? <span>{" · "}</span> : null}
+                </span>
+              ))}
+            </div>
+            <div className="text-xs text-background/40">
+              <span className="font-bold text-background/70">{totalContributions.toLocaleString()}</span>{" "}
+              contributions in the last year
+            </div>
           </div>
         )}
+        <GithubActivityClient calendarData={calendarData} />
       </div>
     </NoSsrWrapper>
   );

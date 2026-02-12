@@ -34,6 +34,22 @@ export default function GhActivitySkeleton() {
 
   return (
     <div ref={containerRef} className="w-full flex flex-col items-center justify-center gap-2">
+      <div className="w-full flex items-baseline justify-between mb-1">
+        <div
+          className="h-3 w-32 rounded-sm"
+          style={{
+            backgroundColor: isRevealed ? "rgba(213,208,195,0.1)" : "transparent",
+            transition: "background-color 400ms ease-out",
+          }}
+        />
+        <div
+          className="h-3 w-44 rounded-sm"
+          style={{
+            backgroundColor: isRevealed ? "rgba(213,208,195,0.1)" : "transparent",
+            transition: "background-color 400ms ease-out",
+          }}
+        />
+      </div>
       {weekCount > 0 && (
         <div className="flex gap-[2px] w-full">
           {Array.from({ length: weekCount }, (_, weekIndex) => (
