@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 interface CalendarData {
   date: string;
@@ -118,9 +118,10 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const availableWeeks = Math.floor(calendarData.length / 7);
   const [weekCount, setWeekCount] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
@@ -129,7 +130,6 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
       const TARGET_CELL = 14;
       const GAP = 2;
       const maxWeeks = Math.floor(width / (TARGET_CELL + GAP));
-      const availableWeeks = Math.floor(calendarData.length / 7);
       setWeekCount(Math.min(maxWeeks, availableWeeks));
     };
 
@@ -137,7 +137,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
     const observer = new ResizeObserver(calculate);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [calendarData.length]);
+  }, [availableWeeks]);
 
   const sweepDurationMs = 1000;
 
@@ -170,9 +170,9 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
           })}
         </div>
         {/* Grid */}
-        <div className="flex gap-[2px] relative flex-col md:flex-row w-full">
+        <div className="flex gap-[2px] relative flex-col md:flex-row w-full overflow-hidden">
           {weeks.map((week, weekIndex) => (
-            <div key={weekIndex} className="flex flex-row md:flex-col gap-[2px] flex-1">
+            <div key={weekIndex} className="flex flex-row md:flex-col gap-[2px] flex-1 min-w-0">
               {week.map((day: CalendarData, dayIndex: number) => (
                 <div
                   key={`${weekIndex}-${dayIndex}`}

@@ -6,9 +6,11 @@ const ROWS = 7;
 const GAP = 2;
 const SWEEP_DURATION_MS = 1200;
 
+const DEFAULT_WEEKS = 52;
+
 export default function GhActivitySkeleton() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [weekCount, setWeekCount] = useState(0);
+  const [weekCount, setWeekCount] = useState(DEFAULT_WEEKS);
   const [isRevealed, setIsRevealed] = useState(false);
 
   useEffect(() => {
@@ -34,41 +36,39 @@ export default function GhActivitySkeleton() {
 
   return (
     <div ref={containerRef} className="w-full flex flex-col items-center justify-center gap-2">
-      <div className="w-full flex items-baseline justify-between mb-1">
+      <div className="w-full flex items-baseline justify-between mb-1 font-mono text-xs">
         <div
-          className="h-3 w-32 rounded-sm"
+          className="h-4 w-32 rounded-sm"
           style={{
-            backgroundColor: isRevealed ? "rgba(213,208,195,0.1)" : "transparent",
+            backgroundColor: isRevealed ? "#1d1d1d" : "#1a1917",
             transition: "background-color 400ms ease-out",
           }}
         />
         <div
-          className="h-3 w-44 rounded-sm"
+          className="h-4 w-48 rounded-sm"
           style={{
-            backgroundColor: isRevealed ? "rgba(213,208,195,0.1)" : "transparent",
+            backgroundColor: isRevealed ? "#1d1d1d" : "#1a1917",
             transition: "background-color 400ms ease-out",
           }}
         />
       </div>
-      {weekCount > 0 && (
-        <div className="flex gap-[2px] w-full">
-          {Array.from({ length: weekCount }, (_, weekIndex) => (
-            <div key={weekIndex} className="flex flex-col gap-[2px] flex-1">
-              {Array.from({ length: ROWS }, (_, dayIndex) => (
-                <div
-                  key={dayIndex}
-                  className="aspect-square rounded-none"
-                  style={{
-                    backgroundColor: isRevealed ? "#1d1d1d" : "#1a1917",
-                    transition: "background-color 400ms ease-out",
-                    transitionDelay: `${(weekIndex / weekCount) * SWEEP_DURATION_MS}ms`,
-                  }}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="flex gap-[2px] w-full overflow-hidden">
+        {Array.from({ length: weekCount }, (_, weekIndex) => (
+          <div key={weekIndex} className="flex flex-col gap-[2px] flex-1 min-w-0">
+            {Array.from({ length: ROWS }, (_, dayIndex) => (
+              <div
+                key={dayIndex}
+                className="aspect-square rounded-none"
+                style={{
+                  backgroundColor: isRevealed ? "#1d1d1d" : "#1a1917",
+                  transition: "background-color 400ms ease-out",
+                  transitionDelay: `${(weekIndex / weekCount) * SWEEP_DURATION_MS}ms`,
+                }}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
