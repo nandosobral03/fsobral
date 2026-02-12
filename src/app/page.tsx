@@ -13,7 +13,7 @@ export default function Home() {
     <>
       {/* Hero Section - Full viewport height */}
       <FadeIn>
-        <LargeTitle alt="ABOUT ME" backgroundImage="/images/creation-hands.webp">FERNANDO SOBRAL</LargeTitle>
+        <LargeTitle alt="ABOUT ME" backgroundImage="/images/creation-hands.png">FERNANDO SOBRAL</LargeTitle>
       </FadeIn>
 
       <div className="structural-line" />
