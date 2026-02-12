@@ -42,18 +42,22 @@ export const metadata: Metadata = {
     default: "Fernando Sobral",
     template: "%s | Fernando Sobral",
   },
-  description:
-    "Software engineer, writer, and builder of things on the internet.",
+  description: "Software engineer and builder of things on the internet.",
   icons: {
     icon: "/favicon.png",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
+    url: siteUrl,
+    title: "Fernando Sobral",
+    description: "Software engineer and builder of things on the internet.",
     siteName: "Fernando Sobral",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
+    title: "Fernando Sobral",
+    description: "Software engineer and builder of things on the internet.",
   },
 };
 
