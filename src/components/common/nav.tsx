@@ -11,38 +11,26 @@ export default function Nav() {
   const fullPathname = usePathname() || "";
   const pathname = fullPathname.split("/")[1] || "";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" ? window.matchMedia("(max-width: 767px)").matches : false
-  );
 
   // Check if we're on a detail page (blog/[name] or projects/[name])
   const isDetailPage = fullPathname.split("/").length > 2 && detailPages.includes(pathname);
-
-  useEffect(() => {
-    const mql = window.matchMedia("(max-width: 767px)");
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, []);
 
   return (
     <div className={`${isDetailPage ? "bg-foreground text-background" : ""}`}>
       <nav aria-label="Main navigation" className={`flex flex-col md:flex-row justify-between uppercase text-sm border-b-[3px] border-foreground mx-4 ${isDetailPage ? "bg-foreground text-background" : ""}`}>
         <div className="flex justify-end items-center">
-          <motion.button className="md:hidden px-4 py-2" onClick={() => setIsMenuOpen(!isMenuOpen)} whileTap={{ scale: 0.95 }} aria-label="Toggle menu" aria-expanded={isMenuOpen}>
+          <motion.button className="md:hidden px-4 py-3 text-2xl" onClick={() => setIsMenuOpen(!isMenuOpen)} whileTap={{ scale: 0.95 }} aria-label="Toggle menu" aria-expanded={isMenuOpen}>
             {isMenuOpen ? "✕" : "☰"}
           </motion.button>
         </div>
 
         <AnimatePresence>
-          {(!isMobile || isMenuOpen) && (
-            <motion.div
-              className="flex flex-col md:flex-row font-semibold font-sans md:flex!"
-              initial={isMobile ? { opacity: 0, height: 0 } : false}
-              animate={isMobile ? { opacity: 1, height: "auto" } : {}}
-              exit={isMobile ? { opacity: 0, height: 0 } : {}}
-              transition={{ duration: 0.2 }}
-            >
+          <motion.div
+            className={`flex-col md:flex-row font-semibold font-sans md:flex ${isMenuOpen ? "flex" : "hidden md:flex"}`}
+            initial={false}
+            animate={isMenuOpen ? { opacity: 1, height: "auto" } : {}}
+            transition={{ duration: 0.2 }}
+          >
               <Link
                 href="/"
                 aria-current={pathname === "" ? "page" : undefined}
@@ -78,8 +66,7 @@ export default function Nav() {
               >
                 <span className="relative z-10">CONTACT</span>
               </Link>
-            </motion.div>
-          )}
+          </motion.div>
         </AnimatePresence>
       </nav>
     </div>

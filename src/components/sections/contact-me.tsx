@@ -15,7 +15,7 @@ export default function ContactMe() {
           <ContactLink href="https://www.github.com/nandosobral03" icon="/icons/github.png" label="Github" />
         </div>
         <div className="h-px bg-background/10 mt-4" />
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1">
           <span className="meta-label text-background/30">&copy; {new Date().getFullYear()} <span className="text-accent/60">Fernando Sobral</span></span>
           <span className="meta-label text-background/30">Montevideo, Uruguay</span>
         </div>

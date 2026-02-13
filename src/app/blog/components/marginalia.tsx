@@ -20,8 +20,8 @@ function MarginaliaCard({ post, index }: { post: MarginaliaPost; index: number }
       <Link href={`/marginalia/${post.slug}`} className="block bg-foreground text-background hover:border-accent group overflow-hidden relative">
         <div className="p-8 transition-all duration-300">
           <h3 className="text-2xl font-bold uppercase font-condensed mb-2 text-background">{post.title}</h3>
-          <p className="text-background/70 mb-3 font-serif">{post.description}</p>
-          <p className="meta-label text-background/40">{post.date}</p>
+          <p className="text-background/60 mb-3 font-serif">{post.description}</p>
+          <p className="meta-label text-accent">{post.date}</p>
 
           {post.tags && post.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-4">

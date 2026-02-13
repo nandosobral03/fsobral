@@ -14,9 +14,10 @@ interface GithubActivityClientProps {
   startFromDark?: boolean;
   fillEmpty?: boolean;
   disableTooltips?: boolean;
+  vertical?: boolean;
 }
 
-export default function GithubActivityClient({ calendarData, startFromDark = false, fillEmpty = false, disableTooltips = false }: GithubActivityClientProps) {
+export default function GithubActivityClient({ calendarData, startFromDark = false, fillEmpty = false, disableTooltips = false, vertical: verticalProp = false }: GithubActivityClientProps) {
   const [isRevealed, setIsRevealed] = useState(!startFromDark);
   const [tooltip, setTooltip] = useState<{ x: number; y: number; count: number; date: string } | null>(null);
   const tooltipTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
@@ -121,23 +122,32 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
   const availableWeeks = Math.floor(calendarData.length / 7);
   const [weekCount, setWeekCount] = useState(0);
 
+  const [vertical, setVertical] = useState(verticalProp);
+
   useLayoutEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
     const calculate = () => {
       const width = el.clientWidth;
+      const isVertical = verticalProp || width < 500;
+      setVertical(isVertical);
+
       const TARGET_CELL = 14;
       const GAP = 2;
-      const maxWeeks = Math.floor(width / (TARGET_CELL + GAP));
-      setWeekCount(Math.min(maxWeeks, availableWeeks));
+      if (isVertical) {
+        setWeekCount(Math.min(availableWeeks, 52));
+      } else {
+        const maxWeeks = Math.floor(width / (TARGET_CELL + GAP));
+        setWeekCount(Math.min(maxWeeks, availableWeeks));
+      }
     };
 
     calculate();
     const observer = new ResizeObserver(calculate);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [availableWeeks]);
+  }, [availableWeeks, verticalProp]);
 
   const sweepDurationMs = 1000;
 
@@ -145,10 +155,59 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
     const monthLabels = getMonthLabels(weeks);
     const totalWeeks = weeks.length;
 
+    if (vertical) {
+      return (
+        <div className="flex flex-row w-fit mx-auto gap-1">
+          {/* Month labels column */}
+          <div className="flex flex-col gap-[2px] w-10 flex-shrink-0">
+            {weeks.map((_, weekIndex) => {
+              const label = monthLabels.find((l) => l.weekIndex === weekIndex);
+              return (
+                <div key={weekIndex} className="h-[18px] flex items-center justify-end pr-1">
+                  {label && (
+                    <span
+                      className={`meta-label text-[9px] whitespace-nowrap ${label.isYear ? "text-background/70 font-bold" : "text-background/40"}`}
+                      style={{
+                        opacity: isRevealed ? 1 : 0,
+                        transition: `opacity 300ms ease`,
+                        transitionDelay: `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
+                      }}
+                    >
+                      {label.label}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          {/* Vertical grid: weeks as rows, days as columns */}
+          <div className="flex flex-col gap-[2px] flex-1 min-w-0">
+            {weeks.map((week, weekIndex) => (
+              <div key={weekIndex} className="flex flex-row gap-[2px]">
+                {week.map((day: CalendarData, dayIndex: number) => (
+                  <div
+                    key={`${weekIndex}-${dayIndex}`}
+                    className="w-[18px] h-[18px] rounded-none cursor-pointer hover:brightness-150"
+                    style={{
+                      backgroundColor: isRevealed ? getColor(day.count) : darkColor,
+                      transition: `background-color 400ms ease-out`,
+                      transitionDelay: `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
+                    }}
+                    onMouseEnter={(e) => handleCellEnter(e, day)}
+                    onMouseLeave={handleCellLeave}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="flex flex-col w-full">
         {/* Month/year labels row */}
-        <div className="hidden md:flex gap-[2px] w-full mb-1 h-4">
+        <div className="flex gap-[2px] w-full mb-1 h-4">
           {weeks.map((_, weekIndex) => {
             const label = monthLabels.find((l) => l.weekIndex === weekIndex);
             return (
@@ -169,10 +228,10 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
             );
           })}
         </div>
-        {/* Grid */}
-        <div className="flex gap-[2px] relative flex-col md:flex-row w-full overflow-hidden">
+        {/* Horizontal grid: weeks as columns, days as rows */}
+        <div className="flex gap-[2px] relative flex-row w-full overflow-hidden">
           {weeks.map((week, weekIndex) => (
-            <div key={weekIndex} className="flex flex-row md:flex-col gap-[2px] flex-1 min-w-0">
+            <div key={weekIndex} className="flex flex-col gap-[2px] flex-1 min-w-0">
               {week.map((day: CalendarData, dayIndex: number) => (
                 <div
                   key={`${weekIndex}-${dayIndex}`}
@@ -195,7 +254,18 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
 
   return (
     <div ref={containerRef} className="w-full flex flex-col items-center justify-center gap-2">
-      {weekCount > 0 && renderGrid(createWeeks(weekCount), "aspect-square")}
+      {weekCount > 0 && vertical ? (
+        <>
+          <div className="w-full md:hidden">
+            {renderGrid(createWeeks(Math.min(weekCount, 26)), "aspect-square")}
+          </div>
+          <div className="w-full hidden md:block">
+            {renderGrid(createWeeks(weekCount), "aspect-square")}
+          </div>
+        </>
+      ) : weekCount > 0 ? (
+        renderGrid(createWeeks(weekCount), "aspect-square")
+      ) : null}
       {tooltip && (
         <div
           className="fixed z-[9999] flex items-baseline gap-2 px-3 py-1.5 border border-accent/40 bg-foreground/95 backdrop-blur-sm pointer-events-none whitespace-nowrap"

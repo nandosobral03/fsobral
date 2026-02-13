@@ -105,7 +105,7 @@ function levelFromCount(count: number): number {
   return 6;
 }
 
-export default async function GithubActivityServer() {
+export default async function GithubActivityServer({ vertical = false }: { vertical?: boolean } = {}) {
   let calendarData: CalendarData[] = [];
   let error: string | null = null;
 
@@ -144,5 +144,5 @@ export default async function GithubActivityServer() {
     .map((s) => s.trim())
     .filter(Boolean);
 
-  return <GHActivityForceNoSSR calendarData={calendarData} logins={rawLogins} />;
+  return <GHActivityForceNoSSR calendarData={calendarData} logins={rawLogins} vertical={vertical} />;
 }

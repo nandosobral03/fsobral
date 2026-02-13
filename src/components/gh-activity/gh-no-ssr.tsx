@@ -12,7 +12,7 @@ interface CalendarData {
   weekday: number;
 }
 
-export default function GHActivityForceNoSSR({ calendarData, logins }: { calendarData: CalendarData[]; logins?: string[] }) {
+export default function GHActivityForceNoSSR({ calendarData, logins, vertical = false }: { calendarData: CalendarData[]; logins?: string[]; vertical?: boolean }) {
   const fallbackLogins = (env.NEXT_PUBLIC_GITHUB_LOGINS || "nandosobral03,fernando-keeper")
     .split(",")
     .map((s) => s.trim())
@@ -37,7 +37,7 @@ export default function GHActivityForceNoSSR({ calendarData, logins }: { calenda
     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
       {githubLogins.length > 0 && (
         <div
-          className="w-full flex items-baseline justify-between mb-1 font-mono"
+          className="w-full flex flex-col md:flex-row md:items-baseline md:justify-between mb-1 font-mono gap-0.5 md:gap-0"
           style={{
             opacity: visible ? 1 : 0,
             transition: "opacity 600ms ease-out",
@@ -59,7 +59,7 @@ export default function GHActivityForceNoSSR({ calendarData, logins }: { calenda
           </div>
         </div>
       )}
-      <GithubActivityClient calendarData={calendarData} startFromDark />
+      <GithubActivityClient calendarData={calendarData} startFromDark vertical={vertical} />
     </div>
   );
 }
