@@ -9,8 +9,18 @@ import { motion } from "motion/react";
 export default function Home() {
   return (
     <>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="mb-20">
-        <LargeTitle alt="AORNUM" animation="cube" variant="page" textClassName="text-[10vw] xl:text-[7rem]">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        className="mb-20"
+      >
+        <LargeTitle
+          alt="AORNUM"
+          animation="cube"
+          variant="page"
+          textClassName="text-[10vw] xl:text-[7rem]"
+        >
           PROJECTS
         </LargeTitle>
       </motion.div>
@@ -20,17 +30,36 @@ export default function Home() {
       <div className="structural-line" />
 
       <ProjectsByYear
-        year={2025}
+        year={2026}
         preface={
           <>
-            <span className="italic text-foreground/60">"I'm really in pursuit of greatness."</span>
+            No clear goal yet in 2026, overall keep building. Build better,
+            build nicer, explore new tech if it feets, make beautiful designs,
+            have fun.
+          </>
+        }
+      />
+
+      <div className="structural-line" />
+
+      <ProjectsByYear
+        year={2025}
+        side="right"
+        preface={
+          <>
+            <span className="italic text-foreground/60">
+              "I'm really in pursuit of greatness."
+            </span>
             <br />
             <br />
-            In 2025, the focus shifts from depth to excellence. I want to tackle harder, more challenging projects that push me beyond my comfort zone — projects that demand I finish the complex last 20% instead of settling for "good
-            enough."
+            In 2025, the focus shifts from depth to excellence. I want to tackle
+            harder, more challenging projects that push me beyond my comfort
+            zone — projects that demand I finish the complex last 20% instead of
+            settling for "good enough."
             <br />
             <br />
-            The goal: build fewer things, but take my time to refine them, learn deep not broad.
+            The goal: build fewer things, but take my time to refine them, learn
+            deep not broad.
           </>
         }
       />
@@ -39,13 +68,16 @@ export default function Home() {
 
       <ProjectsByYear
         year={2024}
-        side="right"
         preface={
           <>
-            In 2024, I shifted from exploration to mastery. Instead of learning a little about everything, I doubled down on a core stack: React, Next.js, and tRPC.
+            In 2024, I shifted from exploration to mastery. Instead of learning
+            a little about everything, I doubled down on a core stack: React,
+            Next.js, and tRPC.
             <br />
             <br />
-            The mentality stayed the same — build for the sake of building — but with a new constraint: spend more time on fewer projects, polish them properly, and learn the technology deeply rather than broadly.
+            The mentality stayed the same — build for the sake of building — but
+            with a new constraint: spend more time on fewer projects, polish
+            them properly, and learn the technology deeply rather than broadly.
           </>
         }
       />
@@ -54,18 +86,27 @@ export default function Home() {
 
       <ProjectsByYear
         year={2023}
+        side="right"
         preface={
           <>
-            In 2023, I went wide. I learned as many technologies and frameworks as I could, building a broad understanding of the web development ecosystem. The goal was simple: just build stuff. Lots of small projects, mostly for myself
-            and friends.
+            In 2023, I went wide. I learned as many technologies and frameworks
+            as I could, building a broad understanding of the web development
+            ecosystem. The goal was simple: just build stuff. Lots of small
+            projects, mostly for myself and friends.
             <br />
             <br />
             About halfway through the year, I found{" "}
-            <Link href="https://ntietz.com/blog/write-more-useless-software/" className="underline text-accent" target="_blank">
+            <Link
+              href="https://ntietz.com/blog/write-more-useless-software/"
+              className="underline text-accent"
+              target="_blank"
+            >
               this blog post
             </Link>{" "}
-            by Nick Tietz that resonated deeply. Who cares if you build something no one uses? Who cares if you write something no one reads? The point is to build for the joy of building, for the satisfaction that comes with creating
-            something from nothing.
+            by Nick Tietz that resonated deeply. Who cares if you build
+            something no one uses? Who cares if you write something no one
+            reads? The point is to build for the joy of building, for the
+            satisfaction that comes with creating something from nothing.
           </>
         }
       />

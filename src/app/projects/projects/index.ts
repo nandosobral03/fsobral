@@ -2,6 +2,7 @@ import { fourCombinator } from "./4combinator";
 import { apollo } from "./apollo";
 import { atmosphere } from "./atmosphere";
 import { chimera } from "./chimera";
+import { consequences } from "./consequences";
 import { deadair } from "./deadair";
 import { eos } from "./eos";
 import { mimicrai } from "./mimicrai";
@@ -41,7 +42,8 @@ type ProjectNames =
   | "mimicrai"
   | "rabbithole"
   | "apollo"
-  | "atmosphere";
+  | "atmosphere"
+  | "consequences";
 
 export type Project = {
   name: ProjectNames;
@@ -83,4 +85,5 @@ export const projects: Project[] = [
   rabbithole,
   apollo,
   atmosphere,
+  consequences,
 ].reverse();
