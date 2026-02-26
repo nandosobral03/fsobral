@@ -5,6 +5,7 @@ import { chimera } from "./chimera";
 import { consequences } from "./consequences";
 import { deadair } from "./deadair";
 import { eos } from "./eos";
+import { gitCopycat } from "./git-copycat";
 import { mimicrai } from "./mimicrai";
 import { minos } from "./minos";
 import { momentum } from "./momentum";
@@ -43,6 +44,7 @@ type ProjectNames =
   | "rabbithole"
   | "apollo"
   | "atmosphere"
+  | "git copycat"
   | "consequences";
 
 export type Project = {
@@ -85,5 +87,6 @@ export const projects: Project[] = [
   rabbithole,
   apollo,
   atmosphere,
+  gitCopycat,
   consequences,
 ].reverse();
