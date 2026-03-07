@@ -14,7 +14,7 @@ export default function TechStack() {
   return (
     <section className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center gap-8 relative">
       <div className="flex flex-col gap-4">
-        <p className="meta-label text-background/40">Stack</p>
+        <p className="meta-label text-background/30">Stack</p>
         <div className="flex flex-wrap gap-2">
           {mainStack.map((tech) => (
             <span
@@ -51,7 +51,7 @@ export default function TechStack() {
             Senior Software Engineer at{" "}
             <a
               href="https://www.doublehq.com"
-              className="bg-[#5F63F5] text-white rounded-sm p-1 font-sans"
+              className="text-accent underline underline-offset-2 decoration-accent/50 hover:decoration-accent transition-all duration-300 font-sans"
             >
               double
             </a>{" "}

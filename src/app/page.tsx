@@ -39,7 +39,7 @@ export default function Home() {
         <Projects />
       </div>
 
-      <div className="structural-line" />
+      <div className="h-[3px] bg-foreground mx-8 md:mx-12" />
 
       {/* Blog Section */}
       <div className="section-gap">

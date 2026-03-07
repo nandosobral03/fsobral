@@ -43,17 +43,17 @@ export default function GHActivityForceNoSSR({ calendarData, logins, vertical = 
             transition: "opacity 600ms ease-out",
           }}
         >
-          <div className="text-xs text-background/40">
+          <div className="text-xs text-background/30">
             {githubLogins.map((login, idx) => (
               <span key={login}>
-                <Link href={`https://github.com/${login}`} target="_blank" className="underline hover:text-background/60">
+                <Link href={`https://github.com/${login}`} target="_blank" className="underline hover:text-background/50">
                   @{login}
                 </Link>
                 {idx < githubLogins.length - 1 ? <span>{" · "}</span> : null}
               </span>
             ))}
           </div>
-          <div className="text-xs text-background/40">
+          <div className="text-xs text-background/30">
             <span className="font-bold text-background/70">{totalContributions.toLocaleString()}</span>{" "}
             contributions in the last year
           </div>

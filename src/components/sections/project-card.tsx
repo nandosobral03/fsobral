@@ -25,7 +25,7 @@ export default function ProjectCard({ title, image, children, year, variant = "c
       <div className="flex flex-col gap-2 p-4 md:p-5 flex-1">
         <div className="flex items-baseline justify-between">
           <h3 className="font-bold font-condensed uppercase text-lg md:text-2xl text-background">{title}</h3>
-          <span className="meta-label text-accent/60">{year}</span>
+          <span className="meta-label text-accent/50">{year}</span>
         </div>
         <p className="font-serif text-sm md:text-base leading-relaxed text-background/50">{children}</p>
       </div>

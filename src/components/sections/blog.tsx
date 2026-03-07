@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 
 export default function Blog() {
   return (
-    <section className="px-6 flex flex-col gap-3">
+    <section className="px-8 md:px-12 flex flex-col gap-3">
       <SectionTitle index="03">Blog</SectionTitle>
       <div className="flex items-baseline justify-between mb-2">
         <p className="font-serif text-foreground/50">
@@ -16,7 +16,7 @@ export default function Blog() {
         </p>
         <Link
           href="/blog"
-          className="meta-label text-foreground/40 hover:text-foreground transition-colors duration-300"
+          className="meta-label text-foreground/30 hover:text-foreground transition-colors duration-300"
         >
           View all
         </Link>

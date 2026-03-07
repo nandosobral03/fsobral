@@ -44,6 +44,59 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
     tooltipTimeoutRef.current = setTimeout(() => setTooltip(null), 50);
   }, []);
 
+  const lastPointerPos = useRef<{ x: number; y: number } | null>(null);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    const current = { x: e.clientX, y: e.clientY };
+    const last = lastPointerPos.current;
+    lastPointerPos.current = current;
+
+    const points: { x: number; y: number }[] = [];
+    if (last) {
+      const dx = current.x - last.x;
+      const dy = current.y - last.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const steps = Math.max(1, Math.ceil(dist / 4));
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        points.push({ x: last.x + dx * t, y: last.y + dy * t });
+      }
+    } else {
+      points.push(current);
+    }
+
+    const activated = new Set<Element>();
+    for (const pt of points) {
+      const el = document.elementFromPoint(pt.x, pt.y);
+      if (!el || !el.classList.contains("heatmap-cell")) continue;
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const step = rect.width + 2; // cell size + gap
+
+      const radius = 2;
+      for (let dx = -radius; dx <= radius; dx++) {
+        for (let dy = -radius; dy <= radius; dy++) {
+          if (dx * dx + dy * dy > radius * radius) continue;
+          const neighbor = document.elementFromPoint(cx + dx * step, cy + dy * step);
+          if (!neighbor || !neighbor.classList.contains("heatmap-cell") || activated.has(neighbor)) continue;
+          activated.add(neighbor);
+          neighbor.classList.add("heatmap-active");
+          const prev = (neighbor as HTMLElement).dataset.fadeTimeout;
+          if (prev) clearTimeout(Number(prev));
+          const tid = setTimeout(() => {
+            neighbor.classList.remove("heatmap-active");
+          }, 300);
+          (neighbor as HTMLElement).dataset.fadeTimeout = String(tid);
+        }
+      }
+    }
+  }, []);
+
+  const handlePointerLeave = useCallback(() => {
+    lastPointerPos.current = null;
+  }, []);
+
   const darkColor = "#1a1917";
 
   const colors = ["#1d1d1d", "#4a1e14", "#7a2d1a", "#a63a1f", "#d44527", "#e8603a"];
@@ -187,12 +240,11 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
                 {week.map((day: CalendarData, dayIndex: number) => (
                   <div
                     key={`${weekIndex}-${dayIndex}`}
-                    className="w-[18px] h-[18px] rounded-none cursor-pointer hover:brightness-150"
+                    className="w-[18px] h-[18px] rounded-none cursor-pointer heatmap-cell"
                     style={{
                       backgroundColor: isRevealed ? getColor(day.count) : darkColor,
-                      transition: `background-color 400ms ease-out`,
-                      transitionDelay: `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
-                    }}
+                      '--sweep-delay': `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
+                    } as React.CSSProperties}
                     onMouseEnter={(e) => handleCellEnter(e, day)}
                     onMouseLeave={handleCellLeave}
                   />
@@ -235,12 +287,11 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
               {week.map((day: CalendarData, dayIndex: number) => (
                 <div
                   key={`${weekIndex}-${dayIndex}`}
-                  className={`${sizeClass} rounded-none cursor-pointer hover:brightness-150`}
+                  className={`${sizeClass} rounded-none cursor-pointer heatmap-cell`}
                   style={{
                     backgroundColor: isRevealed ? getColor(day.count) : darkColor,
-                    transition: `background-color 400ms ease-out`,
-                    transitionDelay: `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
-                  }}
+                    '--sweep-delay': `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
+                  } as React.CSSProperties}
                   onMouseEnter={(e) => handleCellEnter(e, day)}
                   onMouseLeave={handleCellLeave}
                 />
@@ -253,7 +304,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
   };
 
   return (
-    <div ref={containerRef} className="w-full flex flex-col items-center justify-center gap-2">
+    <div ref={containerRef} className="w-full flex flex-col items-center justify-center gap-2" onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
       {weekCount > 0 && vertical ? (
         <>
           <div className="w-full md:hidden">
@@ -273,7 +324,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
         >
           <span className="text-sm font-condensed font-bold text-background">{tooltip.count}</span>
           <span className="w-px h-3 bg-background/20" />
-          <span className="meta-label text-[9px] text-background/50">
+          <span className="meta-label text-[9px] text-background/30">
             {new Date(tooltip.date + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
           </span>
         </div>

@@ -37,7 +37,7 @@ export default function ProjectCarousel() {
   const cardWidth = isMobile ? 280 : 420;
   const gap = 16;
   const containerWidth = isMounted ? viewportWidth : 1200;
-  const sidePadding = 24;
+  const sidePadding = 32;
   const totalWidth = projects.length * cardWidth + (projects.length - 1) * gap + sidePadding * 2;
   const overflow = totalWidth - containerWidth;
   const leftConstraint = overflow > 0 ? -overflow : 0;
@@ -65,7 +65,7 @@ export default function ProjectCarousel() {
   if (!isMounted) {
     return (
       <div className="w-full overflow-hidden">
-        <div className="flex gap-4 px-6">
+        <div className="flex gap-4 px-8 md:px-12">
           {projects.slice(0, 3).map((project, index) => (
             <div key={index} className="flex-shrink-0">
               <ProjectCard title={project.name} image={project.preview.cover} year={project.year}>
