@@ -7,10 +7,6 @@ export const overload: Project = {
       url: "https://overload.fsobral.dev",
       name: "Live",
     },
-    {
-      url: "https://github.com/nandosobral03/overload",
-      name: "Github",
-    },
   ],
   year: 2026,
   preview: {
