@@ -7,6 +7,7 @@ import { deadair } from "./deadair";
 import { eos } from "./eos";
 import { gitCopycat } from "./git-copycat";
 import { mimicrai } from "./mimicrai";
+import { overload } from "./overload";
 import { minos } from "./minos";
 import { momentum } from "./momentum";
 import { mushare } from "./mushare";
@@ -45,7 +46,8 @@ type ProjectNames =
   | "apollo"
   | "atmosphere"
   | "git copycat"
-  | "consequences";
+  | "consequences"
+  | "overload";
 
 export type Project = {
   name: ProjectNames;
@@ -89,4 +91,5 @@ export const projects: Project[] = [
   atmosphere,
   gitCopycat,
   consequences,
+  overload,
 ].reverse();
