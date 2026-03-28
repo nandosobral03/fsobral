@@ -56,6 +56,9 @@ export const metadata: Metadata = {
     title: "Fernando Sobral",
     description: "Software engineer and builder of things on the internet.",
   },
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export const generateViewport = () => {
