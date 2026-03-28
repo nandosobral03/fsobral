@@ -4,14 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build Commands
 
-- `npm run dev` — start Next.js dev server
-- `npm run build` — production build
-- `npm run lint` — ESLint (extends `next/core-web-vitals` and `next/typescript`)
+- `bun run dev` — start Next.js dev server
+- `bun run build` — production build
+- `bun run lint` — ESLint (extends `eslint-config-next`)
 - No test framework is configured
+
+## Workflow
+
+- **Do not create git commits** — the user handles all commits
+- Deployed on **Vercel** (auto-deploys on push to master)
 
 ## Architecture
 
-Personal portfolio site built with **Next.js 15 (App Router)**, **React 19**, **TypeScript**, and **Tailwind CSS v4**.
+Personal portfolio site built with **Next.js (App Router)**, **React 19**, **TypeScript**, and **Tailwind CSS v4**.
 
 ### Content System
 
@@ -23,45 +28,18 @@ Blog posts and projects are **component-based, not MDX/markdown**. Each piece of
 
 Blog posts use building-block components from `src/app/blog/components/blog-section/` (codeblock, paragraph, section, quote, image-carousel, etc.).
 
-### Key Directories
-
-- `src/app/` — pages, API routes, and route-specific components
-- `src/components/common/` — shared UI (nav, titles, dividers, tags, animations)
-- `src/components/sections/` — home page sections (about, tech-stack, projects, blog, contact)
-- `src/components/ascii-animations/` — ASCII art animations (sphere, cube, donut, dna)
-- `src/components/gh-activity/` — GitHub contribution heatmap (server fetch + client render)
-
-### Dynamic Routes
-
-- `/blog/[name]` — blog post pages
-- `/projects/[name]` — project detail pages
-- `/marginalia/[slug]` — marginalia entries
-
-### API Routes
-
-- `GET /api/github-activity` — fetches GitHub contribution calendar via GraphQL, uses `GITHUB_TOKEN` env var
-
-### Context Providers
-
-- `FootnoteContext` — manages footnote state within blog posts
-- `ExpandedImageContext` — manages image modal state
-
 ## Code Style
 
 - **Naming**: PascalCase for components, kebab-case for files/directories
 - **Imports**: `@/` alias maps to `src/`
 - **Styling**: Tailwind utility classes inline, `clsx` for conditional classes
 - **Animations**: `motion/react` library (Framer Motion), using `initial`/`animate`/`whileHover` patterns
-- **Fonts**: Roboto, Newsreader, Outfit, Roboto Condensed (configured in root layout)
 - **Components**: functional components with typed props interfaces
 - **Client components**: use `"use client"` directive; server components are the default
 
-## Theme
+## Changelog
 
-Custom Tailwind v4 theme defined in `globals.css`:
-- Background: `#d5d0c3` (warm beige)
-- Foreground: `#171717` (near-black)
-- Accent: `#d44527` (burnt orange)
+When making significant changes to the site (new features, new content, design changes, major refactors), add an entry to the changelog at `src/app/marginalia/posts/changelog/changelog-entries.ts`. Prepend a new object to the `entries` array with `date`, `description`, and `tag` (`added`, `improved`, or `fixed`).
 
 ## Environment Variables
 

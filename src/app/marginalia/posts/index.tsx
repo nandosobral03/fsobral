@@ -1,5 +1,6 @@
 import TwentyTwentyFive from "./2025/2025";
 import Favorites from "./favorites/favorites";
+import Changelog from "./changelog/changelog";
 
 export type MarginaliaPost = {
   title: string;
@@ -25,6 +26,14 @@ const basePosts: MarginaliaPost[] = [
     slug: "2025",
     date: "December 26, 2025",
     components: <TwentyTwentyFive />,
+    tags: [],
+  },
+  {
+    title: "Changelog",
+    description: "A high-level overview of updates to this site",
+    slug: "changelog",
+    date: "March 28, 2026",
+    components: <Changelog />,
     tags: [],
   },
 ];
