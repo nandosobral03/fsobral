@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const CHARS = " .:-=+*#%@";
 
@@ -45,6 +45,9 @@ uniform float u_opacity;
 uniform float u_density;
 uniform vec2 u_imageSize;
 uniform float u_rotate;
+uniform float u_fitHeight;
+uniform float u_alignLeft;
+uniform float u_contrast;
 
 float hash21(vec2 p) {
   p = fract(p * vec2(233.34, 851.73));
@@ -66,15 +69,23 @@ void main() {
   float canvasAspect = u_resolution.x / u_resolution.y;
   float imageAspect = u_imageSize.x / u_imageSize.y;
 
-  // Fit image within canvas (cover)
   vec2 imageUV;
-  if (canvasAspect > imageAspect) {
-    // Canvas is wider — fit to width, crop height
+  if (u_fitHeight > 0.5) {
+    // Fit to height, align left or center
+    float scale = canvasAspect / imageAspect;
+    imageUV.y = cellCenter.y;
+    if (u_alignLeft > 0.5) {
+      imageUV.x = cellCenter.x * scale;
+    } else {
+      imageUV.x = (cellCenter.x - 0.5) * scale + 0.5;
+    }
+  } else if (canvasAspect > imageAspect) {
+    // Cover: Canvas is wider — fit to width, crop height
     float scale = imageAspect / canvasAspect;
     imageUV.x = cellCenter.x;
     imageUV.y = (cellCenter.y - 0.5) * scale + 0.5;
   } else {
-    // Canvas is taller — fit to height, crop width
+    // Cover: Canvas is taller — fit to height, crop width
     float scale = canvasAspect / imageAspect;
     imageUV.x = (cellCenter.x - 0.5) * scale + 0.5;
     imageUV.y = cellCenter.y;
@@ -114,15 +125,23 @@ void main() {
   // Sample image (flip Y since WebGL origin is bottom-left)
   vec4 texColor = texture2D(u_image, vec2(imageUV.x, 1.0 - imageUV.y));
 
+  // Transparent pixels in the source image → transparent output
+  if (texColor.a < 0.1) {
+    gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+    return;
+  }
+
   // Convert to grayscale using luminance weights
   float brightness = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
 
   // Invert: dark areas of image → dense chars (@#%), light areas → sparse (. :)
   brightness = 1.0 - brightness;
 
-  // Boost contrast so mid-tones (skin) use denser characters
-  brightness = smoothstep(0.0, 0.7, brightness);
-  brightness = pow(brightness, 0.6);
+  // Boost contrast — u_contrast adjusts the curve (0 = default, 1 = full range)
+  float ssRange = mix(0.7, 1.0, u_contrast);
+  float gamma = mix(0.6, 1.2, u_contrast);
+  brightness = smoothstep(0.0, ssRange, brightness);
+  brightness = pow(brightness, gamma);
 
   // Dithering noise — temporal + spatial layers, scaled by darkness
   float timeBase = u_time * 0.4;
@@ -146,10 +165,17 @@ void main() {
   float atlasY = 1.0 - cellUV.y;
   float charAlpha = texture2D(u_charAtlas, vec2(atlasX, atlasY)).r;
 
-  // Foreground color: #171717
-  vec3 fgColor = vec3(0.09, 0.09, 0.09);
+  // Fade out at right edge when using fitHeight
+  float edgeFade = 1.0;
+  if (u_fitHeight > 0.5) {
+    edgeFade = smoothstep(1.0, 0.75, imageUV.x);
+  }
 
-  gl_FragColor = vec4(fgColor, charAlpha * u_opacity);
+  // Foreground color: #171717 (premultiplied alpha)
+  vec3 fgColor = vec3(0.09, 0.09, 0.09);
+  float a = charAlpha * u_opacity * edgeFade;
+
+  gl_FragColor = vec4(fgColor * a, a);
 }
 `;
 
@@ -160,6 +186,14 @@ interface AsciiImageProps {
   className?: string;
   /** Rotation angle in degrees */
   rotateAngle?: number;
+  /** Static fallback image shown when WebGL is unavailable */
+  fallbackSrc?: string;
+  /** Fit image to full height instead of cover */
+  fitHeight?: boolean;
+  /** Align image to the left edge (only applies when fitHeight is true) */
+  alignLeft?: boolean;
+  /** Contrast adjustment: 0 = default (optimized for paintings), 1 = full tonal range (better for photos/sculptures) */
+  contrast?: number;
 }
 
 export default function AsciiImage({
@@ -168,9 +202,15 @@ export default function AsciiImage({
   density = 120,
   className,
   rotateAngle = 0,
+  fallbackSrc,
+  fitHeight = false,
+  alignLeft = false,
+  contrast = 0,
 }: AsciiImageProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
+
+  const [webglFailed, setWebglFailed] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -178,9 +218,12 @@ export default function AsciiImage({
 
     const gl = canvas.getContext("webgl", {
       alpha: true,
-      premultipliedAlpha: false,
+      premultipliedAlpha: true,
     });
-    if (!gl) return;
+    if (!gl) {
+      setWebglFailed(true);
+      return;
+    }
 
     // Load image
     const img = new Image();
@@ -274,6 +317,8 @@ export default function AsciiImage({
       const uImageSize = gl.getUniformLocation(program, "u_imageSize");
 
       const uRotate = gl.getUniformLocation(program, "u_rotate");
+      const uFitHeight = gl.getUniformLocation(program, "u_fitHeight");
+      const uAlignLeft = gl.getUniformLocation(program, "u_alignLeft");
 
       gl.uniform1f(uCharCount, CHARS.length);
       gl.uniform1i(uCharAtlas, 0);
@@ -282,9 +327,13 @@ export default function AsciiImage({
       gl.uniform1f(uDensity, density);
       gl.uniform1f(uRotate, (rotateAngle * Math.PI) / 180);
       gl.uniform2f(uImageSize, img.naturalWidth, img.naturalHeight);
+      gl.uniform1f(uFitHeight, fitHeight ? 1.0 : 0.0);
+      gl.uniform1f(uAlignLeft, alignLeft ? 1.0 : 0.0);
+      const uContrast = gl.getUniformLocation(program, "u_contrast");
+      gl.uniform1f(uContrast, contrast);
 
       gl.enable(gl.BLEND);
-      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
       const resize = () => {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -338,7 +387,20 @@ export default function AsciiImage({
       const c = canvas as unknown as { _cleanup?: () => void };
       c._cleanup?.();
     };
-  }, [src, opacity, density, rotateAngle]);
+  }, [src, opacity, density, rotateAngle, fitHeight, alignLeft, contrast]);
+
+  if (webglFailed) {
+    if (!fallbackSrc) return null;
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={fallbackSrc}
+        alt=""
+        className={className ?? "w-full h-full select-none"}
+        style={{ objectFit: "cover" }}
+      />
+    );
+  }
 
   return (
     <canvas

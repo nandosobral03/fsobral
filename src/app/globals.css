@@ -173,18 +173,22 @@
   .structural-line { height: 1px; background: var(--foreground); opacity: 0.15; margin: 0 2rem; }
   @media (min-width: 768px) { .structural-line { margin: 0 3rem; } }
 
-  /* Heatmap cell: grayscale by default, color on hover */
+  /* Heatmap cell: grayscale + hover effect only on pointer devices */
   .heatmap-cell {
-    filter: grayscale(1);
     transition-property: background-color, filter;
     transition-duration: 400ms, 1.5s;
     transition-timing-function: ease-out, ease;
     transition-delay: var(--sweep-delay, 0ms), 0ms;
   }
-  .heatmap-cell:hover,
-  .heatmap-cell.heatmap-active {
-    filter: grayscale(0) brightness(1.5);
-    transition-duration: 400ms, 0.15s;
+  @media (hover: hover) {
+    .heatmap-cell {
+      filter: grayscale(1);
+    }
+    .heatmap-cell:hover,
+    .heatmap-cell.heatmap-active {
+      filter: grayscale(0) brightness(1.5);
+      transition-duration: 400ms, 0.15s;
+    }
   }
 
   /* Ghost typography — oversized, barely-visible background text */

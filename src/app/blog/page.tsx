@@ -19,9 +19,18 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-20"
+        className="mb-8"
       >
-        <LargeTitle alt="IPSUM" animation="sphere" variant="page">
+        <LargeTitle
+          alt="IPSUM"
+          variant="page"
+          backgroundImage="/images/thinker.png"
+          backgroundImageContrast={1.2}
+          backgroundImageFallback={{
+            desktop: "/images/thinker-ascii-desktop.png",
+            mobile: "/images/thinker-ascii-mobile.png",
+          }}
+        >
           BLOG
         </LargeTitle>
       </motion.div>

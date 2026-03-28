@@ -54,7 +54,7 @@ export default function GHActivityForceNoSSR({ calendarData, logins, vertical = 
             ))}
           </div>
           <div className="text-xs text-background/30">
-            <span className="font-bold text-background/70">{totalContributions.toLocaleString()}</span>{" "}
+            <span className="font-bold text-background/70">{totalContributions.toLocaleString("en-US")}</span>{" "}
             contributions in the last year
           </div>
         </div>

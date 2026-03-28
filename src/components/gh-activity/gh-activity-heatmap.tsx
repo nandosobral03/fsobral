@@ -47,6 +47,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
   const lastPointerPos = useRef<{ x: number; y: number } | null>(null);
 
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === "touch") return;
     const current = { x: e.clientX, y: e.clientY };
     const last = lastPointerPos.current;
     lastPointerPos.current = current;

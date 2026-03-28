@@ -13,7 +13,14 @@ export default function Home() {
     <>
       {/* Hero Section - Full viewport height */}
       <FadeIn>
-        <LargeTitle alt="ABOUT ME" backgroundImage="/images/creation-hands.png">FERNANDO SOBRAL</LargeTitle>
+        <LargeTitle
+          alt="ABOUT ME"
+          backgroundImage="/images/creation-hands.png"
+          backgroundImageFallback={{
+            desktop: "/images/creation-hands-ascii-desktop.png",
+            mobile: "/images/creation-hands-ascii-mobile.png",
+          }}
+        >FERNANDO SOBRAL</LargeTitle>
       </FadeIn>
 
       <div className="structural-line" />

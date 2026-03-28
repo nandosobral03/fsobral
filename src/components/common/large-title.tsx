@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import dynamic from "next/dynamic";
 import CircularText from "@/components/common/circular-text";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 
 const AsciiSphere = dynamic(
   () => import("@/components/ascii-animations/ascii-sphere"),
@@ -18,6 +18,21 @@ const AsciiImage = dynamic(
   { ssr: false },
 );
 
+const MD_BREAKPOINT = 768;
+
+const subscribe = (cb: () => void) => {
+  window.addEventListener("resize", cb);
+  return () => window.removeEventListener("resize", cb);
+};
+
+function useIsDesktop() {
+  return useSyncExternalStore(
+    subscribe,
+    () => window.innerWidth >= MD_BREAKPOINT,
+    () => true,
+  );
+}
+
 const DURATION = 0.25;
 const STAGGER = 0.025;
 
@@ -28,6 +43,9 @@ interface LargeTitleProps {
   alt?: string;
   animation?: AnimationType;
   backgroundImage?: string;
+  backgroundImageFallback?: { desktop?: string; mobile?: string };
+  backgroundImageOpacity?: number;
+  backgroundImageContrast?: number;
   variant?: "hero" | "page";
   textClassName?: string;
 }
@@ -37,12 +55,16 @@ export default function LargeTitle({
   alt,
   animation = "sphere",
   backgroundImage,
+  backgroundImageFallback,
+  backgroundImageOpacity = 1.0,
+  backgroundImageContrast = 0,
   variant = "hero",
   textClassName,
 }: LargeTitleProps) {
   const text = children?.toString() || "";
   const words = text.split(" ");
   const altWords = alt?.split(" ") || words;
+  const isDesktop = useIsDesktop();
   const [showScroll, setShowScroll] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => setShowScroll(false), 3000);
@@ -72,7 +94,7 @@ export default function LargeTitle({
         </div>
       )}
 
-      {/* Animation on the left */}
+      {/* Animation on the left (only when no backgroundImage) */}
       {!backgroundImage && (
         <div
           className={`hidden md:flex items-center justify-center ${isHero ? "flex-1 h-[60vh]" : "flex-1 h-[50vh]"}`}
@@ -138,25 +160,23 @@ export default function LargeTitle({
             </motion.h1>
           );
         })}
-        {isHero && (
-          <div className="flex items-center gap-3 mt-2">
-            <motion.span
-              className="h-[2px] w-12 bg-accent/50"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
-              style={{ transformOrigin: "right" }}
-            />
-            <motion.span
-              className="meta-label text-foreground/50 tracking-[0.2em]"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              Software Engineer
-            </motion.span>
-          </div>
-        )}
+        <div className="flex items-center gap-3 mt-2">
+          <motion.span
+            className="h-[2px] w-12 bg-accent/50"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
+            style={{ transformOrigin: "right" }}
+          />
+          <motion.span
+            className="meta-label text-foreground/50 tracking-[0.2em]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            {isHero ? "Software Engineer" : alt || text}
+          </motion.span>
+        </div>
       </div>
 
       {/* Monospace coordinates - bottom left (hero only) */}
@@ -208,23 +228,37 @@ export default function LargeTitle({
   );
 
   if (backgroundImage) {
+    const minHeight = isHero ? "min-h-[calc(100svh-80px)]" : "min-h-[60vh]";
+
     return (
-      <div className="relative min-h-[calc(100svh-80px)] select-none mb-8">
-        {/* Full-bleed ASCII background — mobile (rotated, low density) */}
-        <div className="absolute inset-0 pointer-events-none md:hidden">
-          <AsciiImage
-            src={backgroundImage}
-            opacity={1.0}
-            density={120}
-            rotateAngle={30}
-          />
-        </div>
-        {/* Full-bleed ASCII background — desktop */}
-        <div className="absolute inset-0 pointer-events-none hidden md:block">
-          <AsciiImage src={backgroundImage} opacity={1.0} density={300} />
+      <div className={`relative ${minHeight} select-none ${isHero ? "mb-8" : ""}`}>
+        {/* Full-bleed ASCII background — only mount the active breakpoint */}
+        <div className="absolute inset-0 pointer-events-none">
+          {isDesktop ? (
+            <AsciiImage
+              src={backgroundImage}
+              opacity={backgroundImageOpacity}
+              density={300}
+              fallbackSrc={backgroundImageFallback?.desktop}
+              fitHeight={!isHero}
+              alignLeft={!isHero}
+              contrast={backgroundImageContrast}
+            />
+          ) : (
+            <AsciiImage
+              src={backgroundImage}
+              opacity={backgroundImageOpacity}
+              density={120}
+              rotateAngle={isHero ? 30 : 0}
+              fallbackSrc={backgroundImageFallback?.mobile}
+              fitHeight={!isHero}
+              alignLeft={!isHero}
+              contrast={backgroundImageContrast}
+            />
+          )}
         </div>
         {/* Content with normal margins */}
-        <div className="relative flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[calc(100svh-80px)] overflow-hidden pr-6 md:pr-12 pb-6 border-b-[3px] border-foreground mx-4">
+        <div className={`relative flex items-center justify-end gap-6 md:gap-8 lg:gap-12 ${minHeight} overflow-hidden pr-6 md:pr-12 pb-6 border-b-[3px] border-foreground mx-4`}>
           {content}
         </div>
       </div>
@@ -233,7 +267,7 @@ export default function LargeTitle({
 
   if (!isHero) {
     return (
-      <div className="flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[50vh] my-16 px-6 md:px-12 select-none relative overflow-hidden">
+      <div className="flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[55vh] my-8 px-6 md:px-12 select-none relative overflow-hidden border-b-[3px] border-foreground mx-4 pb-6">
         {content}
       </div>
     );
