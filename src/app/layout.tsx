@@ -6,6 +6,7 @@ import {
   Plus_Jakarta_Sans,
 } from "next/font/google";
 import Nav from "../components/common/nav";
+import OverscrollCreature from "../components/common/overscroll-creature";
 import DeferredAnalytics from "../components/common/deferred-analytics";
 import "./globals.css";
 
@@ -110,11 +111,14 @@ export default function RootLayout({
       <body
         className={`antialiased h-screen flex flex-col w-full overflow-y-scroll ${roboto.variable} ${newsreader.variable} ${outfit.variable} ${plusJakarta.variable}`}
       >
-        <Nav />
-        <main className="flex-1">
-          {children}
-          <DeferredAnalytics />
-        </main>
+        <OverscrollCreature />
+        <div className="page-backdrop relative z-[2] flex-1 flex flex-col">
+          <Nav />
+          <main className="flex-1">
+            {children}
+            <DeferredAnalytics />
+          </main>
+        </div>
       </body>
     </html>
   );

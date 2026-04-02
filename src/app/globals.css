@@ -35,11 +35,13 @@
     background-color: var(--background);
     font-family: var(--font-roboto), sans-serif;
     overflow-x: hidden;
+  }
 
-    /* Dot Grid Texture */
+  .page-backdrop {
+    background-color: var(--background);
     background-image: radial-gradient(color-mix(in srgb, var(--foreground) 15%, transparent) 1px, transparent 1px);
-    background-size: 8px 8px; /* Adjust for denser or looser grid */
-    background-attachment: fixed; /* Keeps the grid static while scrolling */
+    background-size: 8px 8px;
+    background-attachment: fixed;
   }
 
   /* Noise Overlay */

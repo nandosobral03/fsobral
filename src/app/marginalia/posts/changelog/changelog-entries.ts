@@ -8,6 +8,11 @@ export interface ChangelogEntry {
 
 export const entries: ChangelogEntry[] = [
   {
+    date: "2026-04-02",
+    description: "Hidden overscroll creature easter egg — try scrolling up past the top",
+    tag: "added",
+  },
+  {
     date: "2026-03-28",
     description: "ASCII-rendered classical art backgrounds for Blog and Projects pages",
     tag: "added",
