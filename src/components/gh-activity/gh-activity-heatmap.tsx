@@ -211,13 +211,15 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
 
     if (vertical) {
       return (
-        <div className="flex flex-row w-fit mx-auto gap-1">
-          {/* Month labels column */}
-          <div className="flex flex-col gap-[2px] w-10 flex-shrink-0">
-            {weeks.map((_, weekIndex) => {
-              const label = monthLabels.find((l) => l.weekIndex === weekIndex);
-              return (
-                <div key={weekIndex} className="h-[18px] flex items-center justify-end pr-1">
+        <div
+          className="grid w-full gap-[2px]"
+          style={{ gridTemplateColumns: "2.5rem repeat(7, 1fr)" }}
+        >
+          {weeks.map((week, weekIndex) => {
+            const label = monthLabels.find((l) => l.weekIndex === weekIndex);
+            return (
+              <div key={`row-${weekIndex}`} className="contents">
+                <div className="flex items-center justify-end pr-1">
                   {label && (
                     <span
                       className={`meta-label text-[9px] whitespace-nowrap ${label.isYear ? "text-background/70 font-bold" : "text-background/40"}`}
@@ -231,17 +233,10 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
                     </span>
                   )}
                 </div>
-              );
-            })}
-          </div>
-          {/* Vertical grid: weeks as rows, days as columns */}
-          <div className="flex flex-col gap-[2px] flex-1 min-w-0">
-            {weeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="flex flex-row gap-[2px]">
                 {week.map((day: CalendarData, dayIndex: number) => (
                   <div
                     key={`${weekIndex}-${dayIndex}`}
-                    className="w-[18px] h-[18px] rounded-none cursor-pointer heatmap-cell"
+                    className="aspect-square rounded-none cursor-pointer heatmap-cell"
                     style={{
                       backgroundColor: isRevealed ? getColor(day.count) : darkColor,
                       '--sweep-delay': `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
@@ -251,8 +246,8 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
                   />
                 ))}
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       );
     }
