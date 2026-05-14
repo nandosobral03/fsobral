@@ -1,13 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-
-interface CalendarData {
-  date: string;
-  count: number;
-  level: number;
-  weekday: number;
-}
+import type { CalendarData } from "@/lib/github-activity";
+import {
+  createHeatmapWeeks,
+  getContributionColor,
+  getContributionQuartiles,
+  getHeatmapMonthLabels,
+  getVisibleHeatmapWeekCount,
+  HEATMAP_DARK_COLOR,
+  HEATMAP_SWEEP_DURATION_MS,
+} from "@/lib/heatmap";
 
 interface GithubActivityClientProps {
   calendarData: CalendarData[];
@@ -98,79 +101,8 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
     lastPointerPos.current = null;
   }, []);
 
-  const darkColor = "#1a1917";
-
-  const colors = ["#1d1d1d", "#4a1e14", "#7a2d1a", "#a63a1f", "#d44527", "#e8603a"];
-
-  const quartiles = useMemo(() => {
-    const nonZero = calendarData.map((d) => d.count).filter((c) => c > 0).sort((a, b) => a - b);
-    if (nonZero.length === 0) return [1, 2, 3, 4];
-    const q = (p: number) => nonZero[Math.max(0, Math.ceil(p * nonZero.length) - 1)];
-    return [q(0.25), q(0.5), q(0.75), q(1)];
-  }, [calendarData]);
-
-  const getLevel = (count: number) => {
-    if (count === 0) return 0;
-    if (count <= quartiles[0]) return 1;
-    if (count <= quartiles[1]) return 2;
-    if (count <= quartiles[2]) return 3;
-    if (count < quartiles[3]) return 4;
-    return 5;
-  };
-
-  const getColor = (count: number) => colors[getLevel(count)];
-
-  const placeholderDay: CalendarData = useMemo(() => ({ date: "", count: 0, level: 0, weekday: 0 }), []);
-
-  const createWeeks = (weekCount: number) => {
-    const required = weekCount * 7;
-    let displayData = calendarData.slice(-required);
-    if (fillEmpty && displayData.length < required) {
-      const deficit = required - displayData.length;
-      const filler: CalendarData[] = Array.from({ length: deficit }, (_, idx) => ({
-        ...placeholderDay,
-        weekday: idx % 7,
-      }));
-      displayData = [...filler, ...displayData];
-    }
-    const weeks = [] as CalendarData[][];
-    for (let i = 0; i < displayData.length; i += 7) {
-      const week = displayData.slice(i, i + 7);
-      week.sort((a, b) => a.weekday - b.weekday);
-      weeks.push(week);
-    }
-    return weeks;
-  };
-
-  const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-  const getMonthLabels = (weeks: CalendarData[][]) => {
-    const labels: { weekIndex: number; label: string; isYear: boolean }[] = [];
-    let lastMonth = -1;
-
-    weeks.forEach((week, weekIndex) => {
-      // Find the first day of the month (day 1) in this week
-      const firstOfMonth = week.find((d) => {
-        if (!d.date) return false;
-        const dayNum = parseInt(d.date.split("-")[2], 10);
-        return dayNum === 1;
-      });
-      if (!firstOfMonth) return;
-
-      const date = new Date(firstOfMonth.date + "T00:00:00");
-      const month = date.getMonth();
-      const year = date.getFullYear();
-
-      if (month !== lastMonth) {
-        const isYear = month === 0;
-        const label = isYear ? `${year}` : MONTHS_SHORT[month];
-        labels.push({ weekIndex, label, isYear });
-        lastMonth = month;
-      }
-    });
-
-    return labels;
-  };
+  const quartiles = useMemo(() => getContributionQuartiles(calendarData), [calendarData]);
+  const getColor = useCallback((count: number) => getContributionColor(count, quartiles), [quartiles]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const availableWeeks = Math.floor(calendarData.length / 7);
@@ -187,14 +119,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
       const isVertical = verticalProp || width < 500;
       setVertical(isVertical);
 
-      const TARGET_CELL = 14;
-      const GAP = 2;
-      if (isVertical) {
-        setWeekCount(Math.min(availableWeeks, 52));
-      } else {
-        const maxWeeks = Math.floor(width / (TARGET_CELL + GAP));
-        setWeekCount(Math.min(maxWeeks, availableWeeks));
-      }
+      setWeekCount(getVisibleHeatmapWeekCount(width, availableWeeks, isVertical));
     };
 
     calculate();
@@ -203,10 +128,10 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
     return () => observer.disconnect();
   }, [availableWeeks, verticalProp]);
 
-  const sweepDurationMs = 1000;
+  const sweepDurationMs = HEATMAP_SWEEP_DURATION_MS;
 
   const renderGrid = (weeks: CalendarData[][], sizeClass: string) => {
-    const monthLabels = getMonthLabels(weeks);
+    const monthLabels = getHeatmapMonthLabels(weeks);
     const totalWeeks = weeks.length;
 
     if (vertical) {
@@ -238,7 +163,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
                     key={`${weekIndex}-${dayIndex}`}
                     className="aspect-square rounded-none cursor-pointer heatmap-cell"
                     style={{
-                      backgroundColor: isRevealed ? getColor(day.count) : darkColor,
+                      backgroundColor: isRevealed ? getColor(day.count) : HEATMAP_DARK_COLOR,
                       '--sweep-delay': `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
                     } as React.CSSProperties}
                     onMouseEnter={(e) => handleCellEnter(e, day)}
@@ -285,7 +210,7 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
                   key={`${weekIndex}-${dayIndex}`}
                   className={`${sizeClass} rounded-none cursor-pointer heatmap-cell`}
                   style={{
-                    backgroundColor: isRevealed ? getColor(day.count) : darkColor,
+                    backgroundColor: isRevealed ? getColor(day.count) : HEATMAP_DARK_COLOR,
                     '--sweep-delay': `${(weekIndex / totalWeeks) * sweepDurationMs}ms`,
                   } as React.CSSProperties}
                   onMouseEnter={(e) => handleCellEnter(e, day)}
@@ -304,14 +229,14 @@ export default function GithubActivityClient({ calendarData, startFromDark = fal
       {weekCount > 0 && vertical ? (
         <>
           <div className="w-full md:hidden">
-            {renderGrid(createWeeks(Math.min(weekCount, 26)), "aspect-square")}
+            {renderGrid(createHeatmapWeeks(calendarData, Math.min(weekCount, 26), fillEmpty), "aspect-square")}
           </div>
           <div className="w-full hidden md:block">
-            {renderGrid(createWeeks(weekCount), "aspect-square")}
+            {renderGrid(createHeatmapWeeks(calendarData, weekCount, fillEmpty), "aspect-square")}
           </div>
         </>
       ) : weekCount > 0 ? (
-        renderGrid(createWeeks(weekCount), "aspect-square")
+        renderGrid(createHeatmapWeeks(calendarData, weekCount, fillEmpty), "aspect-square")
       ) : null}
       {tooltip && (
         <div

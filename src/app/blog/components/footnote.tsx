@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 
-import { useFootnotes } from "@/app/blog/context/FootnoteContext";
+import { useFootnotes } from "@/components/article/footnote-context";
 
 type FootnoteProps = {
   footnote: string;

@@ -8,16 +8,17 @@ interface ProjectCardProps {
   image: string;
   children: React.ReactNode;
   year: number;
+  href: string;
   variant?: "grid" | "carousel";
 }
 
-export default function ProjectCard({ title, image, children, year, variant = "carousel" }: ProjectCardProps) {
+export default function ProjectCard({ title, image, children, year, href, variant = "carousel" }: ProjectCardProps) {
   const widthClass = variant === "grid"
     ? "w-full"
     : "w-[280px] md:w-[420px]";
 
   return (
-    <Link href={`/projects/${title}`} draggable={false} className={`${widthClass} h-[420px] md:h-[480px] flex flex-col bg-foreground text-background group select-none overflow-hidden`}>
+    <Link href={href} draggable={false} className={`${widthClass} h-[420px] md:h-[480px] flex flex-col bg-foreground text-background group select-none overflow-hidden`}>
       <div className="w-full aspect-video relative overflow-hidden">
         <Image src={image} alt={title} fill style={{ objectFit: "cover" }} className="transition-transform duration-500 group-hover:scale-105" />
       </div>

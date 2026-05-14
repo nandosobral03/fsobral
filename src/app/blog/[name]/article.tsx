@@ -1,53 +1,19 @@
 "use client";
 
-import { useExpandedImage } from "../context/ExpandedImageContext";
+import ArticleShell from "@/components/article/article-shell";
 import type { Post } from "../posts";
-import Image from "next/image";
-import Tag from "@/components/common/tag";
 
 export default function Article({ post }: { post: Post }) {
-  const { image, clearImage } = useExpandedImage();
-  const readingTimeMinutes = post.readingTimeMinutes ?? 5;
-
   return (
-    <>
-      {image && (
-        <div className="fixed inset-0 z-40 bg-black bg-opacity-75 object-contain" onClick={clearImage}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={image.src} alt={image.alt} className="w-full cursor-pointer transition-all duration-300 fixed m-auto inset-0 z-50 h-[90vh] object-contain" onClick={clearImage} />
-        </div>
-      )}
-
-      {/* Dark intro section */}
-      <div className="w-full bg-foreground text-background">
-        <div className="max-w-6xl mx-auto px-6 py-28 flex flex-col gap-6">
-          <h1 className="text-4xl md:text-6xl font-bold uppercase font-condensed tracking-wide leading-tight">{post.title}</h1>
-          {(post.subtitle ?? post.description) && <div className="text-lg md:text-xl font-light leading-relaxed opacity-90">{post.subtitle ?? post.description}</div>}
-          <div className="flex flex-wrap items-center gap-4 text-sm uppercase font-condensed">
-            <span className="text-accent">{post.date}</span>
-            <span className="text-background/60">•</span>
-            <span className="text-background/80">{readingTimeMinutes} min read</span>
-          </div>
-          {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((t) => (
-                <Tag key={t}>{t}</Tag>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="h-16" />
-
-      <div className="max-w-4xl mx-auto px-6">
-        {post.coverImage && (
-          <div className="mb-12 frame overflow-hidden">
-            <Image src={post.coverImage} alt={post.title} width={1600} height={900} className="w-full h-auto" />
-          </div>
-        )}
-        <div className="flex flex-col gap-4">{post.components}</div>
-      </div>
-    </>
+    <ArticleShell
+      title={post.title}
+      description={post.subtitle ?? post.description}
+      date={post.date}
+      readingTimeMinutes={post.readingTimeMinutes ?? 5}
+      tags={post.tags}
+      coverImage={post.coverImage}
+    >
+      {post.components}
+    </ArticleShell>
   );
 }

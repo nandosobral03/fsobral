@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import GithubActivityClient from "./gh-activity-heatmap";
 import Link from "next/link";
-import { env } from "process";
 
 interface CalendarData {
   date: string;
@@ -13,7 +12,7 @@ interface CalendarData {
 }
 
 export default function GHActivityForceNoSSR({ calendarData, logins, vertical = false }: { calendarData: CalendarData[]; logins?: string[]; vertical?: boolean }) {
-  const fallbackLogins = (env.NEXT_PUBLIC_GITHUB_LOGINS || "nandosobral03,fernando-keeper")
+  const fallbackLogins = (process.env.NEXT_PUBLIC_GITHUB_LOGINS || "nandosobral03,fernando-keeper")
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);

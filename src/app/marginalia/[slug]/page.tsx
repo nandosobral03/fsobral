@@ -1,35 +1,21 @@
 import NotFound from "@/components/sections/NotFound";
-import { marginaliaPosts } from "../posts";
+import { getMarginaliaPost } from "../posts";
 import MarginaliaArticle from "./article";
+import { articleMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
-  const post = marginaliaPosts.find((p) => p.slug === decodedSlug);
+  const post = getMarginaliaPost(decodedSlug);
   if (!post) return {};
-  return {
-    title: post.title,
-    description: post.description,
-    openGraph: {
-      type: "article",
-      title: post.title,
-      description: post.description,
-      publishedTime: new Date(post.date).toISOString(),
-      ...(post.tags?.length ? { tags: post.tags } : {}),
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.description,
-    },
-  };
+  return articleMetadata(post);
 }
 
 export default async function MarginaliaPage({ params }: { params: Promise<{ slug: string }> }) {
   const awaitedParams = await params;
   const decodedSlug = decodeURIComponent(awaitedParams.slug);
-  const post = marginaliaPosts.find((post) => post.slug === decodedSlug);
+  const post = getMarginaliaPost(decodedSlug);
 
   if (!post) {
     return <NotFound type="post" />;

@@ -1,22 +1,21 @@
-import { posts } from "../blog/posts";
+import { getVisiblePostMetadata } from "../blog/posts-metadata";
 import { NextResponse } from "next/server";
-
-const getBaseUrl = () => process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+import { canonicalUrl, getLocalBaseUrl, site } from "@/lib/site";
 
 export async function GET() {
-  const base = getBaseUrl();
-  const visible = posts.filter((p) => !p.hidden);
+  const base = getLocalBaseUrl();
+  const visible = getVisiblePostMetadata();
 
   const rss = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
   <channel>
-    <title>Fernando Sobral — Blog</title>
+    <title>${site.author} - Blog</title>
     <link>${base}</link>
     <description>Articles by Fernando Sobral</description>
     <language>en</language>
     ${visible
       .map((p) => {
-        const url = `${base}/blog/${p.slug}`;
+        const url = canonicalUrl(`/blog/${p.slug}`, base);
         const pubDate = new Date(p.date).toUTCString();
         return `<item>
           <title><![CDATA[${p.title}]]></title>

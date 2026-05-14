@@ -53,6 +53,8 @@ type ProjectNames =
 
 export type Project = {
   name: ProjectNames;
+  slug?: string;
+  path?: string;
   links: { url: string; name: string }[];
   year: number;
   preview: {
@@ -70,7 +72,7 @@ export type Project = {
   }[];
 };
 
-export const projects: Project[] = [
+const baseProjects: Project[] = [
   eos,
   rhea,
   polemos,
@@ -96,3 +98,45 @@ export const projects: Project[] = [
   overload,
   spring84,
 ].reverse();
+
+export function toProjectSlug(name: string) {
+  return name
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function withProjectRouting(project: Project): Project {
+  const slug = project.slug ?? toProjectSlug(project.name);
+  return {
+    ...project,
+    slug,
+    path: `/projects/${slug}`,
+  };
+}
+
+export const projects: Project[] = baseProjects.map(withProjectRouting);
+
+export function getProjectByRouteParam(param: string) {
+  const decoded = decodeURIComponent(param);
+  return projects.find((project) => project.slug === decoded || project.name === decoded);
+}
+
+export function getProjectPath(project: Pick<Project, "name" | "slug" | "path">) {
+  return project.path ?? `/projects/${project.slug ?? toProjectSlug(project.name)}`;
+}
+
+export function getProjectCardView(project: Project) {
+  return {
+    title: project.name,
+    year: project.year,
+    image: project.preview.cover,
+    description: project.preview.description,
+    href: getProjectPath(project),
+  };
+}
+
+export function getProjectsByYear(year: number) {
+  return projects.filter((project) => project.year === year);
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { projects } from "@/app/projects/projects";
+import { getProjectCardView, projects } from "@/app/projects/projects";
 import { motion, useMotionValue, animate } from "motion/react";
 import { useRef, useState, useEffect, useCallback } from "react";
 import ProjectCard from "./project-card";
@@ -66,13 +66,16 @@ export default function ProjectCarousel() {
     return (
       <div className="w-full overflow-hidden">
         <div className="flex gap-4 px-8 md:px-12">
-          {projects.slice(0, 3).map((project, index) => (
-            <div key={index} className="flex-shrink-0">
-              <ProjectCard title={project.name} image={project.preview.cover} year={project.year}>
-                {project.preview.description}
+          {projects.slice(0, 3).map((project) => {
+            const card = getProjectCardView(project);
+            return (
+            <div key={card.href} className="flex-shrink-0">
+              <ProjectCard {...card}>
+                {card.description}
               </ProjectCard>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     );
@@ -130,13 +133,16 @@ export default function ProjectCarousel() {
             ease: "linear",
           }}
         >
-          {projects.map((project, index) => (
-            <motion.div key={index} className="flex-shrink-0">
-              <ProjectCard title={project.name} image={project.preview.cover} year={project.year}>
-                {project.preview.description}
+          {projects.map((project) => {
+            const card = getProjectCardView(project);
+            return (
+            <motion.div key={card.href} className="flex-shrink-0">
+              <ProjectCard {...card}>
+                {card.description}
               </ProjectCard>
             </motion.div>
-          ))}
+            );
+          })}
         </motion.div>
       </motion.div>
     </div>

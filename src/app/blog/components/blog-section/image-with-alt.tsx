@@ -1,6 +1,6 @@
 "use client";
 
-import { useExpandedImage } from "@/app/blog/context/ExpandedImageContext";
+import { useExpandedImage } from "@/components/article/expanded-image-context";
 import React from "react";
 
 interface ImageWithAltProps {

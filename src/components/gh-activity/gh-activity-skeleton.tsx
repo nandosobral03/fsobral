@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { getVisibleHeatmapWeekCount, HEATMAP_DARK_COLOR, HEATMAP_GAP, HEATMAP_SWEEP_DURATION_MS } from "@/lib/heatmap";
 
 const ROWS = 7;
-const GAP = 2;
-const SWEEP_DURATION_MS = 1200;
-
 const DEFAULT_WEEKS = 52;
 
 export default function GhActivitySkeleton() {
@@ -19,8 +17,7 @@ export default function GhActivitySkeleton() {
 
     const calculate = () => {
       const width = el.clientWidth;
-      const targetCell = 14;
-      setWeekCount(Math.floor(width / (targetCell + GAP)));
+      setWeekCount(getVisibleHeatmapWeekCount(width, DEFAULT_WEEKS, false));
     };
 
     calculate();
@@ -40,29 +37,29 @@ export default function GhActivitySkeleton() {
         <div
           className="h-4 w-32 rounded-sm"
           style={{
-            backgroundColor: isRevealed ? "#1d1d1d" : "#1a1917",
+            backgroundColor: isRevealed ? "#1d1d1d" : HEATMAP_DARK_COLOR,
             transition: "background-color 400ms ease-out",
           }}
         />
         <div
           className="h-4 w-48 rounded-sm"
           style={{
-            backgroundColor: isRevealed ? "#1d1d1d" : "#1a1917",
+            backgroundColor: isRevealed ? "#1d1d1d" : HEATMAP_DARK_COLOR,
             transition: "background-color 400ms ease-out",
           }}
         />
       </div>
-      <div className="flex gap-[2px] w-full overflow-hidden">
+      <div className="flex w-full overflow-hidden" style={{ gap: HEATMAP_GAP }}>
         {Array.from({ length: weekCount }, (_, weekIndex) => (
-          <div key={weekIndex} className="flex flex-col gap-[2px] flex-1 min-w-0">
+          <div key={weekIndex} className="flex flex-col flex-1 min-w-0" style={{ gap: HEATMAP_GAP }}>
             {Array.from({ length: ROWS }, (_, dayIndex) => (
               <div
                 key={dayIndex}
                 className="aspect-square rounded-none"
                 style={{
-                  backgroundColor: isRevealed ? "#1d1d1d" : "#1a1917",
+                  backgroundColor: isRevealed ? "#1d1d1d" : HEATMAP_DARK_COLOR,
                   transition: "background-color 400ms ease-out",
-                  transitionDelay: `${(weekIndex / weekCount) * SWEEP_DURATION_MS}ms`,
+                  transitionDelay: `${(weekIndex / weekCount) * HEATMAP_SWEEP_DURATION_MS}ms`,
                 }}
               />
             ))}

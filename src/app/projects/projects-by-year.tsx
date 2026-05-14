@@ -1,12 +1,12 @@
 "use client";
 
 import SectionDescription from "@/components/common/section-description";
-import { projects } from "@/app/projects/projects";
+import { getProjectsByYear } from "@/app/projects/projects";
 import { ProjectGrid } from "./project-grid";
 import { motion } from "motion/react";
 
 export default function ProjectsByYear({ year, preface, side = "left" }: { year: number; preface: React.ReactNode; side?: "left" | "right" }) {
-  const yearProjects = projects.filter((project) => project.year === year);
+  const yearProjects = getProjectsByYear(year);
 
   return (
     <div className="w-full flex flex-col items-center px-6 py-12">

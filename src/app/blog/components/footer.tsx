@@ -1,6 +1,6 @@
 "use client";
 
-import { useFootnotes } from "@/app/blog/context/FootnoteContext";
+import { useFootnotes } from "@/components/article/footnote-context";
 import HoverableLink from "./hoverable-link";
 
 export default function Footer() {

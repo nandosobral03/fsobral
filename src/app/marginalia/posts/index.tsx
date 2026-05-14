@@ -2,6 +2,7 @@ import TwentyTwentyFive from "./2025/2025";
 import Favorites from "./favorites/favorites";
 import Changelog from "./changelog/changelog";
 import Spring84Spec from "./spring84-spec/spring84-spec";
+import { getContentBySlug, sortContentByDate } from "@/lib/content-collection";
 
 export type MarginaliaPost = {
   title: string;
@@ -47,4 +48,8 @@ const basePosts: MarginaliaPost[] = [
   },
 ];
 
-export const marginaliaPosts: MarginaliaPost[] = basePosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+export const marginaliaPosts: MarginaliaPost[] = sortContentByDate(basePosts);
+
+export function getMarginaliaPost(slug: string) {
+  return getContentBySlug(marginaliaPosts, slug);
+}

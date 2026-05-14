@@ -9,6 +9,11 @@ export interface ChangelogEntry {
 export const entries: ChangelogEntry[] = [
   {
     date: "2026-05-14",
+    description: "Deepened content, project, SEO, Open Graph, article, and GitHub activity modules",
+    tag: "improved",
+  },
+  {
+    date: "2026-05-14",
     description: "Added Spring '84 project page",
     tag: "added",
   },

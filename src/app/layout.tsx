@@ -8,6 +8,7 @@ import {
 import Nav from "../components/common/nav";
 import OverscrollCreature from "../components/common/overscroll-creature";
 import DeferredAnalytics from "../components/common/deferred-analytics";
+import { getBaseUrl, personJsonLd, site } from "@/lib/site";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -35,27 +36,27 @@ const plusJakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://fsobral.com";
+const siteUrl = getBaseUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Fernando Sobral",
-    template: "%s | Fernando Sobral",
+    default: site.defaultTitle,
+    template: `%s | ${site.author}`,
   },
-  description: "Software engineer and builder of things on the internet.",
+  description: site.description,
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    title: "Fernando Sobral",
-    description: "Software engineer and builder of things on the internet.",
-    siteName: "Fernando Sobral",
+    title: site.defaultTitle,
+    description: site.description,
+    siteName: site.author,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fernando Sobral",
-    description: "Software engineer and builder of things on the internet.",
+    title: site.defaultTitle,
+    description: site.description,
   },
   icons: {
     icon: "/favicon.png",
@@ -95,16 +96,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Fernando Sobral",
-              url: siteUrl,
-              sameAs: [
-                "https://github.com/nandosobral03",
-                "https://www.linkedin.com/in/fernando-sobral-2b100621b/",
-              ],
-            }),
+            __html: JSON.stringify(personJsonLd(siteUrl)),
           }}
         />
       </head>
