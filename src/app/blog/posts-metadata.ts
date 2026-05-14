@@ -7,9 +7,20 @@ type PostMetadata = {
   coverImage?: string;
   hidden?: boolean;
   tags?: string[];
+  readingTimeMinutes?: number;
 };
 
 export const postsMetadata: PostMetadata[] = [
+  {
+    title: "Specifying Spring '84",
+    description: "A follow-up to my Spring '83 implementation: specifying a small successor protocol for expressive, self-certifying web boards.",
+    subtitle: "A friendly critique, a second pass, and a tiny protocol one year later",
+    slug: "spring84",
+    date: "May 14, 2026",
+    coverImage: "/blog/covers/spring84.png",
+    tags: ["protocols", "development"],
+    readingTimeMinutes: 9,
+  },
   {
     title: "Lessons learned from redoing the same project over the years",
     description: "A look at my different iterations of the same project, why I've done it so many times, and what I've learned from it.",

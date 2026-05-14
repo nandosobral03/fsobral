@@ -8,6 +8,21 @@ export interface ChangelogEntry {
 
 export const entries: ChangelogEntry[] = [
   {
+    date: "2026-05-14",
+    description: "Added Spring '84 project page",
+    tag: "added",
+  },
+  {
+    date: "2026-05-14",
+    description: "New blog post: Specifying Spring '84",
+    tag: "added",
+  },
+  {
+    date: "2026-05-14",
+    description: "Added RFC-style Spring '84 specification to marginalia",
+    tag: "added",
+  },
+  {
     date: "2026-04-02",
     description: "Hidden overscroll creature easter egg — try scrolling up past the top",
     tag: "added",

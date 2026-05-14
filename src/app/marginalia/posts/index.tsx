@@ -1,6 +1,7 @@
 import TwentyTwentyFive from "./2025/2025";
 import Favorites from "./favorites/favorites";
 import Changelog from "./changelog/changelog";
+import Spring84Spec from "./spring84-spec/spring84-spec";
 
 export type MarginaliaPost = {
   title: string;
@@ -12,6 +13,14 @@ export type MarginaliaPost = {
 };
 
 const basePosts: MarginaliaPost[] = [
+  {
+    title: "Spring '84 Specification",
+    description: "A compact draft specification for small, expressive, self-certifying web boards",
+    slug: "spring84-spec",
+    date: "May 14, 2026",
+    components: <Spring84Spec />,
+    tags: [],
+  },
   {
     title: "Favorites",
     description: "Web finds and selected prints worth remembering",

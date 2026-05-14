@@ -8,6 +8,7 @@ const Inngest = dynamic(() => import("./inngest/inngest"));
 const LessonsFromRedoingProjects = dynamic(() => import("./lessons-from-redoing-projects/lessons-from-redoing-projects"));
 const PeaksOfYoreAndTheDifficultyBoulder = dynamic(() => import("./peaks-of-yore-and-the-difficulty-boulder/peaks-of-yore-and-the-difficulty-boulder"));
 const SayingGoodbyeToMyFirstDomain = dynamic(() => import("./saying-goodbye-to-my-first-domain/saying-goodbye-to-my-first-domain"));
+const Spring84 = dynamic(() => import("./spring84/spring84"));
 const TailwindV4 = dynamic(() => import("./tailwind-v4/tailwind-v4"));
 const TheEndlessMediaEpidemic = dynamic(() => import("./the-end-less-media-epidemic/the-end-less-media-epidemic"));
 
@@ -21,9 +22,21 @@ export type Post = {
   coverImage?: string;
   hidden?: boolean;
   tags?: string[];
+  readingTimeMinutes?: number;
 };
 
 const basePosts: Post[] = [
+  {
+    title: "Specifying Spring '84",
+    description: "A follow-up to my Spring '83 implementation: specifying a small successor protocol for expressive, self-certifying web boards.",
+    subtitle: "A friendly critique, a second pass, and a tiny protocol one year later",
+    slug: "spring84",
+    date: "May 14, 2026",
+    components: <Spring84 />,
+    coverImage: "/blog/covers/spring84.png",
+    tags: ["protocols", "projects", "web"],
+    readingTimeMinutes: 9,
+  },
   {
     title: "E Unibus Infinitum",
     description: "David Foster Wallace's E Unibus Pluram: was published in 1993, but is more relevant than ever today.",

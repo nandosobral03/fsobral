@@ -18,6 +18,7 @@ import { rabbithole } from "./rabbithole";
 import { reactBonsai } from "./react-bonsai";
 import { rhea } from "./rhea";
 import { spring83 } from "./spring83";
+import { spring84 } from "./spring84";
 import { superhumanBenchmark } from "./superhuman-benchmark";
 import { timeslot } from "./timeslot";
 import { todayin } from "./todayin";
@@ -31,6 +32,7 @@ type ProjectNames =
   | "minos"
   | "chimera"
   | "spring'83"
+  | "spring'84"
   | "nochan"
   | "deadair"
   | "momentum"
@@ -92,4 +94,5 @@ export const projects: Project[] = [
   gitCopycat,
   consequences,
   overload,
+  spring84,
 ].reverse();

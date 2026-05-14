@@ -1,35 +1,13 @@
 "use client";
 
-import { ExpandedImageProvider, useExpandedImage } from "../context/ExpandedImageContext";
-import { FootnoteProvider } from "../context/FootnoteContext";
+import { useExpandedImage } from "../context/ExpandedImageContext";
 import type { Post } from "../posts";
 import Image from "next/image";
 import Tag from "@/components/common/tag";
-import ReactDOMServer from "react-dom/server";
-import { useMemo } from "react";
-
-const calculateReadingTimeMinutes = (components: React.ReactNode) => {
-  try {
-    const html = ReactDOMServer.renderToStaticMarkup(
-      <FootnoteProvider>
-        <ExpandedImageProvider>{components}</ExpandedImageProvider>
-      </FootnoteProvider>
-    );
-    const words = html
-      .replace(/<[^>]+>/g, " ")
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean).length;
-    return Math.max(1, Math.ceil(words / 200));
-  } catch {
-    // Fallback if rendering fails
-    return 5;
-  }
-};
 
 export default function Article({ post }: { post: Post }) {
   const { image, clearImage } = useExpandedImage();
-  const readingTimeMinutes = useMemo(() => calculateReadingTimeMinutes(post.components), [post.components]);
+  const readingTimeMinutes = post.readingTimeMinutes ?? 5;
 
   return (
     <>
