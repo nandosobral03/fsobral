@@ -1,21 +1,18 @@
 import NotFound from "@/components/sections/NotFound";
-import { getMarginaliaPost } from "../posts";
+import { marginaliaPosts } from "@/content";
 import MarginaliaArticle from "./article";
-import { articleMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const decodedSlug = decodeURIComponent(slug);
-  const post = getMarginaliaPost(decodedSlug);
+  const post = marginaliaPosts.fromRouteParam(slug);
   if (!post) return {};
-  return articleMetadata(post);
+  return marginaliaPosts.metadata(post);
 }
 
 export default async function MarginaliaPage({ params }: { params: Promise<{ slug: string }> }) {
   const awaitedParams = await params;
-  const decodedSlug = decodeURIComponent(awaitedParams.slug);
-  const post = getMarginaliaPost(decodedSlug);
+  const post = marginaliaPosts.fromRouteParam(awaitedParams.slug);
 
   if (!post) {
     return <NotFound type="post" />;

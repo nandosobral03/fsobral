@@ -1,9 +1,9 @@
-"use client";
-
 import ArticleShell from "@/components/article/article-shell";
-import type { Post } from "../posts";
+import type { BlogPostEntry } from "@/content";
 
-export default function Article({ post }: { post: Post }) {
+export default function Article({ post }: { post: BlogPostEntry }) {
+  const Component = post.Component;
+
   return (
     <ArticleShell
       title={post.title}
@@ -13,7 +13,7 @@ export default function Article({ post }: { post: Post }) {
       tags={post.tags}
       coverImage={post.coverImage}
     >
-      {post.components}
+      <Component />
     </ArticleShell>
   );
 }

@@ -2,12 +2,12 @@
 
 import { Fragment, useState } from "react";
 import Divider from "@/components/common/divider";
-import { Project } from "@/app/projects/projects";
+import type { ProjectEntry } from "@/content";
 import Image from "next/image";
 import Link from "next/link";
 import ImageModal from "@/components/ImageModal";
 
-export default function ProjectDetails({ project }: { project: Project }) {
+export default function ProjectDetails({ project }: { project: ProjectEntry }) {
   const [selectedImage, setSelectedImage] = useState<{ url: string; alt: string } | null>(null);
 
   return (

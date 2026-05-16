@@ -1,11 +1,12 @@
 "use client";
 
-import { getProjectCardView, projects } from "@/app/projects/projects";
+import { projects } from "@/content";
 import { motion, useMotionValue, animate } from "motion/react";
 import { useRef, useState, useEffect, useCallback } from "react";
 import ProjectCard from "./project-card";
 
 export default function ProjectCarousel() {
+  const projectCards = projects.cardEntries();
   const constraintsRef = useRef(null);
   const x = useMotionValue(0);
   const [isMounted, setIsMounted] = useState(false);
@@ -38,7 +39,7 @@ export default function ProjectCarousel() {
   const gap = 16;
   const containerWidth = isMounted ? viewportWidth : 1200;
   const sidePadding = 32;
-  const totalWidth = projects.length * cardWidth + (projects.length - 1) * gap + sidePadding * 2;
+  const totalWidth = projectCards.length * cardWidth + (projectCards.length - 1) * gap + sidePadding * 2;
   const overflow = totalWidth - containerWidth;
   const leftConstraint = overflow > 0 ? -overflow : 0;
 
@@ -66,8 +67,7 @@ export default function ProjectCarousel() {
     return (
       <div className="w-full overflow-hidden">
         <div className="flex gap-4 px-8 md:px-12">
-          {projects.slice(0, 3).map((project) => {
-            const card = getProjectCardView(project);
+          {projectCards.slice(0, 3).map((card) => {
             return (
             <div key={card.href} className="flex-shrink-0">
               <ProjectCard {...card}>
@@ -133,8 +133,7 @@ export default function ProjectCarousel() {
             ease: "linear",
           }}
         >
-          {projects.map((project) => {
-            const card = getProjectCardView(project);
+          {projectCards.map((card) => {
             return (
             <motion.div key={card.href} className="flex-shrink-0">
               <ProjectCard {...card}>

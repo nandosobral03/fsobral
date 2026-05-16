@@ -1,12 +1,12 @@
 "use client";
 
 import SectionDescription from "@/components/common/section-description";
-import { getProjectsByYear } from "@/app/projects/projects";
+import type { ProjectYearContentSurface } from "@/content";
 import { ProjectGrid } from "./project-grid";
 import { motion } from "motion/react";
 
-export default function ProjectsByYear({ year, preface, side = "left" }: { year: number; preface: React.ReactNode; side?: "left" | "right" }) {
-  const yearProjects = getProjectsByYear(year);
+export default function ProjectsByYear({ projectYear }: { projectYear: ProjectYearContentSurface }) {
+  const { year, side, preface, entries, cardEntries } = projectYear;
 
   return (
     <div className="w-full flex flex-col items-center px-6 py-12">
@@ -31,7 +31,7 @@ export default function ProjectsByYear({ year, preface, side = "left" }: { year:
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.4, delay: 0.1 }}
               >
-                {yearProjects.length} projects
+                {entries.length} projects
               </motion.span>
               <div className={`${side === "right" ? "border-r-4 border-accent pr-6 md:text-right" : "border-l-4 border-accent pl-6"}`}>
                 <SectionDescription>{preface}</SectionDescription>
@@ -41,7 +41,7 @@ export default function ProjectsByYear({ year, preface, side = "left" }: { year:
 
           {/* Project grid column */}
           <div className="flex-1 min-w-0">
-            <ProjectGrid projects={yearProjects} />
+            <ProjectGrid cards={cardEntries} />
           </div>
         </div>
       </div>

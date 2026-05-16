@@ -3,7 +3,7 @@
 import { useState } from "react";
 import LargeTitle from "@/components/common/large-title";
 import { BlogPost } from "./components/blog-post";
-import { getVisiblePosts } from "./posts";
+import { blogPosts } from "@/content";
 import BlogInfo from "./blog-info";
 import MarginaliaList from "./components/marginalia";
 import { motion, AnimatePresence } from "motion/react";
@@ -12,7 +12,7 @@ type Tab = "posts" | "marginalia";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<Tab>("posts");
-  const visiblePosts = getVisiblePosts();
+  const visiblePosts = blogPosts.cardEntries();
 
   return (
     <>
@@ -52,7 +52,7 @@ export default function Home() {
               className="flex flex-col gap-8"
             >
               {visiblePosts.map((post, index, arr) => (
-                  <div key={post.slug}>
+                  <div key={post.href}>
                     <BlogPost
                       post={post}
                       align={index % 2 === 0 ? "left" : "right"}

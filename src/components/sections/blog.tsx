@@ -1,12 +1,14 @@
 "use client";
 
 import { BlogPost } from "@/app/blog/components/blog-post";
-import { getVisiblePosts } from "@/app/blog/posts";
+import { blogPosts } from "@/content";
 import SectionTitle from "@/components/common/section-title";
 import Link from "next/link";
 import { motion } from "motion/react";
 
 export default function Blog() {
+  const [latestPost] = blogPosts.cardEntries();
+
   return (
     <section className="px-8 md:px-12 flex flex-col gap-3">
       <SectionTitle index="03">Blog</SectionTitle>
@@ -27,7 +29,7 @@ export default function Blog() {
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
-        <BlogPost post={getVisiblePosts()[0]} align="left" />
+        {latestPost && <BlogPost post={latestPost} align="left" />}
       </motion.div>
     </section>
   );

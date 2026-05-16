@@ -1,9 +1,9 @@
-"use client";
-
 import ArticleShell from "@/components/article/article-shell";
-import type { MarginaliaPost } from "../posts";
+import type { MarginaliaPostEntry } from "@/content";
 
-export default function MarginaliaArticle({ post }: { post: MarginaliaPost }) {
+export default function MarginaliaArticle({ post }: { post: MarginaliaPostEntry }) {
+  const Component = post.Component;
+
   return (
     <ArticleShell
       eyebrow="Marginalia"
@@ -12,7 +12,7 @@ export default function MarginaliaArticle({ post }: { post: MarginaliaPost }) {
       date={post.date}
       tags={post.tags}
     >
-      {post.components}
+      <Component />
     </ArticleShell>
   );
 }

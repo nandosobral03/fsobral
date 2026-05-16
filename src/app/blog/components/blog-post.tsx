@@ -1,12 +1,12 @@
 import Link from "next/link";
-import type { Post } from "../posts";
+import type { ArticleCardEntry } from "@/content/surfaces/cards";
 import Image from "next/image";
 
-export const BlogPost = ({ post, align }: { post: Post; align: "left" | "right" }) => {
+export const BlogPost = ({ post, align }: { post: ArticleCardEntry; align: "left" | "right" }) => {
   return (
     <Link
-      href={`/blog/${post.slug}`}
-      key={post.slug}
+      href={post.href}
+      key={post.href}
       className={`flex bg-foreground text-background group flex-col-reverse ${align === "left" ? "lg:flex-row" : "lg:flex-row-reverse"} overflow-hidden`}
     >
       <div className={`p-5 md:p-6 grow text-left ${align === "left" ? "lg:text-left" : "lg:text-right"} flex flex-col gap-2`}>

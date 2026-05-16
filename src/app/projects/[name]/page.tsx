@@ -1,19 +1,18 @@
 import NotFound from "@/components/sections/NotFound";
 import ProjectDetails from "@/app/projects/project-details";
-import { getProjectByRouteParam } from "@/app/projects/projects";
-import { projectJsonLd, projectMetadata } from "@/lib/site";
+import { projects } from "@/content";
 import type { Metadata } from "next";
 
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
   const { name } = await params;
-  const project = getProjectByRouteParam(name);
+  const project = projects.fromRouteParam(name);
   if (!project) return {};
-  return projectMetadata(project);
+  return projects.metadata(project);
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ name: string }> }) {
   const resolvedParams = await params;
-  const project = getProjectByRouteParam(resolvedParams.name);
+  const project = projects.fromRouteParam(resolvedParams.name);
 
   if (!project) {
     return <NotFound type="project" />;
@@ -21,7 +20,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ name: 
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd(project)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(projects.jsonLd(project)) }} />
       <ProjectDetails project={project} />
     </>
   );

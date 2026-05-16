@@ -7,7 +7,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - `bun run dev` — start Next.js dev server
 - `bun run build` — production build
 - `bun run lint` — ESLint (extends `eslint-config-next`)
-- No test framework is configured
+- `bun test` / `bun run test:content` â€” Bun invariant tests for content collections
 
 ## Workflow
 
@@ -20,13 +20,13 @@ Personal portfolio site built with **Next.js (App Router)**, **React 19**, **Typ
 
 ### Content System
 
-Blog posts and projects are **component-based, not MDX/markdown**. Each piece of content is a React component:
+Blog posts, marginalia posts, and projects are **component-based, not MDX/markdown**. Each piece of content is a React component and is registered through the deep content collection seam in `src/content/`.
 
-- **Blog posts**: defined as components in `src/app/blog/posts/`, metadata in `src/app/blog/posts-metadata.ts`, indexed by slug in `src/app/blog/posts/index.tsx`
-- **Projects**: defined as components in `src/app/projects/projects/`, exported from `src/app/projects/projects/index.ts`
-- **Marginalia**: short-form posts in `src/app/marginalia/posts/`, with their own `[slug]` dynamic route
+- **Blog posts**: authored in `src/content/articles/blog-posts/`, registered in `src/content/articles/blog.tsx`
+- **Projects**: authored in `src/content/projects/entries/`, registered in `src/content/projects/projects.ts`
+- **Marginalia**: authored in `src/content/articles/marginalia-posts/`, registered in `src/content/articles/marginalia.tsx`
 
-Blog posts use building-block components from `src/app/blog/components/blog-section/` (codeblock, paragraph, section, quote, image-carousel, etc.).
+Articles use building-block components from `src/components/article/blocks/` (codeblock, paragraph, section, quote, image-carousel, etc.).
 
 ## Code Style
 
@@ -39,7 +39,7 @@ Blog posts use building-block components from `src/app/blog/components/blog-sect
 
 ## Changelog
 
-When making significant changes to the site (new features, new content, design changes, major refactors), add an entry to the changelog at `src/app/marginalia/posts/changelog/changelog-entries.ts`. Prepend a new object to the `entries` array with `date`, `description`, and `tag` (`added`, `improved`, or `fixed`).
+When making significant changes to the site (new features, new content, design changes, major refactors), add an entry to the changelog at `src/content/articles/marginalia-posts/changelog/changelog-entries.ts`. Prepend a new object to the `entries` array with `date`, `description`, and `tag` (`added`, `improved`, or `fixed`).
 
 ## Environment Variables
 

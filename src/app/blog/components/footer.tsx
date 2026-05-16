@@ -1,7 +1,7 @@
 "use client";
 
 import { useFootnotes } from "@/components/article/footnote-context";
-import HoverableLink from "./hoverable-link";
+import HoverableLink from "@/components/article/blocks/hoverable-link";
 
 export default function Footer() {
   const { footnotes } = useFootnotes();

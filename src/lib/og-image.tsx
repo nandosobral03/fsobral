@@ -4,7 +4,7 @@ import { site } from "./site";
 export const ogImageSize = { width: 1200, height: 630 };
 export const ogImageContentType = "image/png";
 
-type OgImageOptions = {
+export type OgImageOptions = {
   title: string;
   subtitle?: string;
   footer?: string;

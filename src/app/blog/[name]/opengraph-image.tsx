@@ -1,4 +1,4 @@
-import { getPostMetadata } from "../posts-metadata";
+import { blogPosts } from "@/content";
 import { ogImageContentType, ogImageSize, renderOgImage } from "@/lib/og-image";
 
 export const runtime = "edge";
@@ -7,11 +7,7 @@ export const contentType = ogImageContentType;
 
 export default async function Image({ params }: { params: Promise<{ name: string }> }) {
   const awaited = await params;
-  const slug = decodeURIComponent(awaited.name);
-  const post = getPostMetadata(slug);
+  const post = blogPosts.fromRouteParam(awaited.name);
 
-  return renderOgImage({
-    title: post?.title ?? slug,
-    subtitle: post?.subtitle ?? post?.description ?? "",
-  });
+  return renderOgImage(blogPosts.ogImage(post, decodeURIComponent(awaited.name)));
 }

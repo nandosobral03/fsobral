@@ -1,14 +1,13 @@
 "use client";
 
 import ProjectCard from "@/components/sections/project-card";
-import { getProjectCardView, Project } from "@/app/projects/projects";
+import type { ProjectCardEntry } from "@/content";
 import { motion } from "motion/react";
 
-export function ProjectGrid({ projects }: { projects: Project[] }) {
+export function ProjectGrid({ cards }: { cards: readonly ProjectCardEntry[] }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
-      {projects.map((project, index) => {
-        const card = getProjectCardView(project);
+      {cards.map((card, index) => {
         return (
           <motion.div
             key={card.href}

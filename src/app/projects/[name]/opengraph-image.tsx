@@ -1,4 +1,4 @@
-import { getProjectByRouteParam } from "../projects";
+import { projects } from "@/content";
 import { ogImageContentType, ogImageSize, renderOgImage } from "@/lib/og-image";
 
 export const runtime = "edge";
@@ -7,11 +7,7 @@ export const contentType = ogImageContentType;
 
 export default async function Image({ params }: { params: Promise<{ name: string }> }) {
   const awaited = await params;
-  const name = decodeURIComponent(awaited.name);
-  const project = getProjectByRouteParam(name);
+  const project = projects.fromRouteParam(awaited.name);
 
-  return renderOgImage({
-    title: project?.name ?? name,
-    subtitle: project?.preview.description ?? "",
-  });
+  return renderOgImage(projects.ogImage(project, decodeURIComponent(awaited.name)));
 }
