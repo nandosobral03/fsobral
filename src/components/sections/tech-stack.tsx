@@ -12,8 +12,8 @@ export default function TechStack() {
   const alsoInterestedIn = ["Rust", "Python", "Svelte", "TanStack Start"];
 
   return (
-    <section className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center gap-8 relative">
-      <div className="flex flex-col gap-4">
+    <section className="[grid-column:1/-1] md:[grid-column:7/13] flex flex-col justify-center gap-[calc(var(--lh)*1.5)] relative">
+      <div className="flex flex-col gap-[var(--bl)]">
         <p className="meta-label text-background/30">Stack</p>
         <div className="flex flex-wrap gap-2">
           {mainStack.map((tech) => (
@@ -27,7 +27,7 @@ export default function TechStack() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-[var(--bl)]">
         <p className="meta-label text-background/30">Also Interested In</p>
         <div className="flex flex-wrap gap-2">
           {alsoInterestedIn.map((tech) => (
@@ -42,7 +42,7 @@ export default function TechStack() {
       </div>
 
       <div className="mt-auto" />
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-[var(--bl)]">
         <div className="flex items-center gap-3">
           <span className="meta-label text-background/30 w-20 shrink-0">
             Role

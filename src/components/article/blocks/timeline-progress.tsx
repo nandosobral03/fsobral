@@ -91,20 +91,33 @@ export default function TimelineProgress({ markers, sections, children }: Timeli
 
   useEffect(() => {
     const lastSection = sections[sections.length - 1];
+    const scrollRoot = containerRef.current?.closest<HTMLElement>("[data-scroll-root='true']") ?? null;
+
+    const getScrollMetrics = () => {
+      if (!scrollRoot) {
+        return {
+          clientHeight: window.innerHeight,
+          distanceFromBottom: document.documentElement.scrollHeight - (window.scrollY || document.documentElement.scrollTop) - window.innerHeight,
+          triggerLine: window.innerHeight * 0.35,
+        };
+      }
+
+      const rootRect = scrollRoot.getBoundingClientRect();
+
+      return {
+        clientHeight: scrollRoot.clientHeight,
+        distanceFromBottom: scrollRoot.scrollHeight - scrollRoot.scrollTop - scrollRoot.clientHeight,
+        triggerLine: rootRect.top + scrollRoot.clientHeight * 0.35,
+      };
+    };
 
     const handleScroll = () => {
-      // Check if we're at the bottom of the page
-      const scrollHeight = document.documentElement.scrollHeight;
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const clientHeight = window.innerHeight;
-      const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+      const { distanceFromBottom, triggerLine } = getScrollMetrics();
 
       if (distanceFromBottom < 100 && lastSection) {
         setActiveMarkers(lastSection.markers);
         return;
       }
-
-      const triggerLine = window.innerHeight * 0.35;
 
       // Find which section's top is closest to (but above) the trigger line
       let activeSection = sections[0];
@@ -122,11 +135,15 @@ export default function TimelineProgress({ markers, sections, children }: Timeli
       setActiveMarkers(activeSection?.markers ?? []);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    const target = scrollRoot ?? window;
+
+    target.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
     handleScroll();
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      target.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
   }, [sections]);
 

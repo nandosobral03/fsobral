@@ -171,8 +171,8 @@ void main() {
     edgeFade = smoothstep(1.0, 0.75, imageUV.x);
   }
 
-  // Foreground color: #171717 (premultiplied alpha)
-  vec3 fgColor = vec3(0.09, 0.09, 0.09);
+  // Foreground color: #0d0d0b (premultiplied alpha)
+  vec3 fgColor = vec3(0.051, 0.051, 0.043);
   float a = charAlpha * u_opacity * edgeFade;
 
   gl_FragColor = vec4(fgColor * a, a);
@@ -194,6 +194,8 @@ interface AsciiImageProps {
   alignLeft?: boolean;
   /** Contrast adjustment: 0 = default (optimized for paintings), 1 = full tonal range (better for photos/sculptures) */
   contrast?: number;
+  /** Called after WebGL completes its first draw */
+  onReady?: () => void;
 }
 
 export default function AsciiImage({
@@ -206,15 +208,24 @@ export default function AsciiImage({
   fitHeight = false,
   alignLeft = false,
   contrast = 0,
+  onReady,
 }: AsciiImageProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
+  const onReadyRef = useRef(onReady);
+  const didReportReadyRef = useRef(false);
 
   const [webglFailed, setWebglFailed] = useState(false);
 
   useEffect(() => {
+    onReadyRef.current = onReady;
+  }, [onReady]);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    didReportReadyRef.current = false;
 
     const gl = canvas.getContext("webgl", {
       alpha: true,
@@ -360,6 +371,10 @@ export default function AsciiImage({
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        if (!didReportReadyRef.current) {
+          didReportReadyRef.current = true;
+          onReadyRef.current?.();
+        }
         rafRef.current = requestAnimationFrame(render);
       };
 

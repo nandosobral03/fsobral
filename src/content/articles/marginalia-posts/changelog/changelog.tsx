@@ -55,26 +55,29 @@ export default function Changelog() {
             {group.label}
           </h2>
 
-          <div className="pl-6 flex flex-col gap-0">
+          <div className="flex flex-col gap-0">
             {group.entries.map((entry, i) => (
               <div
                 key={`${entry.date}-${i}`}
-                className="group relative py-3 flex items-start gap-4"
+                className="grid grid-cols-[1rem_4rem_minmax(0,1fr)] items-start gap-3 py-3 md:grid-cols-[5.75rem_4.5rem_minmax(0,1fr)] md:gap-4"
               >
-                {/* tag symbol on the timeline */}
-                <span className={`absolute -left-6 top-[13px] -translate-x-1/2 text-sm font-mono font-bold leading-none ${tagColors[entry.tag]}`}>
-                  {tagSymbols[entry.tag]}
-                </span>
-                {/* tag label on hover */}
-                <span className={`absolute -left-10 top-[11px] -translate-x-full text-[10px] font-condensed font-medium uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity ${tagColors[entry.tag]}`}>
-                  {entry.tag}
+                <span
+                  className={`flex items-center gap-2 pt-0.5 ${tagColors[entry.tag]}`}
+                  title={entry.tag}
+                >
+                  <span className="font-mono text-sm font-bold leading-none">
+                    {tagSymbols[entry.tag]}
+                  </span>
+                  <span className="hidden font-condensed text-[9px] font-medium uppercase tracking-[0.12em] md:inline">
+                    {entry.tag}
+                  </span>
                 </span>
 
-                <span className="shrink-0 w-16 text-xs font-serif text-foreground/40 pt-0.5 tabular-nums">
+                <span className="shrink-0 pt-0.5 font-serif text-xs tabular-nums text-foreground/40">
                   {formatDay(entry.date)}
                 </span>
 
-                <p className="flex-1 text-sm leading-relaxed">
+                <p className="min-w-0 text-sm leading-relaxed">
                   {entry.description}
                 </p>
               </div>

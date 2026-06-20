@@ -1,27 +1,15 @@
-"use client";
-
-import { useState } from "react";
+import FadeIn from "@/components/common/fade-in";
 import LargeTitle from "@/components/common/large-title";
-import { BlogPost } from "./components/blog-post";
-import { blogPosts } from "@/content";
-import BlogInfo from "./blog-info";
-import MarginaliaList from "./components/marginalia";
-import { motion, AnimatePresence } from "motion/react";
-
-type Tab = "posts" | "marginalia";
+import { blogPosts, marginaliaPosts } from "@/content";
+import BlogIndexClient from "./blog-index-client";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<Tab>("posts");
   const visiblePosts = blogPosts.cardEntries();
+  const visibleMarginalia = marginaliaPosts.cardEntries();
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-8"
-      >
+      <FadeIn className="mb-8">
         <LargeTitle
           alt="IPSUM"
           variant="page"
@@ -34,48 +22,9 @@ export default function Home() {
         >
           BLOG
         </LargeTitle>
-      </motion.div>
+      </FadeIn>
 
-      <BlogInfo activeTab={activeTab} onTabChange={setActiveTab} />
-
-      <div className="structural-line" />
-
-      <div className="max-w-6xl mx-auto px-6 py-12 mb-20">
-        <AnimatePresence mode="wait">
-          {activeTab === "posts" ? (
-            <motion.div
-              key="posts"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-col gap-8"
-            >
-              {visiblePosts.map((post, index, arr) => (
-                  <div key={post.href}>
-                    <BlogPost
-                      post={post}
-                      align={index % 2 === 0 ? "left" : "right"}
-                    />
-                    {index < arr.length - 1 && (
-                      <div className="structural-line my-14" />
-                    )}
-                  </div>
-                ))}
-            </motion.div>
-          ) : (
-            <motion.div
-              key="marginalia"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              <MarginaliaList />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      <BlogIndexClient posts={visiblePosts} marginaliaPosts={visibleMarginalia} />
     </>
   );
 }

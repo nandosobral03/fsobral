@@ -3,6 +3,7 @@
 import SectionDescription from "@/components/common/section-description";
 import SectionTitle from "@/components/common/section-title";
 import { motion, AnimatePresence } from "motion/react";
+import { EditorialGrid, EditorialSection, MetaLabel } from "@/components/common/editorial";
 
 type Tab = "posts" | "marginalia";
 
@@ -15,14 +16,16 @@ export default function BlogInfo({ activeTab, onTabChange }: BlogInfoProps) {
   const isMarginalia = activeTab === "marginalia";
 
   return (
-    <div className="w-full flex bg-foreground text-background">
-      {/* Content area */}
-      <div className="flex-1 flex flex-col items-center px-6 py-12 overflow-hidden">
-        <div className="w-full flex flex-col gap-6 max-w-5xl min-h-[220px]">
+    <EditorialSection tone="ink">
+      <EditorialGrid className="py-[calc(var(--lh)*2)]">
+        <div className="[grid-column:1/5] hidden md:block">
+          <MetaLabel className="text-background/30">Index</MetaLabel>
+        </div>
+        <div className="[grid-column:1/-1] md:[grid-column:5/12] min-h-[220px] overflow-hidden">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.25, ease: "easeOut" }} className="flex flex-col gap-6">
               <SectionTitle>{isMarginalia ? "Marginalia" : "Blog"}</SectionTitle>
-              <SectionDescription>
+              <SectionDescription className="text-background/85">
                 {isMarginalia ? (
                   <>
                     Shorter (sometimes) posts about less researched topics. Or things I didn't want to have as a main blog entry.
@@ -42,12 +45,12 @@ export default function BlogInfo({ activeTab, onTabChange }: BlogInfoProps) {
             </motion.div>
           </AnimatePresence>
         </div>
-      </div>
 
-      {/* Vertical toggle button - right side */}
       <button
+        type="button"
+        aria-pressed={isMarginalia}
         onClick={() => onTabChange(isMarginalia ? "posts" : "marginalia")}
-        className={`w-12 md:w-16 flex-shrink-0 flex items-center justify-center border-l-[3px] transition-all duration-300 cursor-pointer group ${
+        className={`[grid-column:1/-1] md:[grid-column:12/13] min-h-[72px] md:min-h-[220px] flex items-center justify-center border-t-2 md:border-l-2 md:border-t-0 transition-all duration-300 cursor-pointer group ${
           isMarginalia ? "bg-accent border-accent hover:bg-accent/80" : "bg-foreground/80 border-background/20 hover:bg-background hover:border-background"
         }`}
       >
@@ -60,6 +63,7 @@ export default function BlogInfo({ activeTab, onTabChange }: BlogInfoProps) {
           Marginalia
         </span>
       </button>
-    </div>
+      </EditorialGrid>
+    </EditorialSection>
   );
 }

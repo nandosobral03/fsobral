@@ -1,17 +1,18 @@
-"use client";
-
 import SectionTitle from "@/components/common/section-title";
 import ProjectCarouselWrapper from "./project-carusel-wrapper";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { EditorialSection } from "@/components/common/editorial";
+import { projects } from "@/content";
 
 export default function Projects() {
+  const projectCards = projects.cardEntries();
+
   return (
-    <div className="w-full flex flex-col items-stretch px-8 md:px-12">
-      <section className="w-full flex flex-col gap-3">
+    <EditorialSection>
+      <section className="flex flex-col gap-[var(--bl)]">
         <SectionTitle index="02">Projects</SectionTitle>
-        <div className="flex items-baseline justify-between">
-          <p className="font-serif text-foreground/50">
+        <div className="flex items-baseline justify-between gap-[var(--lh)]">
+          <p className="editorial-copy text-foreground/55">
             I like building things
           </p>
           <Link
@@ -22,17 +23,11 @@ export default function Projects() {
           </Link>
         </div>
       </section>
-      <section className="w-full flex flex-col items-stretch pt-5">
-        <motion.div
-          className="-mx-8 md:-mx-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <ProjectCarouselWrapper />
-        </motion.div>
+      <section className="flex flex-col items-stretch pt-[var(--lh)]">
+        <div className="-mx-[var(--margin)]">
+          <ProjectCarouselWrapper cards={projectCards} />
+        </div>
       </section>
-    </div>
+    </EditorialSection>
   );
 }

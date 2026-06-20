@@ -8,6 +8,16 @@ export interface ChangelogEntry {
 
 export const entries: ChangelogEntry[] = [
   {
+    date: "2026-06-20",
+    description: "Added full-page opening layers for blog posts and project details, with repaired nav, contact, and scroll behavior",
+    tag: "improved",
+  },
+  {
+    date: "2026-06-19",
+    description: "Formalized the editorial design system, darkened the ink palette, refined project browsing, upgraded article blocks, and added route prefetching plus marginalia overlays",
+    tag: "improved",
+  },
+  {
     date: "2026-05-15",
     description: "Moved article source metadata beside authored content and made sitemap dates deterministic",
     tag: "improved",

@@ -4,12 +4,14 @@ import { motion } from "motion/react";
 
 export default function SectionDescription({
   children,
+  className,
 }: {
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
     <motion.div
-      className="text-base md:text-lg font-light text-pretty leading-relaxed font-serif"
+      className={`editorial-copy text-base md:text-lg ${className ?? ""}`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}

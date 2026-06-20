@@ -1,19 +1,18 @@
-"use client";
-
 import { BlogPost } from "@/app/blog/components/blog-post";
 import { blogPosts } from "@/content";
 import SectionTitle from "@/components/common/section-title";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { EditorialSection } from "@/components/common/editorial";
 
 export default function Blog() {
   const [latestPost] = blogPosts.cardEntries();
 
   return (
-    <section className="px-8 md:px-12 flex flex-col gap-3">
+    <EditorialSection>
+      <div className="flex flex-col gap-[var(--bl)]">
       <SectionTitle index="03">Blog</SectionTitle>
-      <div className="flex items-baseline justify-between mb-2">
-        <p className="font-serif text-foreground/50">
+      <div className="flex items-baseline justify-between gap-[var(--lh)] mb-[var(--bl)]">
+        <p className="editorial-copy text-foreground/55">
           Writing about a bit of everything
         </p>
         <Link
@@ -23,14 +22,10 @@ export default function Blog() {
           View all
         </Link>
       </div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-      >
+      <div>
         {latestPost && <BlogPost post={latestPost} align="left" />}
-      </motion.div>
-    </section>
+      </div>
+      </div>
+    </EditorialSection>
   );
 }

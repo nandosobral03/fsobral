@@ -1,22 +1,26 @@
-import Link from "next/link";
+"use client";
+
+import ViewTransitionLink from "@/components/common/view-transition-link";
 import type { ArticleCardEntry } from "@/content/surfaces/cards";
 import Image from "next/image";
 
 export const BlogPost = ({ post, align }: { post: ArticleCardEntry; align: "left" | "right" }) => {
   return (
-    <Link
+    <ViewTransitionLink
       href={post.href}
+      routeLayer
+      scroll={false}
       key={post.href}
-      className={`flex bg-foreground text-background group flex-col-reverse ${align === "left" ? "lg:flex-row" : "lg:flex-row-reverse"} overflow-hidden`}
+      className={`flex bg-foreground text-background group flex-col-reverse border border-foreground/10 ${align === "left" ? "lg:flex-row" : "lg:flex-row-reverse"} overflow-hidden`}
     >
-      <div className={`p-5 md:p-6 grow text-left ${align === "left" ? "lg:text-left" : "lg:text-right"} flex flex-col gap-2`}>
-        <h3 className="font-bold font-condensed uppercase text-xl md:text-2xl text-background">{post.title}</h3>
-        <p className="font-serif text-sm md:text-base leading-relaxed text-background/50">{post.description}</p>
-        <p className="meta-label text-background/30 mt-1">{post.date}</p>
+      <div className={`p-[var(--lh)] grow text-left ${align === "left" ? "lg:text-left" : "lg:text-right"} flex flex-col gap-[var(--bl)]`}>
+        <p className="meta-label text-accent/70">{post.date}</p>
+        <h3 className="display-title text-xl md:text-2xl text-background">{post.title}</h3>
+        <p className="editorial-copy text-sm md:text-base text-background/55">{post.description}</p>
         {post.tags && post.tags.length > 0 && (
           <div className={`mt-auto flex flex-wrap gap-2 pt-2 justify-start ${align === "left" ? "lg:justify-start" : "lg:justify-end"}`}>
             {post.tags.map((t) => (
-              <span key={t} className="meta-label text-[10px] text-background/30 border border-accent/40 px-2 py-0.5">
+              <span key={t} className="meta-label text-[10px] text-background/35 border border-accent/40 px-2 py-0.5">
                 {t}
               </span>
             ))}
@@ -28,6 +32,6 @@ export const BlogPost = ({ post, align }: { post: ArticleCardEntry; align: "left
           <Image src={post.coverImage} alt={post.title} width={1600} height={900} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         </div>
       )}
-    </Link>
+    </ViewTransitionLink>
   );
 };

@@ -15,9 +15,9 @@ const SectionList = ({ type, children }: { type: ListTypes; children: React.Reac
   if (items.length === 0) return null;
 
   return (
-    <Tag className="list-outside relative" style={{ listStyleType }}>
+    <Tag className="editorial-copy list-outside relative space-y-[var(--bl)] pl-[var(--lh)]" style={{ listStyleType }}>
       {items.map((child, index) => (
-        <li key={index} className="ml-4 list-outside" style={{ listStyleType }}>
+        <li key={index} className="list-outside pl-[var(--bl)]" style={{ listStyleType }}>
           {child}
         </li>
       ))}

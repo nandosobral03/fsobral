@@ -13,10 +13,14 @@ const ImageWithAlt = ({ src, alt, children }: ImageWithAltProps) => {
   const { setImage } = useExpandedImage();
 
   return (
-    <figure className="relative">
+    <figure className="relative my-[var(--lh)]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className={`w-full cursor-pointer transition-all duration-300`} onClick={() => setImage({ src, alt })} />
-      <figcaption className="text-start text-sm font-light mt-2">{children}</figcaption>
+      <img src={src} alt={alt} className="frame w-full cursor-pointer bg-foreground transition-all duration-300 hover:border-accent" onClick={() => setImage({ src, alt })} />
+      {children && (
+        <figcaption className="mt-[var(--bl)] border-l-2 border-accent pl-[var(--bl)] text-start editorial-copy text-sm text-foreground/60">
+          {children}
+        </figcaption>
+      )}
     </figure>
   );
 };

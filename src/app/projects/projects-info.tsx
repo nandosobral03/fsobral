@@ -2,12 +2,13 @@
 
 import SectionDescription from "@/components/common/section-description";
 import Link from "next/link";
+import { ContentRail, EditorialSection } from "@/components/common/editorial";
 
 export default function ProjectsInfo() {
   return (
-    <div className="w-full flex flex-col items-center px-6 py-12 bg-foreground text-background">
-      <div className="w-full flex flex-col gap-6 max-w-7xl">
-        <SectionDescription>
+    <EditorialSection tone="ink">
+      <ContentRail width="wide" className="py-[calc(var(--lh)*2)]">
+        <SectionDescription className="text-background/85">
           Here is the list of projects I have worked on. The code for most of
           them can be found on my{" "}
           <Link
@@ -25,7 +26,7 @@ export default function ProjectsInfo() {
           Each of them has a small writeup about what I did, why and how and
           what I learned from them.
         </SectionDescription>
-      </div>
-    </div>
+      </ContentRail>
+    </EditorialSection>
   );
 }

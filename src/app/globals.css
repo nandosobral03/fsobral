@@ -2,9 +2,9 @@
 
 @theme {
   --color-background: #d5d0c3;
-  --color-foreground: #171717;
+  --color-foreground: #0d0d0b;
   --color-accent: #d44527;
-  --color-muted: color-mix(in srgb, #171717 60%, #d5d0c3);
+  --color-muted: color-mix(in srgb, #0d0d0b 60%, #d5d0c3);
 
   --font-family-serif: var(--font-newsreader), serif;
   --font-family-sans: var(--font-outfit), sans-serif;
@@ -19,21 +19,28 @@
 @layer utilities {
   :root {
     --background: #d5d0c3;
-    --foreground: #171717;
+    --foreground: #0d0d0b;
     --accent: #d44527;
     --accent-on-dark: #e8775e;
 
+    --cols: 12;
+    --gutter: clamp(16px, 2vw, 28px);
+    --margin: clamp(24px, 5vw, 72px);
+    --bl: 8px;
+    --lh: 24px;
+    --maxw: 1440px;
     --max-width-article: 36rem;
   }
 
   .bg-foreground {
-    --color-accent: var(--accent-on-dark, #419fb1);
+    --color-accent: var(--accent-on-dark, #e8775e);
   }
 
   body {
     color: var(--foreground);
     background-color: var(--background);
-    font-family: var(--font-roboto), sans-serif;
+    font-family: var(--font-outfit), var(--font-roboto), sans-serif;
+    line-height: var(--lh);
     overflow-x: hidden;
   }
 
@@ -44,18 +51,9 @@
     background-attachment: fixed;
   }
 
-  /* Noise Overlay */
+  /* The paper dot backdrop carries the texture; dark ink surfaces stay flat. */
   body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 50;
-    opacity: 0.05;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    display: none;
   }
 
   /* Webkit scrollbar styles */
@@ -84,7 +82,7 @@
   }
 
   .frame {
-    border: 3px solid var(--color-foreground);
+    border: 2px solid var(--color-foreground);
   }
 
   *:focus-visible {
@@ -106,6 +104,73 @@
 
   * {
     scroll-behavior: smooth;
+  }
+
+  .editorial-section {
+    position: relative;
+  }
+
+  .editorial-wrap {
+    margin-inline: auto;
+    max-width: var(--maxw);
+    padding-inline: var(--margin);
+    width: 100%;
+  }
+
+  .editorial-grid {
+    column-gap: var(--gutter);
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    row-gap: calc(var(--lh) * 2);
+  }
+
+  .content-rail,
+  .content-rail-wide,
+  .content-rail-article {
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .content-rail {
+    max-width: 56rem;
+  }
+
+  .content-rail-wide {
+    max-width: 72rem;
+  }
+
+  .content-rail-article {
+    max-width: 64rem;
+  }
+
+  .display-title {
+    font-family: var(--font-plus-jakarta), var(--font-outfit), sans-serif;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .editorial-copy {
+    font-family: var(--font-newsreader), serif;
+    font-size: 1.0625rem;
+    font-weight: 460;
+    line-height: calc(var(--lh) * 1.25);
+    text-wrap: pretty;
+  }
+
+  .editorial-callout {
+    background: var(--foreground);
+    color: var(--background);
+    padding: calc(var(--lh) * 0.9);
+  }
+
+  @media (max-width: 767px) {
+    :root {
+      --cols: 6;
+      --gutter: 16px;
+      --margin: 24px;
+    }
   }
 
   /* Accent decorative elements */
@@ -168,12 +233,32 @@
   }
 
   /* Generous spacing between homepage sections */
-  .section-gap { padding-top: 4rem; padding-bottom: 4rem; }
-  @media (min-width: 768px) { .section-gap { padding-top: 5rem; padding-bottom: 5rem; } }
+  .section-gap {
+    padding-bottom: calc(var(--lh) * 3);
+    padding-top: calc(var(--lh) * 3);
+  }
+  @media (min-width: 768px) {
+    .section-gap {
+      padding-bottom: calc(var(--lh) * 4);
+      padding-top: calc(var(--lh) * 4);
+    }
+  }
 
   /* Thin structural line (replaces thick Divider between sections) */
-  .structural-line { height: 1px; background: var(--foreground); opacity: 0.15; margin: 0 2rem; }
-  @media (min-width: 768px) { .structural-line { margin: 0 3rem; } }
+  .structural-line {
+    height: var(--bl);
+    margin-inline: var(--margin);
+    position: relative;
+  }
+
+  .structural-line::before {
+    background: var(--foreground);
+    content: "";
+    height: 1px;
+    inset: 0 0 auto;
+    opacity: 0.18;
+    position: absolute;
+  }
 
   /* Heatmap cell: grayscale + hover effect only on pointer devices */
   .heatmap-cell {
@@ -202,5 +287,71 @@
     pointer-events: none;
     user-select: none;
     line-height: 0.85;
+  }
+
+  @supports (view-transition-name: none) {
+    @media (prefers-reduced-motion: no-preference) {
+      html[data-route-transition="detail"]::view-transition-old(root) {
+        animation: route-root-out 180ms ease-out both;
+      }
+
+      html[data-route-transition="detail"]::view-transition-new(root) {
+        animation: route-root-in 260ms 70ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      html[data-route-transition="detail"]::view-transition-group(route-card) {
+        animation-duration: 460ms;
+        animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+        overflow: clip;
+        z-index: 10;
+      }
+
+      html[data-route-transition="detail"]::view-transition-image-pair(route-card) {
+        isolation: isolate;
+        overflow: clip;
+      }
+
+      html[data-route-transition="detail"]::view-transition-old(route-card),
+      html[data-route-transition="detail"]::view-transition-new(route-card) {
+        animation-duration: 460ms;
+        animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+        mix-blend-mode: normal;
+      }
+
+      html[data-route-transition="detail"]::view-transition-old(route-card) {
+        animation-name: route-card-out;
+      }
+
+      html[data-route-transition="detail"]::view-transition-new(route-card) {
+        animation-name: route-card-in;
+      }
+    }
+  }
+
+  @keyframes route-root-out {
+    to {
+      filter: brightness(0.82);
+      opacity: 0.35;
+    }
+  }
+
+  @keyframes route-root-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  @keyframes route-card-out {
+    to {
+      filter: brightness(0.72);
+      opacity: 0.12;
+    }
+  }
+
+  @keyframes route-card-in {
+    from {
+      filter: brightness(0.88);
+    }
   }
 }

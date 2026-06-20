@@ -3,7 +3,7 @@ import SectionTitle from "@/components/common/section-title";
 
 export default function AboutMe() {
   return (
-    <section className="w-full md:w-1/2 p-8 md:p-12 flex flex-col gap-6 relative">
+    <section className="[grid-column:1/-1] md:[grid-column:1/6] flex flex-col gap-[var(--lh)] relative">
       <SectionTitle index="01">About Me</SectionTitle>
       <SectionDescription>
         Hi! I&apos;m a Software Engineer and Full Stack Developer from Uruguay,

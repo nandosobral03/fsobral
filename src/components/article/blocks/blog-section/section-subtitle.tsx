@@ -1,3 +1,3 @@
-const SectionSubtitle = ({ children }: { children: React.ReactNode }) => <h3 className="text-lg font-medium font-condensed">{children}</h3>;
+const SectionSubtitle = ({ children }: { children: React.ReactNode }) => <h4 className="meta-label text-foreground/50">{children}</h4>;
 
 export default SectionSubtitle;

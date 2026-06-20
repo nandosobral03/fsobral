@@ -1,3 +1,3 @@
 export default function Divider() {
-  return <div className="h-px bg-foreground my-8" />;
+  return <div className="my-[calc(var(--lh)*1.5)] h-px bg-foreground/20" />;
 }

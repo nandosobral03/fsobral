@@ -1,12 +1,15 @@
 "use client";
 
-import { projects } from "@/content";
 import { motion, useMotionValue, animate } from "motion/react";
 import { useRef, useState, useEffect, useCallback } from "react";
 import ProjectCard from "./project-card";
+import type { ProjectCardEntry } from "@/content";
 
-export default function ProjectCarousel() {
-  const projectCards = projects.cardEntries();
+export default function ProjectCarousel({
+  cards: projectCards,
+}: {
+  cards: readonly ProjectCardEntry[];
+}) {
   const constraintsRef = useRef(null);
   const x = useMotionValue(0);
   const [isMounted, setIsMounted] = useState(false);

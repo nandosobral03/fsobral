@@ -8,6 +8,7 @@ import {
 import Nav from "../components/common/nav";
 import OverscrollCreature from "../components/common/overscroll-creature";
 import DeferredAnalytics from "../components/common/deferred-analytics";
+import RouteTransitionProvider from "../components/common/route-transition-provider";
 import { getBaseUrl, personJsonLd, site } from "@/lib/site";
 import "./globals.css";
 
@@ -73,8 +74,10 @@ export const generateViewport = () => {
 };
 
 export default function RootLayout({
+  modal,
   children,
 }: Readonly<{
+  modal?: React.ReactNode;
   children: React.ReactNode;
 }>) {
   return (
@@ -107,7 +110,10 @@ export default function RootLayout({
         <div className="page-backdrop relative z-[2] flex-1 flex flex-col">
           <Nav />
           <main className="flex-1">
-            {children}
+            <RouteTransitionProvider>
+              {children}
+              {modal}
+            </RouteTransitionProvider>
             <DeferredAnalytics />
           </main>
         </div>

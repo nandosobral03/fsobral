@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import dynamic from "next/dynamic";
 import CircularText from "@/components/common/circular-text";
-import { useState, useEffect, useSyncExternalStore } from "react";
+import { useState, useEffect, useSyncExternalStore, useCallback } from "react";
 
 const AsciiSphere = dynamic(
   () => import("@/components/ascii-animations/ascii-sphere"),
@@ -66,9 +66,15 @@ export default function LargeTitle({
   const altWords = alt?.split(" ") || words;
   const isDesktop = useIsDesktop();
   const [showScroll, setShowScroll] = useState(true);
+  const [isAsciiReady, setIsAsciiReady] = useState(false);
+
   useEffect(() => {
     const timer = setTimeout(() => setShowScroll(false), 3000);
     return () => clearTimeout(timer);
+  }, []);
+
+  const handleAsciiReady = useCallback(() => {
+    setIsAsciiReady(true);
   }, []);
 
   const renderAnimation = () => {
@@ -114,7 +120,7 @@ export default function LargeTitle({
               key={wordIndex}
               initial="initial"
               whileHover="hovered"
-              className={`font-semibold font-condensed text-end leading-[0.95] select-none relative overflow-hidden whitespace-nowrap max-w-full w-full ${textClassName ?? (isHero ? "text-[15vw] md:text-[8vw]" : "text-[15vw] xl:text-[12rem]")}`}
+              className={`display-title text-end select-none relative overflow-hidden whitespace-nowrap max-w-full w-full ${textClassName ?? (isHero ? "text-[15vw] md:text-[8vw]" : "text-[15vw] xl:text-[12rem]")}`}
             >
               <div className="relative">
                 {word.split("").map((l, i) => (
@@ -216,7 +222,7 @@ export default function LargeTitle({
       {isHero && (
         <div className="absolute bottom-4 right-4 hidden md:block">
           <CircularText
-            text="CODE • CREATE • SHIP • REPEAT • "
+            text="CODE / CREATE / SHIP / REPEAT / "
             spinDuration={20}
             onHover="slowDown"
             radius={55}
@@ -234,6 +240,24 @@ export default function LargeTitle({
       <div className={`relative ${minHeight} select-none ${isHero ? "mb-8" : ""}`}>
         {/* Full-bleed ASCII background — only mount the active breakpoint */}
         <div className="absolute inset-0 pointer-events-none">
+          {(backgroundImageFallback?.desktop || backgroundImageFallback?.mobile) && (
+            <picture
+              className={`absolute inset-0 transition-opacity duration-500 ${
+                isAsciiReady ? "opacity-0" : "opacity-80"
+              }`}
+            >
+              {backgroundImageFallback?.desktop && (
+                <source media="(min-width: 768px)" srcSet={backgroundImageFallback.desktop} />
+              )}
+              <img
+                src={backgroundImageFallback.mobile ?? backgroundImageFallback.desktop}
+                alt=""
+                className={`h-full w-full select-none ${
+                  isHero ? "object-cover" : "object-contain object-left-bottom"
+                }`}
+              />
+            </picture>
+          )}
           {isDesktop ? (
             <AsciiImage
               src={backgroundImage}
@@ -243,6 +267,7 @@ export default function LargeTitle({
               fitHeight={!isHero}
               alignLeft={!isHero}
               contrast={backgroundImageContrast}
+              onReady={handleAsciiReady}
             />
           ) : (
             <AsciiImage
@@ -254,11 +279,12 @@ export default function LargeTitle({
               fitHeight={!isHero}
               alignLeft={!isHero}
               contrast={backgroundImageContrast}
+              onReady={handleAsciiReady}
             />
           )}
         </div>
         {/* Content with normal margins */}
-        <div className={`relative flex items-center justify-end gap-6 md:gap-8 lg:gap-12 ${minHeight} overflow-hidden pr-6 md:pr-12 pb-6 border-b-[3px] border-foreground mx-4`}>
+        <div className={`editorial-wrap relative flex items-center justify-end gap-6 md:gap-8 lg:gap-12 ${minHeight} overflow-hidden pb-6 border-b-2 border-foreground`}>
           {content}
         </div>
       </div>
@@ -267,14 +293,14 @@ export default function LargeTitle({
 
   if (!isHero) {
     return (
-      <div className="flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[55vh] my-8 px-6 md:px-12 select-none relative overflow-hidden border-b-[3px] border-foreground mx-4 pb-6">
+      <div className="editorial-wrap flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[55vh] my-8 select-none relative overflow-hidden border-b-2 border-foreground pb-6">
         {content}
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[calc(100svh-80px)] select-none relative overflow-hidden pr-6 md:pr-12 pb-6 border-b-[3px] border-foreground mx-4 mb-8">
+    <div className="editorial-wrap flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[calc(100svh-80px)] select-none relative overflow-hidden pb-6 border-b-2 border-foreground mb-8">
       {content}
     </div>
   );

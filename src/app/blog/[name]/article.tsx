@@ -12,6 +12,7 @@ export default function Article({ post }: { post: BlogPostEntry }) {
       readingTimeMinutes={post.readingTimeMinutes ?? 5}
       tags={post.tags}
       coverImage={post.coverImage}
+      enableRouteTransition
     >
       <Component />
     </ArticleShell>

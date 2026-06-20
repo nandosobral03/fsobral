@@ -10,11 +10,11 @@ const SectionQuote = ({
     link: string;
   };
 }) => (
-  <blockquote className="text-justify p-4 italic text-background bg-foreground my-4">
-    {children}
+  <blockquote className="my-[var(--lh)] border-l-2 border-accent bg-foreground px-[var(--lh)] py-[calc(var(--lh)*0.75)] text-background">
+    <div className="editorial-copy italic text-background/90">{children}</div>
     {from && (
-      <div className="text-right">
-        <br />- <HoverableLink href={from.link}>{from.title}</HoverableLink>
+      <div className="mt-[var(--bl)] text-right meta-label text-background/45">
+        - <HoverableLink href={from.link}>{from.title}</HoverableLink>
       </div>
     )}
   </blockquote>
