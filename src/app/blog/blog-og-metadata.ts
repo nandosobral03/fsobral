@@ -1,4 +1,11 @@
-export const blogOgMetadata = [
+type BlogOgMetadata = {
+  slug: string;
+  title: string;
+  description: string;
+  subtitle?: string;
+};
+
+export const blogOgMetadata: readonly BlogOgMetadata[] = [
   {
     slug: "automating-fishing-for-fun-and-no-profit",
     title: "Automating fishing for fun and no profit",
