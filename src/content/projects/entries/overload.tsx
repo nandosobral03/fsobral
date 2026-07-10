@@ -13,7 +13,7 @@ export const overload: ProjectSource = {
   preview: {
     cover: "/covers/overload.png",
     description:
-      "A live-streaming website that blends real internet content from 50+ sources with AI-generated noise in an endless feed where nothing can be trusted.",
+      "Built an endless editorial stream that ingests 50+ real sources and blends them with format-matched AI content—an experiment in how quickly visual authority erodes online.",
   },
   sections: [
     {

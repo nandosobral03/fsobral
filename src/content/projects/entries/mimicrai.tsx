@@ -14,7 +14,7 @@ export const mimicrai: ProjectSource = {
   updatedAt: "2025-05-01",
   preview: {
     cover: "/covers/mimicrai.png",
-    description: "Mimicrai is a writing assistant that amplifies your own writing skills by asking questions, helping you structure and brainstorm, as well as giving you suggestions for your writing, all in your own writing style.",
+    description: "Built an AI writing workspace with reusable voice profiles, contextual prompting, multi-provider models, usage metering, and Paddle subscriptions—my first monetized product.",
   },
   sections: [
     {

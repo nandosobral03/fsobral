@@ -5,7 +5,7 @@ export default function I3dPrintedMyGithubContributionHistory() {
   return (
     <>
       <Section>
-        <SectionTitle>I 3D printed my Github contribution history</SectionTitle>
+        <SectionTitle>I 3D printed my GitHub contribution history</SectionTitle>
         <Paragraph>
           So, after a pretty long year of coding, I finally decided to print out my Git contribution history. I was inspired by a developer at my company who had done the same, and the idea stuck with me. It's a small memento, but it
           represents a year's worth of effort, both during and outside of work.
@@ -73,7 +73,7 @@ export default function I3dPrintedMyGithubContributionHistory() {
       <Section>
         <SectionTitle>My first open-source PR</SectionTitle>
         <Paragraph>
-          Another cool thing that happened this year was opening my first PR to an open-source project. Funnily enough, it was for <HoverableLink href="https://github.com/github/gh-skyline">Github Skyline</HoverableLink>, the repo I used to
+          Another cool thing that happened this year was opening my first PR to an open-source project. Funnily enough, it was for <HoverableLink href="https://github.com/github/gh-skyline">GitHub Skyline</HoverableLink>, the repo I used to
           create the 3D-printed version of my contribution history. As I mentioned, since joining this company, I'd wanted to get one of those. After a year of hard work, I finally had something I'd be proud to have as a solid piece of 3D
           filament. I started using the tool to generate it, and boom: it only works in calendar years. This meant my contribution history would be January-December, with sparse commits from January to March due to the two GitHub accounts I
           was using. So I did what any sane person would do, I went to the tool's repository issues tab, found one that talked about making it work year-to-date, forked the repo and created my own solution. For now it hasn't been merged,

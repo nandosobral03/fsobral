@@ -9,6 +9,7 @@ import Nav from "../components/common/nav";
 import OverscrollCreature from "../components/common/overscroll-creature";
 import DeferredAnalytics from "../components/common/deferred-analytics";
 import RouteTransitionProvider from "../components/common/route-transition-provider";
+import MotionProvider from "../components/common/motion-provider";
 import { getBaseUrl, personJsonLd, site } from "@/lib/site";
 import "./globals.css";
 
@@ -68,8 +69,6 @@ export const generateViewport = () => {
   return {
     width: "device-width",
     initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
   };
 };
 
@@ -104,19 +103,21 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`antialiased h-screen flex flex-col w-full overflow-y-scroll ${roboto.variable} ${newsreader.variable} ${outfit.variable} ${plusJakarta.variable}`}
+        className={`antialiased min-h-screen flex flex-col w-full ${roboto.variable} ${newsreader.variable} ${outfit.variable} ${plusJakarta.variable}`}
       >
-        <OverscrollCreature />
-        <div className="page-backdrop relative z-[2] flex-1 flex flex-col">
-          <Nav />
-          <main className="flex-1">
-            <RouteTransitionProvider>
-              {children}
-              {modal}
-            </RouteTransitionProvider>
-            <DeferredAnalytics />
-          </main>
-        </div>
+        <MotionProvider>
+          <OverscrollCreature />
+          <div className="page-backdrop relative z-[2] flex-1 flex flex-col">
+            <Nav />
+            <main className="flex-1">
+              <RouteTransitionProvider>
+                {children}
+                {modal}
+              </RouteTransitionProvider>
+              <DeferredAnalytics />
+            </main>
+          </div>
+        </MotionProvider>
       </body>
     </html>
   );

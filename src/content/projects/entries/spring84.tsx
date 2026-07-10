@@ -12,7 +12,7 @@ export const spring84: ProjectSource = {
   preview: {
     cover: "/covers/spring84.png",
     description:
-      "A full reader, publisher and server for Spring '84, my successor protocol to Robin Sloan's Spring '83 and a second iteration of a project I loved. Temporary boards, mutual links, signed HTML fragments, and a sharper editorial rack interface.",
+      "Designed a successor web protocol and shipped its reader, publisher, and server: Ed25519-signed HTML boards, verified mutual links, sandboxed rendering, and an editorial rack UI.",
   },
   sections: [
     {

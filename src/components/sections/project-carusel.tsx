@@ -91,7 +91,7 @@ export default function ProjectCarousel({
         onClick={() => scrollBy(1)}
         disabled={atStart}
         aria-label="Scroll left"
-        className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-background text-foreground border border-foreground/20 flex items-center justify-center transition-all duration-300 hover:border-foreground/50 ${atStart ? "opacity-0 pointer-events-none" : "opacity-0 group-hover/carousel:opacity-100 md:opacity-70"}`}
+        className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-background text-foreground border border-foreground/20 flex items-center justify-center transition-all duration-300 hover:border-foreground/50 focus-visible:opacity-100 ${atStart ? "opacity-0 pointer-events-none" : "opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100"}`}
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="15 18 9 12 15 6" />
@@ -103,7 +103,7 @@ export default function ProjectCarousel({
         onClick={() => scrollBy(-1)}
         disabled={atEnd}
         aria-label="Scroll right"
-        className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-background text-foreground border border-foreground/20 flex items-center justify-center transition-all duration-300 hover:border-foreground/50 ${atEnd ? "opacity-0 pointer-events-none" : "opacity-0 group-hover/carousel:opacity-100 md:opacity-70"}`}
+        className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-background text-foreground border border-foreground/20 flex items-center justify-center transition-all duration-300 hover:border-foreground/50 focus-visible:opacity-100 ${atEnd ? "opacity-0 pointer-events-none" : "opacity-70 md:opacity-0 md:group-hover/carousel:opacity-100"}`}
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="9 18 15 12 9 6" />
@@ -123,9 +123,11 @@ export default function ProjectCarousel({
           onDragStart={() => { isDragging.current = true; }}
           onDragEnd={() => { requestAnimationFrame(() => { isDragging.current = false; }); }}
           whileTap={{ cursor: "grabbing" }}
-          className="flex gap-4 cursor-grab"
+          className="flex touch-pan-y gap-4 cursor-grab"
           onClickCapture={(e) => { if (isDragging.current) e.preventDefault(); }}
           onWheel={(e) => {
+            const isHorizontalIntent = Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey;
+            if (!isHorizontalIntent) return;
             e.preventDefault();
             const delta = e.deltaX || e.deltaY;
             const newX = x.get() - delta;

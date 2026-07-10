@@ -8,6 +8,16 @@ export interface ChangelogEntry {
 
 export const entries: ChangelogEntry[] = [
   {
+    date: "2026-07-10",
+    description: "Sharpened the portfolio narrative, curated flagship work, replaced generic micrographics with artwork-anchored hero gestures and functional selection, chronology, writing-rhythm, and case-study maps, shifted the accent system to primary orange, added a standalone contact page with a dithered Impression, Sunrise study, compacted the project and writing archives, and improved mobile scrolling, accessibility, contrast, and reduced-motion behavior",
+    tag: "improved",
+  },
+  {
+    date: "2026-07-09",
+    description: "Lightened the paper palette, added blue-black editorial ink, and introduced registration details across the home page",
+    tag: "improved",
+  },
+  {
     date: "2026-06-20",
     description: "Added full-page opening layers for blog posts and project details, with repaired nav, contact, and scroll behavior",
     tag: "improved",

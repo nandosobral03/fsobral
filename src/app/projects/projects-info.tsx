@@ -6,25 +6,22 @@ import { ContentRail, EditorialSection } from "@/components/common/editorial";
 
 export default function ProjectsInfo() {
   return (
-    <EditorialSection tone="ink">
+    <EditorialSection tone="ink" className="border-y border-background/10">
       <ContentRail width="wide" className="py-[calc(var(--lh)*2)]">
         <SectionDescription className="text-background/85">
-          Here is the list of projects I have worked on. The code for most of
-          them can be found on my{" "}
+          This archive traces how I learn: by shipping complete products,
+          protocols, tools, and experiments. Open a project for the problem,
+          the decisions behind it, and what I would change next.
+          <br />
+          <br />
+          Public source is available on{" "}
           <Link
             href="https://github.com/nandosobral03"
             className="text-accent hover:underline font-semibold transition-all"
           >
-            github
+            GitHub
           </Link>
-          , some of them have a live version that you can check out, sadly
-          that's not the case for all of them, mostly because I don't want to
-          keep going back to them and troubleshoot the issues that may have come
-          up from months/years old code.
-          <br />
-          <br />
-          Each of them has a small writeup about what I did, why and how and
-          what I learned from them.
+          . Maintained demos are linked from their case studies.
         </SectionDescription>
       </ContentRail>
     </EditorialSection>

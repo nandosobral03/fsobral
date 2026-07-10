@@ -12,7 +12,7 @@ export const atmosphere: ProjectSource = {
   updatedAt: "2025-11-23",
   preview: {
     cover: "/covers/atmosphere.png",
-    description: "A weather-aware desktop wallpaper scheduler built with Tauri and Rust. Automatically adapts your desktop background to current weather conditions and time of day.",
+    description: "Built a ~5 MB Windows wallpaper scheduler with Tauri and Rust. Weather-aware rules, tray integration, native wallpaper APIs, and typed JSON persistence keep it lightweight and easy to back up.",
   },
   sections: [
     {

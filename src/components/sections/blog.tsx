@@ -13,7 +13,7 @@ export default function Blog() {
       <SectionTitle index="03">Blog</SectionTitle>
       <div className="flex items-baseline justify-between gap-[var(--lh)] mb-[var(--bl)]">
         <p className="editorial-copy text-foreground/55">
-          Writing about a bit of everything
+          Essays on software, creative tools, and the ideas behind the work.
         </p>
         <Link
           href="/blog"
@@ -22,9 +22,7 @@ export default function Blog() {
           View all
         </Link>
       </div>
-      <div>
-        {latestPost && <BlogPost post={latestPost} align="left" />}
-      </div>
+      <div>{latestPost && <BlogPost post={latestPost} align="left" />}</div>
       </div>
     </EditorialSection>
   );

@@ -6,6 +6,7 @@ import { useExpandedImage } from "./expanded-image-context";
 import { ContentRail, EditorialSection, MetaLabel } from "@/components/common/editorial";
 import { ROUTE_CARD_VIEW_TRANSITION_NAME } from "@/components/common/route-transition-provider";
 import type { CSSProperties } from "react";
+import ImageModal from "@/components/ImageModal";
 
 type ViewTransitionStyle = CSSProperties & {
   viewTransitionName?: string;
@@ -32,10 +33,7 @@ export default function ArticleShell({ eyebrow, title, description, date, readin
   return (
     <>
       {image && (
-        <div className="fixed inset-0 z-40 bg-black bg-opacity-75 object-contain" onClick={clearImage}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={image.src} alt={image.alt} className="w-full cursor-pointer transition-all duration-300 fixed m-auto inset-0 z-50 h-[90vh] object-contain" onClick={clearImage} />
-        </div>
+        <ImageModal imageUrl={image.src} altText={image.alt} onClose={clearImage} />
       )}
 
       <EditorialSection tone="ink" style={headerStyle}>

@@ -14,7 +14,7 @@ export const consequences: ProjectSource = {
   preview: {
     cover: "/covers/consequences.png",
     description:
-      "An online multiplayer version of the classic paper party game where players take turns writing answers to prompts without knowing what others wrote, then revealing the resulting stories together.",
+      "Shipped a real-time multiplayer party game with Phoenix LiveView. Each room runs as a supervised in-memory GenServer, with host handoff, reconnection handling, and automatic expiry—no database required.",
   },
   sections: [
     {

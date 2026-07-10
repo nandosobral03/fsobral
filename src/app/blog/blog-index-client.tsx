@@ -21,7 +21,12 @@ export default function BlogIndexClient({
 
   return (
     <>
-      <BlogInfo activeTab={activeTab} onTabChange={setActiveTab} />
+      <BlogInfo
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        essayCount={posts.length}
+        marginaliaCount={marginaliaPosts.length}
+      />
 
       <StructuralRule />
 
@@ -35,7 +40,7 @@ export default function BlogIndexClient({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="flex flex-col gap-8"
+                className="flex flex-col gap-0"
               >
                 {posts.map((post, index, arr) => (
                   <div key={post.href}>
@@ -44,7 +49,7 @@ export default function BlogIndexClient({
                       align={index % 2 === 0 ? "left" : "right"}
                     />
                     {index < arr.length - 1 && (
-                      <StructuralRule className="my-[calc(var(--lh)*1.5)]" />
+                      <StructuralRule className="my-[var(--lh)]" />
                     )}
                   </div>
                 ))}

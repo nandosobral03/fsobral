@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { motion, useAnimation, useMotionValue } from "motion/react";
+import { motion, useAnimation, useMotionValue, useReducedMotion } from "motion/react";
 import type { MotionValue, Transition } from "motion/react";
 
 interface CircularTextProps {
@@ -44,17 +44,20 @@ export default function CircularText({
   const letters = Array.from(text);
   const controls = useAnimation();
   const rotation: MotionValue<number> = useMotionValue(0);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
     const start = rotation.get();
     controls.start({
       rotate: start + 360,
       scale: 1,
       transition: getTransition(spinDuration, start),
     });
-  }, [spinDuration, text, onHover, controls]);
+  }, [spinDuration, text, onHover, controls, rotation, shouldReduceMotion]);
 
   const handleHoverStart = () => {
+    if (shouldReduceMotion) return;
     const start = rotation.get();
     if (!onHover) return;
 
@@ -90,6 +93,7 @@ export default function CircularText({
   };
 
   const handleHoverEnd = () => {
+    if (shouldReduceMotion) return;
     const start = rotation.get();
     controls.start({
       rotate: start + 360,

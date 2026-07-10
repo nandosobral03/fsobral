@@ -14,8 +14,15 @@ const ImageWithAlt = ({ src, alt, children }: ImageWithAltProps) => {
 
   return (
     <figure className="relative my-[var(--lh)]">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className="frame w-full cursor-pointer bg-foreground transition-all duration-300 hover:border-accent" onClick={() => setImage({ src, alt })} />
+      <button
+        type="button"
+        className="block w-full cursor-zoom-in"
+        aria-label={`Expand image: ${alt}`}
+        onClick={() => setImage({ src, alt })}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={alt} className="frame w-full bg-foreground transition-all duration-300 hover:border-accent" />
+      </button>
       {children && (
         <figcaption className="mt-[var(--bl)] border-l-2 border-accent pl-[var(--bl)] text-start editorial-copy text-sm text-foreground/60">
           {children}

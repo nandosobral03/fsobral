@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 
 export function ProjectGrid({ cards }: { cards: readonly ProjectCardEntry[] }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-[var(--lh)] w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[var(--lh)] w-full">
       {cards.map((card, index) => {
         return (
           <motion.div

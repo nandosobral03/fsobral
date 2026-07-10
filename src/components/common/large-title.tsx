@@ -2,7 +2,11 @@
 
 import { motion, AnimatePresence } from "motion/react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import CircularText from "@/components/common/circular-text";
+import HeroDatumLine from "@/components/common/hero-datum-line";
+import SisyphusEffortVector from "@/components/common/sisyphus-effort-vector";
+import ThinkerThoughtAnnotation from "@/components/common/thinker-thought-annotation";
 import { useState, useEffect, useSyncExternalStore, useCallback } from "react";
 
 const AsciiSphere = dynamic(
@@ -37,6 +41,26 @@ const DURATION = 0.25;
 const STAGGER = 0.025;
 
 type AnimationType = "sphere" | "cube";
+type ArtworkGraphic = "creation-datum" | "sisyphus-effort" | "thinker-annotation";
+
+function ArtworkOverlay({
+  graphic,
+  layer,
+}: {
+  graphic?: ArtworkGraphic;
+  layer: "behind" | "front";
+}) {
+  switch (graphic) {
+    case "creation-datum":
+      return <HeroDatumLine layer={layer} />;
+    case "sisyphus-effort":
+      return <SisyphusEffortVector layer={layer} />;
+    case "thinker-annotation":
+      return <ThinkerThoughtAnnotation layer={layer} />;
+    default:
+      return null;
+  }
+}
 
 interface LargeTitleProps {
   children: React.ReactNode;
@@ -48,6 +72,11 @@ interface LargeTitleProps {
   backgroundImageContrast?: number;
   variant?: "hero" | "page";
   textClassName?: string;
+  subtitle?: string;
+  description?: string;
+  primaryAction?: { href: string; label: string };
+  secondaryAction?: { href: string; label: string };
+  artworkGraphic?: ArtworkGraphic;
 }
 
 export default function LargeTitle({
@@ -60,6 +89,11 @@ export default function LargeTitle({
   backgroundImageContrast = 0,
   variant = "hero",
   textClassName,
+  subtitle,
+  description,
+  primaryAction,
+  secondaryAction,
+  artworkGraphic,
 }: LargeTitleProps) {
   const text = children?.toString() || "";
   const words = text.split(" ");
@@ -111,12 +145,14 @@ export default function LargeTitle({
 
       {/* Title text */}
       <div className="flex flex-col items-end gap-4 flex-1 min-w-0 overflow-hidden">
+        <h1 className="sr-only">{text}</h1>
+        <div className="flex w-full flex-col items-end" aria-hidden="true">
         {words.map((word, wordIndex) => {
           const altWord = altWords[wordIndex] || word;
           const lengthDiff = altWord.length - word.length;
 
           return (
-            <motion.h1
+            <motion.div
               key={wordIndex}
               initial="initial"
               whileHover="hovered"
@@ -163,9 +199,10 @@ export default function LargeTitle({
                   </motion.span>
                 ))}
               </div>
-            </motion.h1>
+            </motion.div>
           );
         })}
+        </div>
         <div className="flex items-center gap-3 mt-2">
           <motion.span
             className="h-[2px] w-12 bg-accent/50"
@@ -175,14 +212,41 @@ export default function LargeTitle({
             style={{ transformOrigin: "right" }}
           />
           <motion.span
-            className="meta-label text-foreground/50 tracking-[0.2em]"
+            className="meta-label paper-halo text-[var(--ink-blue)] tracking-[0.2em]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            {isHero ? "Software Engineer" : alt || text}
+            {subtitle ?? (isHero ? "Software Engineer" : alt || text)}
           </motion.span>
         </div>
+        {description && (
+          <div className="max-w-xl text-right">
+            <p className="editorial-copy paper-halo text-sm font-medium text-foreground md:text-base">
+              {description}
+            </p>
+            {(primaryAction || secondaryAction) && (
+              <div className="mt-3 flex flex-wrap justify-end gap-2">
+                {secondaryAction && (
+                  <Link
+                    href={secondaryAction.href}
+                    className="meta-label paper-halo border border-foreground/45 px-3 py-2 text-foreground transition-colors hover:border-foreground"
+                  >
+                    {secondaryAction.label}
+                  </Link>
+                )}
+                {primaryAction && (
+                  <Link
+                    href={primaryAction.href}
+                    className="meta-label border border-foreground bg-foreground px-3 py-2 text-background transition-colors hover:border-accent hover:bg-accent hover:text-foreground"
+                  >
+                    {primaryAction.label}
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Monospace coordinates - bottom left (hero only) */}
@@ -234,12 +298,15 @@ export default function LargeTitle({
   );
 
   if (backgroundImage) {
-    const minHeight = isHero ? "min-h-[calc(100svh-80px)]" : "min-h-[60vh]";
+    const minHeight = isHero
+      ? "min-h-[46svh] md:min-h-[76svh]"
+      : "min-h-[clamp(20rem,42svh,34rem)]";
 
     return (
       <div className={`relative ${minHeight} select-none ${isHero ? "mb-8" : ""}`}>
         {/* Full-bleed ASCII background — only mount the active breakpoint */}
-        <div className="absolute inset-0 pointer-events-none">
+        <div className="pointer-events-none absolute inset-0 z-0">
+          <ArtworkOverlay graphic={artworkGraphic} layer="behind" />
           {(backgroundImageFallback?.desktop || backgroundImageFallback?.mobile) && (
             <picture
               className={`absolute inset-0 transition-opacity duration-500 ${
@@ -282,9 +349,10 @@ export default function LargeTitle({
               onReady={handleAsciiReady}
             />
           )}
+          <ArtworkOverlay graphic={artworkGraphic} layer="front" />
         </div>
         {/* Content with normal margins */}
-        <div className={`editorial-wrap relative flex items-center justify-end gap-6 md:gap-8 lg:gap-12 ${minHeight} overflow-hidden pb-6 border-b-2 border-foreground`}>
+        <div className={`editorial-wrap relative z-10 flex items-center justify-end gap-6 md:gap-8 lg:gap-12 ${minHeight} overflow-hidden pb-6 border-b-2 border-foreground`}>
           {content}
         </div>
       </div>
@@ -293,14 +361,14 @@ export default function LargeTitle({
 
   if (!isHero) {
     return (
-      <div className="editorial-wrap flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[55vh] my-8 select-none relative overflow-hidden border-b-2 border-foreground pb-6">
+      <div className="editorial-wrap flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[clamp(20rem,42svh,34rem)] my-8 select-none relative overflow-hidden border-b-2 border-foreground pb-6">
         {content}
       </div>
     );
   }
 
   return (
-    <div className="editorial-wrap flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[calc(100svh-80px)] select-none relative overflow-hidden pb-6 border-b-2 border-foreground mb-8">
+    <div className="editorial-wrap flex items-center justify-end gap-6 md:gap-8 lg:gap-12 min-h-[46svh] md:min-h-[76svh] select-none relative overflow-hidden pb-6 border-b-2 border-foreground mb-8">
       {content}
     </div>
   );

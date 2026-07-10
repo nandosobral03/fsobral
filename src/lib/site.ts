@@ -2,7 +2,7 @@ export const site = {
   name: "Fernando Sobral",
   domain: "fernandosobral.dev",
   defaultTitle: "Fernando Sobral",
-  description: "Software engineer and builder of things on the internet.",
+  description: "Senior software engineer building expressive web products, developer tools, and small protocols.",
   author: "Fernando Sobral",
   sameAs: [
     "https://github.com/nandosobral03",

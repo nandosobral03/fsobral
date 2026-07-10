@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #d5d0c3;
-  --color-foreground: #0d0d0b;
-  --color-accent: #d44527;
-  --color-muted: color-mix(in srgb, #0d0d0b 60%, #d5d0c3);
+  --color-background: #f2f0e8;
+  --color-foreground: #11110f;
+  --color-accent: #c84b00;
+  --color-ink-blue: #334a52;
+  --color-muted: color-mix(in srgb, #11110f 60%, #f2f0e8);
 
   --font-family-serif: var(--font-newsreader), serif;
   --font-family-sans: var(--font-outfit), sans-serif;
@@ -18,10 +19,11 @@
 
 @layer utilities {
   :root {
-    --background: #d5d0c3;
-    --foreground: #0d0d0b;
-    --accent: #d44527;
-    --accent-on-dark: #e8775e;
+    --background: #f2f0e8;
+    --foreground: #11110f;
+    --accent: #c84b00;
+    --accent-on-dark: #ff8a3d;
+    --ink-blue: #334a52;
 
     --cols: 12;
     --gutter: clamp(16px, 2vw, 28px);
@@ -33,7 +35,7 @@
   }
 
   .bg-foreground {
-    --color-accent: var(--accent-on-dark, #e8775e);
+    --color-accent: var(--accent-on-dark, #ff8a3d);
   }
 
   body {
@@ -46,7 +48,7 @@
 
   .page-backdrop {
     background-color: var(--background);
-    background-image: radial-gradient(color-mix(in srgb, var(--foreground) 15%, transparent) 1px, transparent 1px);
+    background-image: radial-gradient(color-mix(in srgb, var(--foreground) 11%, transparent) 1px, transparent 1px);
     background-size: 8px 8px;
     background-attachment: fixed;
   }
@@ -237,6 +239,28 @@
     padding-bottom: calc(var(--lh) * 3);
     padding-top: calc(var(--lh) * 3);
   }
+
+  .on-ink-meta {
+    color: color-mix(in srgb, var(--background) 60%, transparent);
+  }
+
+  .on-ink-muted {
+    color: color-mix(in srgb, var(--background) 70%, transparent);
+  }
+
+  .paper-meta {
+    color: color-mix(in srgb, var(--foreground) 60%, transparent);
+  }
+
+  .paper-halo {
+    text-shadow:
+      1px 0 0 var(--background),
+      -1px 0 0 var(--background),
+      0 1px 0 var(--background),
+      0 -1px 0 var(--background),
+      0 0 10px var(--background),
+      0 0 18px var(--background);
+  }
   @media (min-width: 768px) {
     .section-gap {
       padding-bottom: calc(var(--lh) * 4);
@@ -258,6 +282,28 @@
     inset: 0 0 auto;
     opacity: 0.18;
     position: absolute;
+  }
+
+  .structural-line::after {
+    background: var(--ink-blue);
+    content: "";
+    height: 5px;
+    opacity: 0.8;
+    position: absolute;
+    right: 0;
+    top: -2px;
+    width: 5px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
   }
 
   /* Heatmap cell: grayscale + hover effect only on pointer devices */

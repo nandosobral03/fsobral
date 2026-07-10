@@ -24,7 +24,7 @@ export const blogOgMetadata: readonly BlogOgMetadata[] = [
   },
   {
     slug: "i-3d-printed-my-github-contribution-history",
-    title: "I 3D printed my Github contribution history",
+    title: "I 3D printed my GitHub contribution history",
     description: "A memento of a year's worth of coding efforts, both during and outside of work.",
   },
   {

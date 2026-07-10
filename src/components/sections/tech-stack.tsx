@@ -1,5 +1,6 @@
 "use client";
 
+
 export default function TechStack() {
   const mainStack = [
     "React",
@@ -41,32 +42,6 @@ export default function TechStack() {
         </div>
       </div>
 
-      <div className="mt-auto" />
-      <div className="flex flex-col gap-[var(--bl)]">
-        <div className="flex items-center gap-3">
-          <span className="meta-label text-background/30 w-20 shrink-0">
-            Role
-          </span>
-          <span className="text-sm font-serif text-background/70">
-            Senior Software Engineer at{" "}
-            <a
-              href="https://www.doublehq.com"
-              className="text-accent underline underline-offset-2 decoration-accent/50 hover:decoration-accent transition-all duration-300 font-sans"
-            >
-              double
-            </a>{" "}
-            (YC S21)
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="meta-label text-background/30 w-20 shrink-0">
-            Location
-          </span>
-          <span className="text-sm font-serif text-background/70">
-            Montevideo, Uruguay
-          </span>
-        </div>
-      </div>
     </section>
   );
 }

@@ -20,7 +20,7 @@ export const BlogPost = ({ post, align }: { post: ArticleCardEntry; align: "left
         {post.tags && post.tags.length > 0 && (
           <div className={`mt-auto flex flex-wrap gap-2 pt-2 justify-start ${align === "left" ? "lg:justify-start" : "lg:justify-end"}`}>
             {post.tags.map((t) => (
-              <span key={t} className="meta-label text-[10px] text-background/35 border border-accent/40 px-2 py-0.5">
+              <span key={t} className="meta-label text-[10px] on-ink-meta border border-accent/60 px-2 py-0.5">
                 {t}
               </span>
             ))}
@@ -28,7 +28,7 @@ export const BlogPost = ({ post, align }: { post: ArticleCardEntry; align: "left
         )}
       </div>
       {post.coverImage && (
-        <div className="lg:w-[400px] lg:shrink-0 w-full h-48 lg:h-auto relative overflow-hidden">
+        <div className="lg:w-[34%] lg:min-w-[300px] lg:max-w-[360px] lg:shrink-0 w-full h-48 lg:h-auto relative overflow-hidden">
           <Image src={post.coverImage} alt={post.title} width={1600} height={900} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         </div>
       )}

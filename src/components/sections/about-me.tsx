@@ -3,15 +3,13 @@ import SectionTitle from "@/components/common/section-title";
 
 export default function AboutMe() {
   return (
-    <section className="[grid-column:1/-1] md:[grid-column:1/6] flex flex-col gap-[var(--lh)] relative">
+    <section id="about" className="[grid-column:1/-1] md:[grid-column:1/6] flex flex-col gap-[var(--lh)] relative scroll-mt-24">
       <SectionTitle index="01">About Me</SectionTitle>
       <SectionDescription>
-        Hi! I&apos;m a Software Engineer and Full Stack Developer from Uruguay,
-        currently working as a Senior Software Engineer at Double (YC S21).
-        I&apos;m passionate about writing code, learning new technologies, and
-        building things. When I&apos;m not shipping features, I like to explore
-        side projects that scratch a creative itch, love building for the sake
-        of building stuff
+        I like taking small, unusual ideas seriously—giving them the same care
+        in interaction, architecture, and finish as a larger product. Side
+        projects are where I experiment, learn unfamiliar tools, and follow an
+        idea all the way to something real.
       </SectionDescription>
     </section>
   );

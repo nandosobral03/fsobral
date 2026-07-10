@@ -33,6 +33,12 @@ export function getStaticSitemapEntries(): readonly SitemapContentEntry[] {
       changeFrequency: "weekly",
       priority: 0.7,
     },
+    {
+      path: "/contact",
+      lastModified: latestDate([...blogTimestamps, ...projectTimestamps]),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
   ];
 }
 

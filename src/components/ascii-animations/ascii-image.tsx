@@ -375,7 +375,9 @@ export default function AsciiImage({
           didReportReadyRef.current = true;
           onReadyRef.current?.();
         }
-        rafRef.current = requestAnimationFrame(render);
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          rafRef.current = requestAnimationFrame(render);
+        }
       };
 
       rafRef.current = requestAnimationFrame(render);

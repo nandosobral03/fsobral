@@ -11,8 +11,9 @@ const projectYearSources = [
     year: 2026,
     preface: (
       <>
-        No clear goal yet in 2026, overall keep building. Build better, build
-        nicer, explore new tech if it feets, make beautiful designs, have fun.
+        2026 is about sharper ideas and more deliberate execution: stronger
+        systems, clearer interfaces, unfamiliar tools when they serve the work,
+        and enough restraint to finish well.
       </>
     ),
   },
@@ -32,8 +33,8 @@ const projectYearSources = [
         settling for "good enough."
         <br />
         <br />
-        The goal: build fewer things, but take my time to refine them, learn
-        deep not broad.
+        The goal: build fewer things, take the time to refine them, and learn
+        deeply rather than broadly.
       </>
     ),
   },
