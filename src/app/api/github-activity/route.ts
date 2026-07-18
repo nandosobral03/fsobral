@@ -1,4 +1,4 @@
-import { getAggregatedGithubCalendar, parseGithubLogins } from "@/lib/github-activity";
+import { getCachedAggregatedGithubCalendar, parseGithubLogins } from "@/lib/github-activity";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const queryLogins = url.searchParams.get("logins");
     const rawLogins = parseGithubLogins(queryLogins || process.env.GITHUB_LOGINS);
-    const data = await getAggregatedGithubCalendar(rawLogins);
+    const data = await getCachedAggregatedGithubCalendar(rawLogins);
 
     return NextResponse.json(data, {
       headers: {

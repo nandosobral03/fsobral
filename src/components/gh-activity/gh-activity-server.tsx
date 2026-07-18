@@ -1,4 +1,4 @@
-import { getAggregatedGithubCalendar, parseGithubLogins, type CalendarData } from "@/lib/github-activity";
+import { getCachedAggregatedGithubCalendar, parseGithubLogins, type CalendarData } from "@/lib/github-activity";
 import GHActivityForceNoSSR from "./gh-no-ssr";
 
 export default async function GithubActivityServer({ vertical = false }: { vertical?: boolean } = {}) {
@@ -6,7 +6,7 @@ export default async function GithubActivityServer({ vertical = false }: { verti
   let days: CalendarData[] = [];
 
   try {
-    days = (await getAggregatedGithubCalendar(logins)).days;
+    days = (await getCachedAggregatedGithubCalendar(logins)).days;
   } catch {
     return null;
   }

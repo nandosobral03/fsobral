@@ -29,7 +29,14 @@ export const BlogPost = ({ post, align }: { post: ArticleCardEntry; align: "left
       </div>
       {post.coverImage && (
         <div className="lg:w-[34%] lg:min-w-[300px] lg:max-w-[360px] lg:shrink-0 w-full h-48 lg:h-auto relative overflow-hidden">
-          <Image src={post.coverImage} alt={post.title} width={1600} height={900} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <Image
+            src={post.coverImage}
+            alt={post.title}
+            width={1600}
+            height={900}
+            sizes="(max-width: 1023px) 100vw, 360px"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
         </div>
       )}
     </ViewTransitionLink>

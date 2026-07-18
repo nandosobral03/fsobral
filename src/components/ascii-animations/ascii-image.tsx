@@ -224,6 +224,8 @@ export default function AsciiImage({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    let disposed = false;
+    let cleanup: (() => void) | undefined;
 
     didReportReadyRef.current = false;
 
@@ -242,6 +244,8 @@ export default function AsciiImage({
     img.src = src;
 
     img.onload = () => {
+      if (disposed) return;
+
       // Compile shaders
       const vs = gl.createShader(gl.VERTEX_SHADER)!;
       gl.shaderSource(vs, VERT);
@@ -359,12 +363,19 @@ export default function AsciiImage({
       observer.observe(canvas);
 
       const start = performance.now();
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let isIntersecting = true;
+      let isDocumentVisible = document.visibilityState === "visible";
+
+      const scheduleRender = () => {
+        if (rafRef.current || !isIntersecting || !isDocumentVisible) return;
+        rafRef.current = requestAnimationFrame(render);
+      };
+
       const render = () => {
-        // Skip rendering when hidden (e.g. CSS display:none at breakpoints)
-        if (canvas.offsetParent === null) {
-          rafRef.current = requestAnimationFrame(render);
-          return;
-        }
+        rafRef.current = 0;
+        if (!isIntersecting || !isDocumentVisible || canvas.offsetParent === null) return;
+
         const t = (performance.now() - start) / 1000;
         gl.uniform1f(uTime, t);
         gl.uniform2f(uRes, canvas.width, canvas.height);
@@ -375,18 +386,42 @@ export default function AsciiImage({
           didReportReadyRef.current = true;
           onReadyRef.current?.();
         }
-        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-          rafRef.current = requestAnimationFrame(render);
-        }
+        if (!reducedMotion) scheduleRender();
       };
 
-      rafRef.current = requestAnimationFrame(render);
+      const visibilityObserver = new IntersectionObserver(
+        ([entry]) => {
+          isIntersecting = entry.isIntersecting;
+          if (isIntersecting) {
+            scheduleRender();
+          } else {
+            cancelAnimationFrame(rafRef.current);
+            rafRef.current = 0;
+          }
+        },
+        { rootMargin: "100px" },
+      );
+      visibilityObserver.observe(canvas);
 
-      // Cleanup stored for unmount
-      canvas.dataset.cleanup = "true";
-      const cleanup = () => {
+      const handleVisibilityChange = () => {
+        isDocumentVisible = document.visibilityState === "visible";
+        if (isDocumentVisible) {
+          scheduleRender();
+        } else {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = 0;
+        }
+      };
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+
+      scheduleRender();
+
+      cleanup = () => {
         cancelAnimationFrame(rafRef.current);
+        rafRef.current = 0;
         observer.disconnect();
+        visibilityObserver.disconnect();
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
         gl.deleteTexture(atlasTex);
         gl.deleteTexture(imageTex);
         gl.deleteProgram(program);
@@ -394,15 +429,12 @@ export default function AsciiImage({
         gl.deleteShader(fs);
         gl.deleteBuffer(buf);
       };
-
-      // Store cleanup on the ref for the effect's return
-      (canvas as unknown as { _cleanup: () => void })._cleanup = cleanup;
     };
 
     return () => {
-      cancelAnimationFrame(rafRef.current);
-      const c = canvas as unknown as { _cleanup?: () => void };
-      c._cleanup?.();
+      disposed = true;
+      img.onload = null;
+      cleanup?.();
     };
   }, [src, opacity, density, rotateAngle, fitHeight, alignLeft, contrast]);
 

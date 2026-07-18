@@ -7,6 +7,8 @@ import ContactMe from "@/components/sections/contact-me";
 import GithubActivityServer from "@/components/gh-activity/gh-activity-server";
 import { EditorialGrid, EditorialSection, StructuralRule } from "@/components/common/editorial";
 import Link from "next/link";
+import { Suspense } from "react";
+import GhActivitySkeleton from "@/components/gh-activity/gh-activity-skeleton";
 
 export default function Home() {
   return (
@@ -16,11 +18,11 @@ export default function Home() {
         <LargeTitle
           alt="ABOUT ME"
           artworkGraphic="creation-datum"
-          backgroundImage="/images/creation-hands.png"
+          backgroundImage="/images/creation-hands.webp"
           textClassName="text-[15vw] md:text-[min(8vw,5.4rem)]"
           backgroundImageFallback={{
-            desktop: "/images/creation-hands-ascii-desktop.png",
-            mobile: "/images/creation-hands-ascii-mobile.png",
+            desktop: "/images/creation-hands-ascii-desktop.webp",
+            mobile: "/images/creation-hands-ascii-mobile.webp",
           }}
         >FERNANDO SOBRAL</LargeTitle>
         <EditorialSection tone="ink" className="border-t border-background/10">
@@ -64,7 +66,9 @@ export default function Home() {
         </EditorialGrid>
         <div className="h-px bg-background/15" />
         <div className="py-[var(--lh)]">
-          <GithubActivityServer />
+          <Suspense fallback={<GhActivitySkeleton />}>
+            <GithubActivityServer />
+          </Suspense>
         </div>
       </EditorialSection>
 

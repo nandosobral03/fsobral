@@ -1,9 +1,22 @@
 "use client";
 
 import { motion, useMotionValue, animate } from "motion/react";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import ProjectCard from "./project-card";
 import type { ProjectCardEntry } from "@/content";
+
+const MOBILE_QUERY = "(max-width: 767px)";
+
+const subscribeToMobile = (callback: () => void) => {
+  const mediaQuery = window.matchMedia(MOBILE_QUERY);
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+};
+
+const subscribeToViewport = (callback: () => void) => {
+  window.addEventListener("resize", callback);
+  return () => window.removeEventListener("resize", callback);
+};
 
 export default function ProjectCarousel({
   cards: projectCards,
@@ -12,38 +25,24 @@ export default function ProjectCarousel({
 }) {
   const constraintsRef = useRef(null);
   const x = useMotionValue(0);
-  const [isMounted, setIsMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" ? window.matchMedia("(max-width: 767px)").matches : false
+  const isMobile = useSyncExternalStore(
+    subscribeToMobile,
+    () => window.matchMedia(MOBILE_QUERY).matches,
+    () => false,
   );
-  const [viewportWidth, setViewportWidth] = useState<number>(() => typeof window !== "undefined" ? window.innerWidth : 1200);
+  const viewportWidth = useSyncExternalStore(
+    subscribeToViewport,
+    () => window.innerWidth,
+    () => 1200,
+  );
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true); // eslint-disable-line react-hooks/set-state-in-effect -- hydration flag
-
-    // Use matchMedia for mobile breakpoint (only fires on transition)
-    const mql = window.matchMedia("(max-width: 767px)");
-    const mqlHandler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mql.addEventListener("change", mqlHandler);
-
-    // Viewport width still needs resize for card layout calculations
-    const resizeHandler = () => setViewportWidth(window.innerWidth);
-    window.addEventListener("resize", resizeHandler);
-
-    return () => {
-      mql.removeEventListener("change", mqlHandler);
-      window.removeEventListener("resize", resizeHandler);
-    };
-  }, []);
-
   const cardWidth = isMobile ? 280 : 420;
   const gap = 16;
-  const containerWidth = isMounted ? viewportWidth : 1200;
   const sidePadding = 32;
   const totalWidth = projectCards.length * cardWidth + (projectCards.length - 1) * gap + sidePadding * 2;
-  const overflow = totalWidth - containerWidth;
+  const overflow = totalWidth - viewportWidth;
   const leftConstraint = overflow > 0 ? -overflow : 0;
 
   const updateBounds = useCallback((currentX: number) => {
@@ -64,25 +63,6 @@ export default function ProjectCarousel({
     const clampedX = Math.min(Math.max(newX, leftConstraint), 0);
     animate(x, clampedX, { type: "spring", stiffness: 300, damping: 30 });
   }, [x, cardWidth, gap, isMobile, leftConstraint]);
-
-  // SSR/initial render: show static version
-  if (!isMounted) {
-    return (
-      <div className="w-full overflow-hidden">
-        <div className="flex gap-4 px-8 md:px-12">
-          {projectCards.slice(0, 3).map((card) => {
-            return (
-            <div key={card.href} className="flex-shrink-0">
-              <ProjectCard {...card}>
-                {card.description}
-              </ProjectCard>
-            </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="relative group/carousel">

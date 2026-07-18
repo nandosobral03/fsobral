@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import {
-  Roboto,
   Newsreader,
   Outfit,
   Plus_Jakarta_Sans,
@@ -12,13 +11,6 @@ import RouteTransitionProvider from "../components/common/route-transition-provi
 import MotionProvider from "../components/common/motion-provider";
 import { getBaseUrl, personJsonLd, site } from "@/lib/site";
 import "./globals.css";
-
-const roboto = Roboto({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  variable: "--font-roboto",
-  display: "swap",
-});
 
 const newsreader = Newsreader({
   subsets: ["latin"],
@@ -82,19 +74,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font*/}
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
-          as="style"
-        />
-        {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font*/}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
-          media="all"
-          id="material-symbols-css"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -103,7 +82,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`antialiased min-h-screen flex flex-col w-full ${roboto.variable} ${newsreader.variable} ${outfit.variable} ${plusJakarta.variable}`}
+        className={`antialiased min-h-screen flex flex-col w-full ${newsreader.variable} ${outfit.variable} ${plusJakarta.variable}`}
       >
         <MotionProvider>
           <OverscrollCreature />

@@ -192,14 +192,6 @@ export default function RouteTransitionProvider({
   );
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      ["/", "/projects", "/blog"].forEach(prefetchRoute);
-    }, 600);
-
-    return () => window.clearTimeout(timer);
-  }, [prefetchRoute]);
-
-  useEffect(() => {
     const warmRoute = (event: Event) => {
       const route = getInternalRoute(getAnchor(event.target));
 

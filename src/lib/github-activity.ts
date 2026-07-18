@@ -1,3 +1,5 @@
+import { unstable_cache } from "next/cache";
+
 export interface CalendarData {
   date: string;
   count: number;
@@ -134,3 +136,9 @@ export async function getAggregatedGithubCalendar(logins: string[], now = new Da
 
   return { days, totalLastYear };
 }
+
+export const getCachedAggregatedGithubCalendar = unstable_cache(
+  async (logins: string[]) => getAggregatedGithubCalendar(logins),
+  ["github-activity-calendar-v1"],
+  { revalidate: 3600 },
+);

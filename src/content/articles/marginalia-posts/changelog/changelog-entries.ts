@@ -8,6 +8,16 @@ export interface ChangelogEntry {
 
 export const entries: ChangelogEntry[] = [
   {
+    date: "2026-07-18",
+    description: "Reduced homepage network, GPU, hydration, image, font, GitHub data, and heatmap interaction costs across desktop and mobile",
+    tag: "improved",
+  },
+  {
+    date: "2026-07-18",
+    description: "Gave the GitHub activity chart an ordered-dither texture that expresses contribution intensity through ink density",
+    tag: "improved",
+  },
+  {
     date: "2026-07-10",
     description: "Sharpened the portfolio narrative, curated flagship work, replaced generic micrographics with artwork-anchored hero gestures and functional selection, chronology, writing-rhythm, and case-study maps, shifted the accent system to primary orange, added a standalone contact page with a dithered Impression, Sunrise study, compacted the project and writing archives, and improved mobile scrolling, accessibility, contrast, and reduced-motion behavior",
     tag: "improved",

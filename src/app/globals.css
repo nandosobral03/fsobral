@@ -41,7 +41,7 @@
   body {
     color: var(--foreground);
     background-color: var(--background);
-    font-family: var(--font-outfit), var(--font-roboto), sans-serif;
+    font-family: var(--font-outfit), sans-serif;
     line-height: var(--lh);
     overflow-x: hidden;
   }
@@ -94,10 +94,6 @@
 
   *:focus:not(:focus-visible) {
     outline: none;
-  }
-
-  .material-symbols-outlined {
-    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
   }
 
   ol > li::marker {
@@ -306,21 +302,103 @@
     }
   }
 
-  /* Heatmap cell: grayscale + hover effect only on pointer devices */
+  /*
+   * Every active day keeps a quiet base tone, while the ordered-dot matrix
+   * adds intensity. This preserves the dither without making light activity
+   * disappear into the empty-cell background.
+   */
   .heatmap-cell {
-    transition-property: background-color, filter;
-    transition-duration: 400ms, 1.5s;
-    transition-timing-function: ease-out, ease;
-    transition-delay: var(--sweep-delay, 0ms), 0ms;
+    isolation: isolate;
+    overflow: hidden;
+    position: relative;
+    transition: filter 1.2s ease;
   }
+
+  .heatmap-cell:not([data-level="0"]) {
+    background-color: color-mix(
+      in srgb,
+      var(--heat-color) var(--heat-base-strength, 42%),
+      #171717
+    ) !important;
+  }
+
+  .heatmap-cell[data-level="1"] {
+    --heat-base-strength: 42%;
+  }
+
+  .heatmap-cell[data-level="2"] {
+    --heat-base-strength: 52%;
+  }
+
+  .heatmap-cell[data-level="3"] {
+    --heat-base-strength: 64%;
+  }
+
+  .heatmap-cell[data-level="4"] {
+    --heat-base-strength: 78%;
+  }
+
+  .heatmap-cell::before {
+    background-color: var(--heat-color);
+    content: "";
+    inset: 0;
+    opacity: var(--dither-opacity, 1);
+    position: absolute;
+    transition: opacity 400ms ease-out var(--sweep-delay, 0ms);
+  }
+
+  .heatmap-cell[data-level="0"]::before {
+    display: none;
+  }
+
+  .heatmap-cell[data-level="1"]::before {
+    -webkit-mask: radial-gradient(circle at 1px 1px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px;
+    mask: radial-gradient(circle at 1px 1px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px;
+  }
+
+  .heatmap-cell[data-level="2"]::before {
+    -webkit-mask:
+      radial-gradient(circle at 1px 1px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px,
+      radial-gradient(circle at 3px 3px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px;
+    mask:
+      radial-gradient(circle at 1px 1px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px,
+      radial-gradient(circle at 3px 3px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px;
+  }
+
+  .heatmap-cell[data-level="3"]::before {
+    -webkit-mask:
+      radial-gradient(circle at 1px 1px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px,
+      radial-gradient(circle at 3px 1px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px,
+      radial-gradient(circle at 3px 3px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px;
+    mask:
+      radial-gradient(circle at 1px 1px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px,
+      radial-gradient(circle at 3px 1px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px,
+      radial-gradient(circle at 3px 3px, #000 0 0.9px, transparent 1.15px) 0 0 / 4px 4px;
+  }
+
+  .heatmap-cell[data-level="4"]::before {
+    -webkit-mask:
+      radial-gradient(circle at 1px 1px, #000 0 0.8px, transparent 1.1px) 0 0 / 2px 2px;
+    mask:
+      radial-gradient(circle at 1px 1px, #000 0 0.8px, transparent 1.1px) 0 0 / 2px 2px;
+  }
+
+  .heatmap-cell.heatmap-active {
+    filter:
+      grayscale(var(--brush-grayscale, 0))
+      brightness(var(--brush-brightness, 1.22))
+      saturate(var(--brush-saturation, 1.12));
+    transition-duration: 120ms;
+  }
+
   @media (hover: hover) {
     .heatmap-cell {
       filter: grayscale(1);
     }
-    .heatmap-cell:hover,
-    .heatmap-cell.heatmap-active {
-      filter: grayscale(0) brightness(1.5);
-      transition-duration: 400ms, 0.15s;
+
+    .heatmap-cell:hover {
+      filter: grayscale(0) brightness(1.22) saturate(1.12);
+      transition-duration: 120ms;
     }
   }
 
